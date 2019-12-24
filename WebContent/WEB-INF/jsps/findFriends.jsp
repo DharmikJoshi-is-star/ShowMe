@@ -120,7 +120,8 @@
 				  <img src="data:image/jpg;base64,${user.picture_str}" height="100" width="100" alt="Unknown">
 				  
 				 
-				  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}"><c:out value="${user.name }"/></a> </b><br> </p>
+				  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=accept">
+				  <c:out value="${user.name }"/></a> </b><br> </p>
 				 
 				  
 				  <div id="button-block">
@@ -147,7 +148,8 @@
 						  </div>
 						 
 						  <img src="data:image/jpg;base64,${user.picture_str}" height="100" width="100" alt="Unknown">
-						  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}"><c:out value="${user.name }"/></a></b> <br></p> 
+						  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=delete">
+						  <c:out value="${user.name }"/></a></b> <br></p> 
 						  <div id="button-block">
 						  <div id="confirm" ><a href="deleteRequest?userId=${userId}&requestId=${user.id}">delete request</a></div>
 						 
@@ -165,7 +167,8 @@
 				  </div>
 				 
 				  <img src="data:image/jpg;base64,${user.picture_str}" height="100" width="100" alt="Unknown">
-				  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}"><c:out value="${user.name }"/></a></b> <br></p> 
+				  <p id="info"><b><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=request">
+				  <c:out value="${user.name }"/></a></b> <br></p> 
 				  <div id="button-block">
 				  <div id="confirm" ><a href="sentRequest?userId=${userId}&requestId=${user.id}">Sent Request</a></div>
 				 

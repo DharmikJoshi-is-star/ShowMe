@@ -113,7 +113,7 @@
 	  <p id="info"><b><c:out value="${user.name }"></c:out></b> <br> 
 	  <div id="button-block">
 	  <div id="confirm" ><a href="addFriend?userId=${userId}&contactId=${user.id}">Accept</a></div>
-	  <!-- <div id="delete">Delete Request</div>  -->
+	  <div id="delete"><a href="rejectRequest?userId=${userId}&contactId=${user.id}">Delete Request</a></div> 
 	  </div>
 	</div>
 

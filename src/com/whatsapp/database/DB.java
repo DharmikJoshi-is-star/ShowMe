@@ -392,7 +392,10 @@ public class DB {
 			user.setPassword(rst.getString("password"));
 			
 			user.setStatus(getStatusByUserId(rst.getInt("id")));
-		
+			
+			user.setPosts(getAllPost(user_id));
+			
+			user.setContacts(getAllContacts(user_id));
 		}
 		
 		dbClose();
@@ -925,6 +928,13 @@ public class DB {
 		dbClose();
 		
 		return posts;
+	}
+
+	public void rejectRequestByUser(Integer userId, Integer contactId) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		
+		deleteRequest(contactId, userId);
+		
 	}
 	
 }

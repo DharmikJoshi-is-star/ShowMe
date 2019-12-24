@@ -47,14 +47,24 @@ public class User {
 
 	private List<Post> posts;
 	
+	private List<AddContact> contacts;
 	
-	
+
+	public List<AddContact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<AddContact> contacts) {
+		this.contacts = contacts;
+	}
+
 	public List<Post> getPosts() {
 		return posts;
 	}
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	
 	}
 
 	public Integer getView() {

@@ -205,13 +205,16 @@ public class RequestController {
 	 */  
 	@RequestMapping("/showFindFriendProfile")
 	public String showFindFriendProfile(Model model,
-			@RequestParam("user_id") Integer user_id, @RequestParam("f_id") Integer f_id) {
+			@RequestParam("user_id") Integer user_id, 
+			@RequestParam("f_id") Integer f_id,
+			@RequestParam("type") String type) {
 		
 		User request;
 		try {
 			request = db.getUser(f_id);
 			model.addAttribute("request", request);
 			model.addAttribute("user_id", user_id);
+			model.addAttribute("type", type);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -230,5 +233,18 @@ public class RequestController {
 		return "redirect:findFriends?userId="+user_id;
 	}
 	
+	@RequestMapping("/rejectRequest")
+	public String rejectRequest(@RequestParam("userId") Integer userId,
+								@RequestParam("contactId") Integer contactId) {
+		
+		try {
+			db.rejectRequestByUser(userId, contactId);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:checkRequest?userId="+userId;
+	}
 	
 }

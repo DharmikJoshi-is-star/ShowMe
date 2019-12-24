@@ -266,7 +266,6 @@ public class UserController {
 		User user;
 		try {
 			user = db.getUser(user_id);
-			user.setPosts(db.getAllPost(user_id));
 			model.addAttribute("user", user);
 			model.addAttribute("newPost", post);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
