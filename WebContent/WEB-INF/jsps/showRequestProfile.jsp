@@ -388,7 +388,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 
 
-<a href="backToFindFriend?user_id=${user_id}">back</a>
+<a href="javascript:history.go(-1)">back</a>
 
 <header>
 
@@ -429,8 +429,8 @@ Remove or comment-out the code block below to see how the browser will fall-back
 			<div class="profile-stats">
 
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
+					<li><span class="profile-stat-count"><c:out value="${request.getPosts().size() }" /></span> posts</li>
+					<li><span class="profile-stat-count"><c:out value="${request.getContacts().size() }" /></span> friends</li>
 					<li><span class="profile-stat-count">206</span> following</li>
 				</ul>
 
@@ -450,37 +450,42 @@ Remove or comment-out the code block below to see how the browser will fall-back
 	<!-- End of container -->
 
 </header>
-
+<HR>
+<BR>
 	<div class="container">
 
 		<div class="gallery">
-		
-			<c:forEach items="${request.getPosts() }" var="posts">
+			<c:if test="${empty request.getPosts() }">
+				<h1>No Photos available</h1>
 			
-				<div class="gallery-item" tabindex="0">
+			</c:if>
+		
+			<c:if test="${not empty request.getPosts() }">
+				<c:forEach items="${request.getPosts() }" var="posts">
 				
-					<img src="data:image/jpg;base64,${posts.getPost()}" class="gallery-image" alt="post">
+					<div class="gallery-item" tabindex="0">
 					
-					<div class="gallery-item-info">
-					
-						<ul>
-							<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
-						</ul>
-						<br>
-						<ul>	
-							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> <c:out value="${posts.getCaption() }"></c:out>  </li>
-						</ul>
+						<img src="data:image/jpg;base64,${posts.getPost()}" class="gallery-image" alt="post">
 						
+						<div class="gallery-item-info">
+						
+							<ul>
+								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> ${posts.getLikes().size() }</li>
+								<!-- <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 0</li>
+							 -->
+							</ul>
+							
+						</div>
+					
 					</div>
-				
-				</div>
-			</c:forEach>
-
-				</div>
+				</c:forEach>
+			</c:if>
+			
+			
+			
+		</div>
 		<!-- End of gallery -->
-
-		<div class="loader"></div>
+	
 
 	</div>
 	<!-- End of container -->

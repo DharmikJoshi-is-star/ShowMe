@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -132,6 +134,16 @@ public class UserController {
 		try {
 			
 			db.insertUser(user);
+			
+			if(user.getPicture_str()!=null || user.getPicture_str()!="") {
+				Post post = new Post();
+				post.setPost(user.getPicture_str());
+				Login dummyLogin = new Login();
+				dummyLogin.setUsername(user.getEmail());
+				dummyLogin.setPassword(user.getPassword());
+				db.uploadPost(db.getId(dummyLogin), post);
+			}
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,7 +223,7 @@ public class UserController {
 		session.setAttribute("user_id", user_id);
 		model.addAttribute("user",user);
 		
-		return "editprofile";
+		return "redirect:show-editprofile-form?user_id="+user_id;
 	}
 	
 
@@ -265,6 +277,7 @@ public class UserController {
 		
 		User user;
 		try {
+		
 			user = db.getUser(user_id);
 			model.addAttribute("user", user);
 			model.addAttribute("newPost", post);
@@ -282,12 +295,104 @@ public class UserController {
 		
 		try {
 			db.uploadPost(user_id, post);
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch( FileNotFoundException  fon) {
+			String error = "Please Select a Valid File";
+		
+		}
+		
+		return "redirect:viewProfile?user_id="+user_id;
+	}
+	
+	@RequestMapping("/deletePost")
+	public String deletePost(@RequestParam("user_id") Integer user_id,
+			@RequestParam("post_id") Integer post_id) {
+		
+		try {
+			db.deletePost(user_id, post_id);
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return "redirect:viewProfile?user_id="+user_id;
 	}
+	
+	@RequestMapping("/social")
+	public String seePosts(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("postId") String postId){
+		try {
+			
+			User user = db.getUser(user_id);
+			List<Post> postsList = new ArrayList<Post>();
+			
+			for (AddContact addContact : user.getContacts()) {
+				List<Post> posts = db.getAllPostByUser(addContact.getContact_id());
+				for (Post post : posts) {
+					postsList.add(post);
+				}
+			}
+			
+			List<Post> posts = user.getPosts();
+			
+			for (Post post : posts) {
+				postsList.add(post);
+			}
+			
+			List<Post> posList = postsList.stream()
+					  .sorted(Comparator.comparing(Post::getTime).reversed())
+					  .collect(Collectors.toList());
+			
+			List<Post> sortedPosts = posList.stream()
+					  .sorted(Comparator.comparing(Post::getDate).reversed())
+					  .collect(Collectors.toList());
+			
+			for (Post post : sortedPosts) {
+				
+				System.out.println(post.getDate()+"--"+post.getTime());
+			}
+			
+			model.addAttribute("user_id",user_id);
+			model.addAttribute("posts", sortedPosts);
+			model.addAttribute("database", db);
+			model.addAttribute("postId", postId);
+			
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "social";
+	}
+	
+	@RequestMapping("/likePost")
+	public String likePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+		
+		try {
+			db.insertLike(user_id, post_id);
+			model.addAttribute("postId", post_id);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:social?user_id="+user_id;
+	}
+	
+	@RequestMapping("/disLikePost")
+	public String disLikePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+		
+		try {
+			db.deleteLike(user_id, post_id);
+			model.addAttribute("postId", post_id);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:social?user_id="+user_id;
+	}
+	
 }
 

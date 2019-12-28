@@ -97,7 +97,7 @@
 <body>
 <h1>FRIEND REQUESTS</h1><BR>
 <h4>
-<a href="showHome?user_id=<c:out value="${userId}"/>">Go Home</a>
+<a href="showHome?user_id=${userId }">Go Home</a>
 </h4>
 
 	

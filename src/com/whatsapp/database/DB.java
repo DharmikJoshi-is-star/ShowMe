@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import java.sql.PreparedStatement;
 
 import com.whatsapp.beans.AddContact;
+import com.whatsapp.beans.Like;
 import com.whatsapp.beans.Login;
 import com.whatsapp.beans.Message;
 import com.whatsapp.beans.Post;
@@ -258,7 +259,6 @@ public class DB {
 			id = rst.getInt("user_id");
 		}
 		
-		
 		dbClose();
 		
 		return id;
@@ -393,7 +393,7 @@ public class DB {
 			
 			user.setStatus(getStatusByUserId(rst.getInt("id")));
 			
-			user.setPosts(getAllPost(user_id));
+			user.setPosts(getAllPostByUser(user_id));
 			
 			user.setContacts(getAllContacts(user_id));
 		}
@@ -886,7 +886,7 @@ public class DB {
 		
 	}
 
-	public List<Post> getAllPost(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
+	public List<Post> getAllPostByUser(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 		// TODO Auto-generated method stub
 		List<Post> posts= new ArrayList<>();
 		
@@ -920,7 +920,7 @@ public class DB {
 			post.setCaption(rst.getString("caption"));
 			post.setDate(rst.getDate("date"));
 			post.setTime(rst.getTime("time"));
-			
+			post.setLikes(getLikeByPostId(post.getId()));
 			posts.add(post);
 			
 		}
@@ -936,5 +936,122 @@ public class DB {
 		deleteRequest(contactId, userId);
 		
 	}
+
+	public List<Post> getAllPost() throws ClassNotFoundException, SQLException, IOException {
+
+		List<Post> posts = new ArrayList<Post>();
 	
+		dbConnect();
+		String sql = "SELECT * FROM post";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+	
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			Post post = new Post();
+			post.setId(rst.getInt("id"));
+			post.setUser_id(rst.getInt("user_id"));
+			
+					Blob blob = rst.getBlob("post");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+			post.setPost(base64Image);
+			post.setCaption(rst.getString("caption"));
+			post.setDate(rst.getDate("date"));
+			post.setTime(rst.getTime("time"));
+			
+			post.setLikes(getLikeByPostId(post.getId()));
+			
+			posts.add(post);
+				
+		}
+		
+		dbClose();
+		
+		return posts;
+	}
+	
+	public List<Like> getLikeByPostId(Integer post_id) throws ClassNotFoundException, SQLException {
+
+		List<Like> likes = new ArrayList<Like>();
+		
+		dbConnect();
+		
+		String sql = "SELECT * FROM likes WHERE post_id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, post_id);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			
+			Like like = new Like();
+			
+			like.setId(rst.getInt("id"));
+			like.setPost_id(rst.getInt("post_id"));
+			like.setUser_id(rst.getInt("user_id"));
+			
+			likes.add(like);
+		}
+		
+		System.out.print("Post_id="+post_id+"--Number of likes="+likes.size());
+		
+		dbClose();
+		
+		return likes;
+	}
+	
+	public void insertLike(Integer user_id, Integer post_id) throws ClassNotFoundException, SQLException {
+		
+		dbConnect();
+		
+		String sql = "INSERT INTO likes(user_id, post_id) VALUES(?,?)";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		pstmt.setInt(2, post_id);
+		
+		pstmt.execute();
+		
+		dbClose();
+		
+	}
+	
+	public void deleteLike(Integer user_id, Integer post_id) throws ClassNotFoundException, SQLException {
+		dbConnect();
+		
+		String sql = "DELETE FROM likes WHERE user_id=? AND post_id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		pstmt.setInt(2, post_id);
+		
+		pstmt.executeUpdate();
+		
+		dbClose();
+	}
+
+	public void deletePost(Integer user_id, Integer post_id) throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		
+		deleteLike(user_id, post_id);
+		
+		dbConnect();
+		
+		String sql = "DELETE FROM post WHERE id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, post_id);
+		pstmt.executeUpdate();
+		dbClose();
+		
+	}
 }

@@ -2,15 +2,25 @@ package com.whatsapp.beans;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 public class Post {
 
 	private Integer id;
 	private Integer user_id;
 	private String post;
-	private String caption;
+	private String caption = "NO_CAPTION";
 	private Date date;
 	private Time time;
+	
+	private List<Like> likes;
+	
+	public List<Like> getLikes() {
+		return likes;
+	}
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -25,6 +25,7 @@
 	<bean id="group" class="com.whatsapp.beans.Group"></bean>
 	<bean id="groupmsg" class="com.whatsapp.beans.GroupMessage"></bean>
 	<bean id="post" class="com.whatsapp.beans.Post"></bean>
+	<bean id="like" class="com.whatsapp.beans.Like"></bean>
 	
 	<bean id="db" class="com.whatsapp.database.DB"></bean>
 	<bean id="dbm" class="com.whatsapp.database.DBMessage"></bean>

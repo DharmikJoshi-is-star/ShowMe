@@ -388,8 +388,8 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 
 
-<a href="showChat?user_id=<c:out value="${user_id }"/>&contact_id=<c:out value="${receiver.getId() }"/>">Home</a>
-
+<!-- <a href="showChat?user_id=<c:out value="${user_id }"/>&contact_id=<c:out value="${receiver.getId() }"/>">Home</a>  -->
+<a href="javascript:history.go(-1)">Back</a>
 <header>
 
 	<div class="container">
@@ -398,7 +398,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 			<div class="profile-image">
 				<a href="data:image/jpg;base64,${receiver.getPicture_str()}"  download="${receiver.getName()} profile">
-				<img src="data:image/jpg;base64,${receiver.getPicture_str()}" alt="profile" width="200" height="200">
+					<img src="data:image/jpg;base64,${receiver.getPicture_str()}" alt="profile" width="200" height="200">
 				</a>
 			</div>
 
@@ -414,8 +414,8 @@ Remove or comment-out the code block below to see how the browser will fall-back
 			<div class="profile-stats">
 
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
+					<li><span class="profile-stat-count"><c:out value="${receiver.getPosts().size() }" /></span> posts</li>
+					<li><span class="profile-stat-count"><c:out value="${receiver.getContacts().size() }" /></span> friends</li>
 					<li><span class="profile-stat-count">206</span> following</li>
 				</ul>
 
@@ -435,7 +435,8 @@ Remove or comment-out the code block below to see how the browser will fall-back
 	<!-- End of container -->
 
 </header>
-
+<HR>
+<BR>
 	<div class="container">
 
 		<div class="gallery">
@@ -449,14 +450,17 @@ Remove or comment-out the code block below to see how the browser will fall-back
 					<div class="gallery-item-info">
 					
 						<ul>
-							<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+							<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> ${posts.getLikes().size()}</li>
+							<!--
+							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 0</li>
+							-->
 						</ul>
+						<!--
 						<br>
-						<ul>	
+						  <ul>	
 							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> <c:out value="${posts.getCaption() }"></c:out>  </li>
 						</ul>
-						
+						-->
 					</div>
 				
 				</div>
@@ -465,7 +469,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 				</div>
 		<!-- End of gallery -->
 
-		<div class="loader"></div>
+		<!-- <div class="loader"></div>  -->
 
 	</div>
 	<!-- End of container -->
