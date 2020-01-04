@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import com.whatsapp.beans.AddContact;
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.GroupMessage;
 import com.whatsapp.beans.Login;
+import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Message;
 import com.whatsapp.beans.Post;
 import com.whatsapp.beans.Request;
@@ -68,6 +70,9 @@ public class UserController {
 	
 	@Autowired
 	Post post;
+	
+	@Autowired
+	Media media;
 	
 	/*
 	 * This mapping parameter is the starting page for the website 
@@ -251,6 +256,14 @@ public class UserController {
 			model.addAttribute("users",users);
 			model.addAttribute("userStatus",status);
 			model.addAttribute("admin", db.getUser(user_id));
+			model.addAttribute("database", db);	
+			model.addAttribute("model", model);
+			long millis=System.currentTimeMillis();  
+	        Date date=new Date(millis);
+			model.addAttribute("todaysDate",date.getTime() );
+			System.out.println("AAJ KI TAREEKH "+date.getDate());
+			
+		    
 		} catch (ClassNotFoundException|IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -347,12 +360,12 @@ public class UserController {
 			List<Post> sortedPosts = posList.stream()
 					  .sorted(Comparator.comparing(Post::getDate).reversed())
 					  .collect(Collectors.toList());
-			
+			/*
 			for (Post post : sortedPosts) {
 				
 				System.out.println(post.getDate()+"--"+post.getTime());
 			}
-			
+			*/
 			model.addAttribute("user_id",user_id);
 			model.addAttribute("posts", sortedPosts);
 			model.addAttribute("database", db);

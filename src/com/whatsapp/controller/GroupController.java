@@ -1,6 +1,7 @@
 package com.whatsapp.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +206,10 @@ public class GroupController {
 				model.addAttribute("users",users);
 				model.addAttribute("userStatus",status);
 				model.addAttribute("admin", db.getUser(user_id));
-				
+				model.addAttribute("database", db);
+				long millis=System.currentTimeMillis();  
+		        Date date=new Date(millis);
+				model.addAttribute("todaysDate",date );
 			} catch (ClassNotFoundException|IOException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -265,6 +269,7 @@ public class GroupController {
 					
 				model.addAttribute("users", users);
 				model.addAttribute("group", group);
+				model.addAttribute("admin", db.getUser(group.getAdmin_id()));
 			} catch (ClassNotFoundException |IOException| SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

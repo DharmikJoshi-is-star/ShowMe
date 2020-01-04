@@ -1,12 +1,12 @@
 package com.whatsapp.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.whatsapp.beans.AddContact;
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.Login;
+import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Message;
 import com.whatsapp.beans.Status;
 import com.whatsapp.beans.User;
@@ -51,6 +52,9 @@ public class ReceiverController {
 	
 	@Autowired
 	Group group;
+	
+	@Autowired
+	Media media;
 
 	/*
 	 * Show receiver will get call when user click on contacts profile
@@ -101,13 +105,17 @@ public class ReceiverController {
 			
 			String message = request.getParameter("message");
 			
+			if(!message.equals("")) {
+			
 			try {
+				
 				dbm.insertMessage(user_id, message, contact_id);
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
+			}
 			return "redirect:showChat?user_id="+user_id+"&contact_id="+contact_id;
 		}
 		
@@ -141,7 +149,12 @@ public class ReceiverController {
 				model.addAttribute("users",users);
 				model.addAttribute("userStatus",status);
 				model.addAttribute("admin", db.getUser(user_id));
-				
+				model.addAttribute("database", db);
+				model.addAttribute("model", model);
+				model.addAttribute("media", media);
+				long millis=System.currentTimeMillis();  
+		        Date date=new Date(millis);
+				model.addAttribute("todaysDate",date );
 			} catch (ClassNotFoundException | SQLException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

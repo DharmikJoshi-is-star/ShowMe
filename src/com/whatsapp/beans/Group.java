@@ -26,6 +26,26 @@ public class Group {
 		
 	private Integer view;
 
+	private GroupMessage lastMessage;
+	
+	private Long conversationDealy;
+	
+	public Long getConversationDealy() {
+		return conversationDealy;
+	}
+
+	public void setConversationDealy(Long conversationDealy) {
+		this.conversationDealy = conversationDealy;
+	}
+
+	public GroupMessage getLastMessage() {
+		return lastMessage;
+	}
+
+	public void setLastMessage(GroupMessage lastMessage) {
+		this.lastMessage = lastMessage;
+	}
+
 	public Integer getView() {
 		return view;
 	}

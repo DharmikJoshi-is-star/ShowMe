@@ -7,8 +7,16 @@
 <meta charset="ISO-8859-1">
 <title>Chat Application</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="WebContent/WEB-INF${pageContext.request.contextPath}/resources/css/checkRequest.css"
+    rel="stylesheet">
+<link href="WebContent/WEB-INF${pageContext.request.contextPath}/css/checkRequest.css"
+    rel="stylesheet"> 
+    
+<link href="<c:url value="resources/css/checkRequest.css" />" rel="stylesheet">
+<link href="<c:url value="css/checkRequest.css" />" rel="stylesheet">
 
 <style type="text/css">
+@charset "ISO-8859-1";
 
 #fb{
   width:500px;
@@ -101,7 +109,7 @@
 <nav class="navbar navbar-light my-bg justify-content-center">
 	<span class="navbar-brand text-white">Find Your Friends Here</span>
 </nav>
-
+<c:out value="WebContent/WEB-INF${pageContext.request.contextPath}/resources/css/checkRequest.css"></c:out>
 
 <c:forEach items="${requestedUsers }" var="user">
 	

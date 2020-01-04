@@ -1,7 +1,9 @@
+<%@page import="java.util.concurrent.TimeUnit"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,31 +11,30 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="chat.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Chat Application</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" 
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+			<link rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" href="chat.css">
+			<link rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<title>Chat Application</title>
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			<link rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+				rel="stylesheet">
+			<meta name="viewport"
+				content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			<link rel="stylesheet"
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+			<link rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<meta name="viewport" content="width=device-width">
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -43,17 +44,25 @@
 	src="https://onesignal.github.io/emoji-picker/lib/js/jquery.emojiarea.js"></script>
 <script
 	src="https://onesignal.github.io/emoji-picker/lib/js/emoji-picker.js"></script>
+	<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
 
 
 <link rel="stylesheet"
 	href="https://onesignal.github.io/emoji-picker/lib/css/emoji.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
  -->
 
-<script>
+<script type="text/javascript">
 function openNav() {
   document.getElementById("myNav").style.display = "block";
 }
@@ -69,6 +78,12 @@ $(document).ready(function () {
     }, 'slow');
 });
 
+
+
+function seeBottom() {
+  var elmnt = document.getElementById("bottom");
+  elmnt.scrollIntoView();
+}
 
 </script>
 
@@ -692,10 +707,37 @@ body {
 	height: 30px;
 	width: 30px;
 }
-</style>
+
+		.my-margin{
+	margin-top: 4rem;
+}
+.my-width{
+	width:70%;
+}
+.my-bg{
+	background-color: #1ebea5;
+}
+.my-text{
+	color: #1ebea5;
+}
+.my-img-profile {
+	width: 3rem;
+	height: 3rem;
+}
+.my-img-status {
+	width: 2rem;
+	height: 2rem;
+	border: 1.5px solid #1ebea5;
+}
+.my-white {
+	color: #ffffff;
+}
+		</style>
+		
+
 
 </head>
-<body onload="">
+<body onload="seeBottom()">
 
 	<c:set var="user_id" value="${user_id}" />
 
@@ -730,81 +772,173 @@ body {
 					</span>
 
 				</nav>
-
-				<ul class="list-group list-group-flush">
-					<li
-						class="list-group-item d-flex justify-content-left align-items-center border-bottom p-2">
-						<a href="findFriends?userId=<c:out value="${user_id}"/>">
+			
+				<div id="div1" style="height: 500px;position:relative;">
+						<div id="div2" style="max-height:115%;overflow:auto;">
+							<div id="div3" style="height:auto;">
+							
+				<!-- <ul class="list-group list-group-flush"> -->
+				<div class="list-group">
+					
+					
+						<a href="findFriends?userId=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
 							&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-plus"
 							style="font-size: 24px; color: light green"></i> &nbsp;&nbsp;FIND
 							FRIENDS
-					</a>
-					</li>
-
-
+						</a>
+					
 
 					<c:forEach items="${users}" var="user">
 						<c:if test="${not empty user.getView()}">
-							<li
-								class="list-group-item d-flex justify-content-left align-items-center border-bottom p-2">
-								<a
-								href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>">
-									<img src="data:image/jpg;base64,${user.getPicture_str()}"
-									alt="" class="rounded-circle my-img mr-2 ml-2"> <c:out
-										value="${user.getName() }" /> <span
-									class="badge badge-primary badge-pill my-pill ml-auto p-1">new</span>
-
-							</a>
-							</li>
+							
+								<a href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+									<div class="d-flex w-100 justify-content-between">
+									<div class="mb-1" style="margin-top: 0.2rem;">
+										<img src="data:image/jpg;base64,${user.getPicture_str()}" alt="" class="rounded-circle my-img"> 
+										&nbsp;
+											<c:out value="${user.getName() }" /> 
+										
+										</div>
+										<c:choose>
+											<c:when test="${empty user.getConversationDealy()}">
+												<small></small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() == 0}">
+												<small>today</small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() != 0 && user.getConversationDealy()<=10}">
+												<small>${user.getConversationDealy()} days ago</small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() > 10}">
+												<small>${user.getLastMessage().getDate()}</small>
+											</c:when>
+										</c:choose>
+									</div>
+									<span class="badge badge-primary badge-pill float-right">new</span>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<small>${user.getLastMessage().getMsg() } </small>
+								</a>
+							
 						</c:if>
 					</c:forEach>
 
 					<c:forEach items="${groups }" var="group">
 						<c:if test="${not empty group.getView()}">
-							<li
-								class="list-group-item d-flex justify-content-left align-items-center border-bottom p-2">
-								<a
-								href="showGroup?group_id=${group.group_id }&user_id=<c:out value="${user_id}"/>">
-									&nbsp;&nbsp;&nbsp;<i class="fa fa-users"
-									style="font-size: 24px; color: light green"></i> &nbsp;&nbsp;<c:out
-										value="${group.getGroup_name()}" /> <span
-									class="badge badge-primary badge-pill my-pill ml-auto p-1">new</span>
-
-							</a>
-							</li>
+							
+								<a href="showGroup?group_id=${group.group_id }&user_id=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+									
+									<div class="d-flex w-100 justify-content-between">
+										<div class="mb-1" style="margin-top: 0.2rem;">
+										<i class="fa fa-users" style="font-size: 24px; color: light green"></i> 
+										&nbsp;
+										
+											<c:out value="${group.getGroup_name()}" /> 
+										
+										</div>
+										<c:choose>
+											<c:when test="${empty group.getConversationDealy()}">
+												<small> </small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() == 0}">
+												<small>today</small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() != 0 && group.getConversationDealy()<=10}">
+												<small>${group.getConversationDealy()} days ago</small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() > 10}">
+												<small>${group.getLastMessage().getDate()}</small>
+											</c:when>
+										</c:choose>
+									</div>
+									<span class="badge badge-primary badge-pill float-right">new</span>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<small>${database.getUser(group.getLastMessage().getSender_id()).getName()}:  ${group.getLastMessage().getMsg() }</small>
+								</a>
+							
 						</c:if>
 					</c:forEach>
 
 					<c:forEach items="${users}" var="user">
 						<c:if test="${empty user.getView()}">
-							<li
-								class="list-group-item d-flex justify-content-left align-items-center border-bottom p-2">
-								<a
-								href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>">
-									<img src="data:image/jpg;base64,${user.getPicture_str()}"
-									alt="" class="rounded-circle my-img mr-2 ml-2"> <c:out
-										value="${user.getName() }" />
-							</a>
-							</li>
+							<a href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+									<div class="d-flex w-100 justify-content-between">
+									
+										
+										<div class="mb-1" style="margin-top: 0.2rem;">
+										<img src="data:image/jpg;base64,${user.getPicture_str()}" alt="" class="rounded-circle my-img"> 
+											&nbsp; <c:out value="${user.getName() }" /> 
+										</div>
+										
+										<c:choose>
+											<c:when test="${empty user.getConversationDealy()}">
+												<small></small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() == 0}">
+												<small>today</small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() != 0 && user.getConversationDealy()<=10}">
+												<small>${user.getConversationDealy()} days ago</small>
+											</c:when>
+											<c:when test="${user.getConversationDealy() > 10}">
+												<small>${user.getLastMessage().getDate()}</small>
+											</c:when>
+										</c:choose>
+									
+									</div>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<c:if test="${not empty user.getLastMessage().getMsg() }">
+									<small>${user.getLastMessage().getMsg() }</small>
+									</c:if>
+									<c:if test="${empty user.getLastMessage().getMsg() }">
+									no message
+									</c:if>
+									
+								</a>
 						</c:if>
 					</c:forEach>
-
+					
 					<c:forEach items="${groups }" var="group">
 						<c:if test="${empty group.getView()}">
-							<li
-								class="list-group-item d-flex justify-content-left align-items-center border-bottom p-2">
-								<a
-								href="showGroup?group_id=${group.group_id }&user_id=<c:out value="${user_id}"/>">
-									&nbsp;&nbsp;&nbsp;<i class="fa fa-users"
-									style="font-size: 24px; color: light green"></i> &nbsp;&nbsp;<c:out
-										value="${group.getGroup_name()}" />
-							</a>
-							</li>
+							<a href="showGroup?group_id=${group.group_id }&user_id=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+									
+									<div class="d-flex w-100 justify-content-between">
+										<div class="mb-1" style="margin-top: 0.2rem;">
+										<i class="fa fa-users" style="font-size: 24px; color: light green"></i> 
+										&nbsp;
+										<c:out value="${group.getGroup_name()}" /> 
+										
+										</div>
+										<c:choose>
+											<c:when test="${empty group.getConversationDealy()}">
+												<small> </small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() == 0}">
+												<small>today</small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() != 0 && group.getConversationDealy()<=10}">
+												<small>${group.getConversationDealy()} days ago</small>
+											</c:when>
+											<c:when test="${group.getConversationDealy() > 10}">
+												<small>${group.getLastMessage().getDate()}</small>
+											</c:when>
+										</c:choose>
+										
+									</div>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<c:if test="${not empty group.getLastMessage().getMsg() }">
+										<small>${database.getUser(group.getLastMessage().getSender_id()).getName()}: ${group.getLastMessage().getMsg() }</small>
+									</c:if>
+									<c:if test="${empty group.getLastMessage().getMsg() }">
+										<small>no message</small>
+									</c:if>
+									
+								</a>
 						</c:if>
 					</c:forEach>
-
-				</ul>
-
+					</div>
+				<!-- </ul> -->
+			
+			</div></div></div>
 			</div>
 
 			<!-- FROMO HERE CHAT WINDOW WILL START -->
@@ -886,12 +1020,15 @@ body {
 							<!--  -->
 						</nav>
 
-
+						<div id="div1" style="height:530px; position:relative;">
+						<div id="div2" style="max-height:105%;overflow:auto;">
+							<div id="div3" style="height:auto;padding-bottom: 30px;">
+							<div class="chats">
 						<c:forEach items="${groupobj.getMessages()}" var="message">
 
 							<c:if test="${message.getSender_id() ne user_id }">
 								<div class="row m-1 justify-content-start">
-									<p>
+									
 										<span class="col-md-9 my-received-message p-2 rounded">
 
 											<c:forEach items="${members }" var="member">
@@ -904,7 +1041,7 @@ body {
 											</c:forEach>
 
 										</span>
-									</p>
+									
 									<span class="time-right" style="font-size: 10px;"><c:out
 											value="${message.getTime()}" /></span>
 								</div>
@@ -912,7 +1049,7 @@ body {
 
 							<c:if test="${message.getSender_id() eq user_id }">
 								<div class="row m-1 justify-content-end">
-									<p>
+									
 										<span class="col-md-9 my-sender-message p-2 rounded"> <c:forEach
 												items="${members }" var="member">
 												<c:if test="${member.getId() eq message.getSender_id()}">
@@ -925,12 +1062,14 @@ body {
 
 										</span> <span class="time-left" style="font-size: 10px;"><c:out
 												value="${message.getTime()}" /></span>
-									</p>
+									
 								</div>
 							</c:if>
 
 						</c:forEach>
-
+							<div id="bottom"></div>
+						</div></div></div></div>
+					
 						<sf:form modelAttribute="gmessage" id="msgbox"
 							action="sentMessageGroup?user_id=${user_id }&group_id=${groupobj.group_id}&tableName=${groupobj.group_msg_table}"
 							method="post">
@@ -1005,17 +1144,35 @@ body {
 
 
 							<div style="text-align: left;">
-
-
-								<a href="#"> <abbr class="fa fa-paperclip"
-									style="font-size: 24px; color: black"></abbr> <input
-									id="choose" type="file" name="sendPicture"
-									style="display: none;"> <script>
-								  $("abbr").on("click", function() {
-								    $("input").trigger("click");
-								  });
-							</script>
-								</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<!-- showMedia?user_id=${user_id }&contact_id=${receiver.getId()} -->
+								<abbr class="fa fa-paperclip" style="font-size: 24px; color: black" onclick="openFileBox()"></abbr> 
+								
+									<sf:form action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=picture" modelAttribute="media" method="post" cssStyle="display:none;">
+								
+									 <sf:input id="choose" type="file" path="filePath" name="sendPicture" style="display: none;" onchange="clickOnSumbit()"/>
+								
+									 <button type="submit" id="mediaPicture" style="display: none;"> </button>
+									
+									</sf:form>
+						
+									<script>
+									var  event_media="a";
+			
+								  		function openFileBox(){
+								  			if(event_media=="a"){
+								  				
+								  			 $("#choose").trigger("click");
+								  			event_media = "b";
+								  			
+								  			}
+								  			 
+								  		}
+								  		
+								  		function clickOnSumbit(){
+								  			$("#mediaPicture").trigger("click");
+								  		}
+								
+										</script> 
 								<div class="dropdown">
 									<button onclick="myFunction()" class="dropbtn">
 										<i class="fa fa-ellipsis-v"
@@ -1061,15 +1218,18 @@ body {
 					
 					 -->
 						</nav>
-
+						<div id="div1" style="height:530px; position:relative;">
+						<div id="div2" style="max-height:105%;overflow:auto;">
+							<div id="div3" style="height:auto;padding-bottom: 30px;">
+							<div class="chats">
 						<c:forEach items="${messages}" var="message">
 
 							<c:if test="${message.getSender() ne  user_id}">
 								<div class="row m-1 justify-content-start">
-									<p>
+									
 										<span class="col-md-9 my-received-message p-2 rounded">
 											${message.getMsg() } </span>
-									</p>
+									
 									<span class="time-right" style="font-size: 10px;"><c:out
 											value="${message.getTime()}" /></span>
 								</div>
@@ -1077,17 +1237,18 @@ body {
 
 							<c:if test="${message.getSender() eq  user_id}">
 								<div class="row m-1 justify-content-end">
-									<p>
+									
 										<span class="col-md-9 my-sender-message p-2 rounded">
 											${message.getMsg() } </span>
-									</p>
+									
 									<span class="time-left" style="font-size: 10px;"><c:out
 											value="${message.getTime()}" /></span>
 								</div>
 							</c:if>
 
 						</c:forEach>
-
+						<div id="bottom"></div>
+						</div></div></div></div>
 						<form id="msgbox"
 							action="send-message?user_id=${user_id }&contact_id=${receiver.getId()}"
 							method="post">
@@ -1124,12 +1285,11 @@ body {
 		</div>
 	</div>
 
-
+<!--  -->
 	<div id="statusId" class="statusModel">
-		<span
-			onclick="document.getElementById('statusId').style.display='none'"
-			class="statusstatusstatusstatusClose"
-			title="statusstatusstatusstatusClose statusModel">&times;</span>
+		<span onclick="document.getElementById('statusId').style.display='none'" class="statusstatusstatusstatusClose" title="statusstatusstatusstatusClose statusModel">&times;</span>
+		
+		
 		<sf:form action="addStatus?user_id=${user_id }" method="post"
 			modelAttribute="userStatus">
 
@@ -1209,8 +1369,7 @@ body {
 								<div class="column">
 									<img class="demoAdmin cursor"
 										src="data:image/jpg;base64,${adminStatus.getStatusPicture() }"
-										style="width: 100%"
-										onclick="currentSlideForAdmin(${adminCount})"
+										style="width: 100%;" onclick="currentSlideForAdmin(${adminCount})"
 										alt="At: ${adminStatus.getTime() }">
 									<c:set var="adminCount" value="${adminCount+1 }" />
 								</div>
@@ -1277,9 +1436,7 @@ body {
 										onclick="openModal();currentSlide(${count})"
 										class="hover-shadow cursor" alt="status"
 										style="width: 10%; border: 1px solid #ddd; border-radius: 50%; padding: 5px; width: 80px; box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);">
-									<span style="color: white;">Status By: <c:out
-											value="${user.getName() }" /></span><BR>At:
-									<c:out value="${status.getTime()}" />
+									<span style="color: white;">Status By: <c:out value="${user.getName() }" /></span><BR>At: <c:out value="${status.getTime()}" />
 									<c:set var="count" value="${count+1 }" />
 								</div>
 							</c:forEach>
@@ -1324,10 +1481,7 @@ body {
 							<c:if test="${not empty user.getStatus() }">
 								<c:forEach items="${user.getStatus() }" var="status">
 									<div class="column">
-										<img class="demo cursor"
-											src="data:image/jpg;base64,${status.getStatusPicture() }"
-											style="width: 100%" onclick="currentSlide(${count})"
-											alt="Status By: ${user.getName() }">
+										<img class="demo cursor"  style="width:100%;" src="data:image/jpg;base64,${status.getStatusPicture() }" onclick="currentSlide(${count})" alt="Status By: ${user.getName() }">
 									</div>
 									<c:set var="count" value="${count+1 }" />
 								</c:forEach>
@@ -1397,7 +1551,7 @@ body {
 
 	</div>
 
-	<div id="bottom"></div>
+
 </body>
 <script>
 // Get the statusModel

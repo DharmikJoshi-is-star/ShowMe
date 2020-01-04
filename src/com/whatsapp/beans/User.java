@@ -49,6 +49,25 @@ public class User {
 	
 	private List<AddContact> contacts;
 	
+	private Message lastMessage;
+	
+	private Long conversationDealy;
+
+	public Long getConversationDealy() {
+		return conversationDealy;
+	}
+
+	public void setConversationDealy(Long conversationDealy) {
+		this.conversationDealy = conversationDealy;
+	}
+
+	public Message getLastMessage() {
+		return lastMessage;
+	}
+
+	public void setLastMessage(Message lastMessage) {
+		this.lastMessage = lastMessage;
+	}
 
 	public List<AddContact> getContacts() {
 		return contacts;
@@ -89,6 +108,7 @@ public class User {
 	}
 
 	public void setName(String name) {
+		
 		this.name = name;
 	}
 

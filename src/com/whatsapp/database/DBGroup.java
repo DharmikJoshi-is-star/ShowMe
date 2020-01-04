@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
@@ -335,6 +336,32 @@ public class DBGroup {
 					if(rst.getInt("sender_id")!=user_id) {
 						group.setView(1);
 					}
+					
+					GroupMessage gmsg = new GroupMessage();
+					
+					gmsg.setSender_id( rst.getInt("sender_id") );
+					gmsg.setSender_name( rst.getString("sender_name") );
+					gmsg.setDate( rst.getDate("date") );
+					gmsg.setTime( rst.getTime("time") );
+					gmsg.setMsg( rst.getString("message"));
+					
+					if(gmsg.getMsg().length() >= 38)
+						gmsg.setMsg(gmsg.getMsg().substring(0,40));
+					
+					long millis=System.currentTimeMillis();  
+			        Date date=new Date(millis);
+				
+					long diffInMillies = Math.abs(date.getTime() - rst.getDate("date").getTime());
+					long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+					
+					System.out.println("");
+					
+					group.setConversationDealy(diff);
+					
+					
+					
+					group.setLastMessage(gmsg);
+					
 				}
 			}
 

@@ -541,7 +541,6 @@ supports (display: grid ) { .profile { display:grid;
 		</div>
 		<!-- End of gallery -->
 
-		<div class="loader"></div>
 
 	</div>
 	<!-- End of container -->

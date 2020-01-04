@@ -15,6 +15,7 @@ public class GroupMessage {
 	private Date date;
 	private Time time;
 	
+	
 
 	public Integer getSender_id() {
 		return sender_id;
@@ -38,6 +39,7 @@ public class GroupMessage {
 		return date;
 	}
 	public void setDate(Date date) {
+	
 		this.date = date;
 	}
 	public Time getTime() {

@@ -269,6 +269,9 @@ public class DB {
 		List<AddContact> list = new ArrayList<>();
 		dbConnect();
 		
+		String lastMessage  = null;
+		
+		
 		String sql = "select * from contact where user_id="+id.toString();
 		
 		PreparedStatement pstmt = con.prepareStatement(sql);
@@ -372,7 +375,6 @@ public class DB {
 			user.setEmail(rst.getString("email"));
 			user.setContact(rst.getString("contact"));
 			
-			
 			Blob blob = rst.getBlob("profile_img");
             
             InputStream inputStream = blob.getBinaryStream();
@@ -396,6 +398,7 @@ public class DB {
 			user.setPosts(getAllPostByUser(user_id));
 			
 			user.setContacts(getAllContacts(user_id));
+			
 		}
 		
 		dbClose();
