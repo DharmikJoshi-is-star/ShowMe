@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.whatsapp.beans.AddContact;
+import com.whatsapp.beans.Conversation;
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.Login;
 import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Message;
+import com.whatsapp.beans.Post;
 import com.whatsapp.beans.Status;
 import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
@@ -141,6 +145,101 @@ public class ReceiverController {
 				groups = dbg.checkViewGroups(groups, user_id);	
 				System.out.print(receiver.getName()+"-->receiver");
 				
+				List<Media> medias = dbm.getAllMediaTransfers(user_id, contact_id);
+				
+				for (Media media : medias) {
+					Message m = new Message();
+
+					m.setMediaId(media.getId());
+					m.setSender(media.getSender());
+					m.setReceiver(media.getReceiver());
+					m.setDate(media.getDate());
+					m.setTime(media.getTime());
+					m.setMediaType(media.getType());
+					m.setMediaDescription(media.getDescription());
+					m.setMediaFileName(media.getFileName());
+					m.setMediaDocument(media.getDocument());
+					m.setMediaPicture(media.getPicture());
+					
+					messages.add(m);
+				}
+				
+				List<Message> messageList = messages.stream()
+						  .sorted(Comparator.comparing(Message::getTime))
+						  .collect(Collectors.toList());
+				
+				messages = messageList.stream()
+						  .sorted(Comparator.comparing(Message::getDate))
+						  .collect(Collectors.toList());
+				
+				List<Conversation> conversationList = new ArrayList<>();
+				
+				for (User user : users) {
+					Conversation conversation = new Conversation();
+					conversation.setUser(user);
+					
+					if(user.getLastMessage()==null) 
+						user.setConversationDealy(new Long("9999999999"));
+					
+					conversation.setConversationDealy(user.getConversationDealy());
+					
+					conversation.setGroup(null);
+					
+					conversationList.add(conversation);
+				}
+				
+				for (Group group : groups) {
+					
+					Conversation conversation = new Conversation();
+					conversation.setUser(null);
+					
+					if(group.getLastMessage()==null) 
+						group.setConversationDealy(new Long("9999999999"));
+					
+					conversation.setConversationDealy(group.getConversationDealy());
+					
+					conversation.setGroup(group);
+					
+					conversationList.add(conversation);
+				
+				}
+				
+				conversationList = conversationList.stream()
+						  .sorted(Comparator.comparing(Conversation::getConversationDealy))
+						  .collect(Collectors.toList());
+				
+				
+			/*
+			 * List<User> userList = users.stream()
+			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
+			 * .collect(Collectors.toList());
+			 * 
+			 * users = userList.stream()
+			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
+			 * .collect(Collectors.toList());
+			 
+				users = users.stream()
+						  .sorted(Comparator.comparing(User::getConversationDealy))
+						  .collect(Collectors.toList());
+			*/	
+				
+			/*
+			 * for (User user : users) if(user.getLastMessage()==null)
+			 * user.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * users = users.stream()
+			 * .sorted(Comparator.comparing(User::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 * 
+			 * for (Group g : groups) if(g.getLastMessage()==null)
+			 * g.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * groups = groups.stream()
+			 * .sorted(Comparator.comparing(Group::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 */
+				model.addAttribute("conversationList", conversationList);
+				model.addAttribute("mediaDoc", media);
 				model.addAttribute("receiver", receiver);
 				model.addAttribute("messages", messages);
 				model.addAttribute("user_id", user_id);

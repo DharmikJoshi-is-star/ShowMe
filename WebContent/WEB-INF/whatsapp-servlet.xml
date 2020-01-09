@@ -10,8 +10,11 @@
 	<mvc:annotation-driven>
 	
 	</mvc:annotation-driven>
-	<mvc:resources location="/resources/css/" mapping="/resources/**"  cache-period="31556926"></mvc:resources>
-	<mvc:resources location="/resources/" mapping="/resources/**"  cache-period="31556926"></mvc:resources>
+	
+	<mvc:resources mapping="/resources/**"
+               location="/, classpath:/WEB-INF/resources/"
+               cache-period="31556926" />
+	
 	
 	<context:component-scan base-package="com.whatsapp.controller"></context:component-scan>
 	
@@ -33,11 +36,14 @@
 	<bean id="post" class="com.whatsapp.beans.Post"></bean>
 	<bean id="like" class="com.whatsapp.beans.Like"></bean>
 	<bean id="media" class="com.whatsapp.beans.Media"></bean>
-
+	<bean id="conversation" class="com.whatsapp.beans.Conversation"></bean>
+	<bean id="comment" class="com.whatsapp.beans.Comment"></bean>
+	
 	
 	<bean id="db" class="com.whatsapp.database.DB"></bean>
 	<bean id="dbm" class="com.whatsapp.database.DBMessage"></bean>
 	<bean id="dbg" class="com.whatsapp.database.DBGroup"></bean>
+	
 	
 	
 </beans>

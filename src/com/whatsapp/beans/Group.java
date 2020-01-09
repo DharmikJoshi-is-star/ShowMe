@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Group {
 
-	
 	private Integer group_id;
 	
 	private Integer admin_id;

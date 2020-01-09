@@ -1,6 +1,12 @@
 package com.whatsapp.database;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,16 +15,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.GroupMessage;
+import com.whatsapp.beans.Media;
+import com.whatsapp.beans.Message;
 import com.whatsapp.beans.User;
+import com.whatsapp.enums.MediaTypeEnum;
 
 @Component
 public class DBGroup {
@@ -144,7 +156,7 @@ public class DBGroup {
 			return tablename;
 		}
 		
-		public List<Group> getGroups(Integer user_id) throws ClassNotFoundException, SQLException {
+		public List<Group> getGroups(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 			
 			List<Group> groups = new ArrayList<Group>();			
 			
@@ -166,6 +178,9 @@ public class DBGroup {
 						" FROM group_information" + 
 						" WHERE group_id = ? "; 
 				
+				System.out.println(sql1);
+				System.out.println("group.getGroup_id()="+group.getGroup_id());
+				
 				PreparedStatement pstmt1 = con.prepareStatement(sql1);
 				pstmt1.setInt(1, group.getGroup_id());
 				
@@ -178,7 +193,20 @@ public class DBGroup {
 					group.setGroup_msg_table( rst1.getString("ref_message_table") );
 					group.setGroup_name( rst1.getString("group_name") );
 					group.setMembers_id( getMembersID(rst1.getInt("group_id")) );
-					group.setMessages( getGroupMessages(rst1.getString("ref_message_table")) );
+					
+					List<GroupMessage> groupMessage = getGroupMessages(rst1.getString("ref_message_table"));
+					
+					groupMessage  = getMediaMessagesToListOfGroupMessages(user_id, group.getGroup_id() ,groupMessage);
+					
+					List<GroupMessage> groupMessageList = groupMessage.stream()
+							  .sorted(Comparator.comparing(GroupMessage::getTime))
+							  .collect(Collectors.toList());
+					
+					groupMessage = groupMessageList.stream()
+							  .sorted(Comparator.comparing(GroupMessage::getDate))
+							  .collect(Collectors.toList());
+					
+					group.setMessages(groupMessage);
 					group.setTotal_members( rst1.getInt("total_members") );
 					
 				}
@@ -190,6 +218,34 @@ public class DBGroup {
 			dbClose();
 			
 			return groups;
+		}
+
+		
+		private List<GroupMessage> getMediaMessagesToListOfGroupMessages(Integer user_id, Integer group_id,
+				List<GroupMessage> groupMessage) throws ClassNotFoundException, SQLException, IOException {
+
+				List<Media> medias = getAllMediaTransfersInGroup(user_id, group_id);
+				
+
+				for (Media media : medias) {
+					GroupMessage m = new GroupMessage();
+
+					m.setMediaId(media.getId());
+					m.setSender_id(media.getSender());
+					m.setSender_name(db.getUserName(media.getReceiver()));
+					m.setDate(media.getDate());
+					m.setTime(media.getTime());
+					m.setMediaType(media.getType());
+					m.setMediaDescription(media.getDescription());
+					m.setMediaFileName(media.getFileName());
+					m.setMediaDocument(media.getDocument());
+					m.setMediaPicture(media.getPicture());
+					
+					groupMessage.add(m);
+				}
+				
+
+			return groupMessage;
 		}
 
 		private List<GroupMessage> getGroupMessages(String msg_table) throws SQLException {
@@ -241,7 +297,7 @@ public class DBGroup {
 			return members_id;
  		}
 
-		public Group getGroupInformation(Integer group_id) throws ClassNotFoundException, SQLException {
+		public Group getGroupInformation(Integer user_id, Integer group_id) throws ClassNotFoundException, SQLException, IOException {
 			
 			dbConnect();
 			
@@ -263,7 +319,25 @@ public class DBGroup {
 				group.setGroup_msg_table( rst.getString("ref_message_table") );
 			}
 			group.setMembers_id(getMembersID(group_id));
-			group.setMessages(getGroupMessages(group.getGroup_msg_table()));
+			
+		
+		  List<GroupMessage> groupMessage =
+		  getGroupMessages(group.getGroup_msg_table());
+		  
+		  groupMessage = getMediaMessagesToListOfGroupMessages(user_id,
+		  group.getGroup_id() ,groupMessage);
+		  
+		  List<GroupMessage> groupMessageList = groupMessage.stream()
+		  .sorted(Comparator.comparing(GroupMessage::getTime))
+		  .collect(Collectors.toList());
+		  
+		  groupMessage = groupMessageList.stream()
+		  .sorted(Comparator.comparing(GroupMessage::getDate))
+		  .collect(Collectors.toList());
+		  
+		  group.setMessages(groupMessage);
+		 
+			
 			dbClose();
 			
 			return group;
@@ -318,7 +392,7 @@ public class DBGroup {
 			
 		}
 
-		public List<Group> checkViewGroups(List<Group> groups, Integer user_id) throws ClassNotFoundException, SQLException {
+		public List<Group> checkViewGroups(List<Group> groups, Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 			
 			dbConnect();
 			
@@ -348,6 +422,41 @@ public class DBGroup {
 					if(gmsg.getMsg().length() >= 38)
 						gmsg.setMsg(gmsg.getMsg().substring(0,40));
 					
+					
+					Media media = getLastMediaGroupMessage(user_id, group.getGroup_id());
+					
+					if(media.getId()!=null) {
+						
+						GroupMessage m = new GroupMessage();
+						
+						m.setMediaId(media.getId());
+						m.setSender_id(media.getSender());
+						m.setSender_name(db.getUser(m.getSender_id()).getName());
+						m.setDate(media.getDate());
+						m.setTime(media.getTime());
+						m.setMediaType(media.getType());
+						m.setMediaDescription(media.getDescription());
+						m.setMediaFileName(media.getFileName());
+						m.setMediaDocument(media.getDocument());
+						m.setMediaPicture(media.getPicture());
+						
+						List<GroupMessage> list = new ArrayList<GroupMessage>();
+						list.add(gmsg);
+						list.add(m);
+						
+						List<GroupMessage> messageList = list.stream()
+								  .sorted(Comparator.comparing(GroupMessage::getTime).reversed())
+								  .collect(Collectors.toList());
+						
+						list = messageList.stream()
+								  .sorted(Comparator.comparing(GroupMessage::getDate).reversed())
+								  .collect(Collectors.toList());
+						
+						gmsg = list.get(0);
+						
+					}
+					
+					
 					long millis=System.currentTimeMillis();  
 			        Date date=new Date(millis);
 				
@@ -357,8 +466,6 @@ public class DBGroup {
 					System.out.println("");
 					
 					group.setConversationDealy(diff);
-					
-					
 					
 					group.setLastMessage(gmsg);
 					
@@ -440,4 +547,201 @@ public class DBGroup {
 			dbClose();
 			
 		}
+
+		public void insertMediaIntoGroup(Integer user_id, Integer group_id, Media media) throws ClassNotFoundException, SQLException, FileNotFoundException {
+			
+			long millis=System.currentTimeMillis();  
+	        Date date=new Date(millis);
+	        Time time = new Time(millis);
+	        
+			media.setSender(user_id);
+			media.setReceiver(group_id);
+			media.setDate(date);
+			media.setTime(time);
+			
+			System.out.println("media.getFilePath()="+media.getFilePath());
+			
+			File file=new File(media.getFilePath());
+			media.setFileName(file.getName());
+			System.out.println("----file Object----");
+			System.out.println("file name: "+file.getName());
+			System.out.println("file path: "+file.getPath());
+			
+			FileInputStream fis=new FileInputStream(file);
+			
+			dbConnect();
+			
+			String sql = "INSERT INTO media(sender, groupId, type, filename, document, description, date, time) VALUES(?,?,?,?,?,?,?,?)";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, media.getSender());
+			pstmt.setInt(2, media.getReceiver());
+			pstmt.setString(3, media.getType());
+			pstmt.setString(4, media.getFileName());
+			pstmt.setBinaryStream(5 ,fis,(int)file.length());
+			
+			pstmt.setString(6, media.getDescription());
+			pstmt.setDate(7, media.getDate());
+			pstmt.setTime(8, media.getTime());
+			
+			pstmt.execute();
+			dbClose();
+			
+		}
+		
+		public List<Media> getAllMediaTransfersInGroup(Integer user_id, Integer group_id) throws ClassNotFoundException, SQLException, IOException {
+
+			List<Media> medias = new ArrayList<Media>();
+			
+			
+			String sql = "SELECT * FROM media WHERE groupId=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_id);
+			
+			ResultSet rst = pstmt.executeQuery();
+			
+			while(rst.next()) {
+				
+				Media media = new Media();
+				
+				media.setId(rst.getInt("id"));
+				media.setSender(rst.getInt("sender"));
+				media.setReceiver(rst.getInt("groupId"));
+				media.setType(rst.getString("type"));
+				media.setFileName(rst.getString("filename"));
+				
+				if(media.getType().equals(MediaTypeEnum.PICTURE.toString())) {
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		            media.setPicture(base64Image);
+		            media.setDocument(null);
+					
+				}else if(media.getType().equals(MediaTypeEnum.DOCUMENT.toString())){
+					
+					/*byte[] fileBytes = rst.getBytes("document");
+		            OutputStream targetFile=  new FileOutputStream("document.pdf");
+		            targetFile.write(fileBytes);
+		            targetFile.close();
+					*/
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		            media.setDocument(base64Image);
+					
+		            media.setPicture(null);
+				}
+			
+				media.setDescription(rst.getString("description"));
+				media.setDate(rst.getDate("date"));
+				media.setTime(rst.getTime("time"));
+				
+				medias.add(media);
+			}
+			
+			
+			return medias;
+		}
+		
+		private Media getLastMediaGroupMessage(Integer user_id, Integer group_id) throws SQLException, ClassNotFoundException, IOException {
+			
+			String sql = "SELECT * FROM media where groupId=? ORDER BY id DESC LIMIT 1";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_id);
+		
+			
+			ResultSet rst = pstmt.executeQuery();
+			
+			Media media = new Media();
+			while(rst.next()) {
+				
+				media.setId(rst.getInt("id"));
+				media.setSender(rst.getInt("sender"));
+				media.setReceiver(rst.getInt("groupId"));
+				media.setType(rst.getString("type"));
+				media.setFileName(rst.getString("filename"));
+				
+				if(media.getType().equals(MediaTypeEnum.PICTURE.toString())) {
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		            media.setPicture(base64Image);
+		            media.setDocument(null);
+					
+				}else if(media.getType().equals(MediaTypeEnum.DOCUMENT.toString())){
+					
+					/*byte[] fileBytes = rst.getBytes("document");
+		            OutputStream targetFile=  new FileOutputStream("document.pdf");
+		            targetFile.write(fileBytes);
+		            targetFile.close();
+					*/
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		            media.setDocument(base64Image);
+					
+		            media.setPicture(null);
+				}
+			
+				media.setDescription(rst.getString("description"));
+				media.setDate(rst.getDate("date"));
+				media.setTime(rst.getTime("time"));
+				break;
+			
+			}
+			
+			return media;
+		}
+
+		
+		
 }

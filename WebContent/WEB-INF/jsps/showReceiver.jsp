@@ -11,8 +11,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-<style>
 
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+<style>
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #1ebea5;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#1ebea5; }
 :root {
     font-size: 10px;
 }
@@ -381,16 +394,115 @@ Remove or comment-out the code block below to see how the browser will fall-back
     }
 }
 
+.my-margin{
+	margin-top: 6rem;
+}
+.my-width{
+	width:70%;
+}
+.my-bg{
+	
+}
+.my-text{
+	color: #1ebea5;
+}
+body{
+	padding: 2rem 0rem;
+}
+.image-parent {
+	max-width: 40px;
+}
+.my-height-nav {
+	height: 4rem;
+	margin-top: -1.5rem;
+}
+.my-center{
+	text-align: center;
+	vertical-align: middle;
+	line-height: 3rem;  
+}
+
+
+
+.topnav {
+  position: relative;
+  overflow: hidden;
+  background-color: #1ebea5;
+}
+
+.topnav a {
+  float: left;
+ /*color: #f2f2f2;*/
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.topnav a:hover {
+  background-color: #1ebea5;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #1ebea5;
+  color: white;
+}
+
+.topnav-centered a {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+  
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+
 </style>
 </head>
 <body>
 
-
-
-
 <!-- <a href="showChat?user_id=<c:out value="${user_id }"/>&contact_id=<c:out value="${receiver.getId() }"/>">Home</a>  -->
-<a href="javascript:history.go(-1)">Back</a>
-<header>
+<header class="container my-bg my-height-nav">
+			
+<div class="topnav">
+
+  <!-- Centered link -->
+  <div class="topnav-centered">
+    <font size="6"><a href="#ProfileInformation" class="active"><b>Profile Information</b></a></font>
+  </div>
+  
+  <a class="nav-link text-light my-center" 
+	href="javascript:history.go(-1)" style="text-align: left;" title="home" data-toggle="tooltip" class="color-tooltip">
+	<i class="fa fa-home" style='font-size:48px;color:white' ></i>
+	</a>
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+</div>
+		
+</header>
 
 	<div class="container">
 
@@ -423,20 +535,14 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">${receiver.getEmail()}</span>  📷✈️🏕️</p>
+				<p><span class="profile-real-name">${receiver.getEmail()}</span> </p>
 			</div>
-			
-			
 			
 		</div>
 		<!-- End of profile section -->
 
 	</div>
 	<!-- End of container -->
-
-</header>
-<HR>
-<BR>
 	<div class="container">
 
 		<div class="gallery">

@@ -15,8 +15,60 @@ public class GroupMessage {
 	private Date date;
 	private Time time;
 	
+	private String mediaType;
+	private String mediaDescription;
+	private Integer mediaId;
+	
+	private String mediaFilePath;
+	private String mediaFileName;
+	
+	private String mediaPicture;
+	private String mediaDocument;
+	
 	
 
+	public String getMediaType() {
+		return mediaType;
+	}
+	public void setMediaType(String mediaType) {
+		this.mediaType = mediaType;
+	}
+	public String getMediaDescription() {
+		return mediaDescription;
+	}
+	public void setMediaDescription(String mediaDescription) {
+		this.mediaDescription = mediaDescription;
+	}
+	public Integer getMediaId() {
+		return mediaId;
+	}
+	public void setMediaId(Integer mediaId) {
+		this.mediaId = mediaId;
+	}
+	public String getMediaFilePath() {
+		return mediaFilePath;
+	}
+	public void setMediaFilePath(String mediaFilePath) {
+		this.mediaFilePath = mediaFilePath;
+	}
+	public String getMediaFileName() {
+		return mediaFileName;
+	}
+	public void setMediaFileName(String mediaFileName) {
+		this.mediaFileName = mediaFileName;
+	}
+	public String getMediaPicture() {
+		return mediaPicture;
+	}
+	public void setMediaPicture(String mediaPicture) {
+		this.mediaPicture = mediaPicture;
+	}
+	public String getMediaDocument() {
+		return mediaDocument;
+	}
+	public void setMediaDocument(String mediaDocument) {
+		this.mediaDocument = mediaDocument;
+	}
 	public Integer getSender_id() {
 		return sender_id;
 	}

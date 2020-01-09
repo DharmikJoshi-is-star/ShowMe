@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import java.sql.PreparedStatement;
 
 import com.whatsapp.beans.AddContact;
+import com.whatsapp.beans.Comment;
 import com.whatsapp.beans.Like;
 import com.whatsapp.beans.Login;
 import com.whatsapp.beans.Message;
@@ -48,7 +49,6 @@ public class DB {
 	private String url = "jdbc:mysql://localhost:3306/"+dbName;
 	private String driver = "com.mysql.jdbc.Driver";
 	private Connection con;
-	
 
 	private void dbClose() throws SQLException{
 		con.close();
@@ -405,6 +405,29 @@ public class DB {
 		return user;
 	}
 
+	
+	public String getUserName(Integer user_id) throws ClassNotFoundException, SQLException {
+		
+		dbConnect();
+		String name = "no name";
+	
+		String sql = "select * from user where id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			
+			name = rst.getString("name");
+				
+		}
+		
+		dbClose();
+		
+		return name;
+	}
+	
 	public void updateUser(User user, String image) throws ClassNotFoundException, SQLException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		dbConnect();
@@ -924,6 +947,8 @@ public class DB {
 			post.setDate(rst.getDate("date"));
 			post.setTime(rst.getTime("time"));
 			post.setLikes(getLikeByPostId(post.getId()));
+			post.setComments(getAllCommentsByPostId(post.getId()));
+			
 			posts.add(post);
 			
 		}
@@ -976,6 +1001,8 @@ public class DB {
 			
 			post.setLikes(getLikeByPostId(post.getId()));
 			
+			post.setComments(getAllCommentsByPostId(post.getId()));
+			
 			posts.add(post);
 				
 		}
@@ -988,8 +1015,6 @@ public class DB {
 	public List<Like> getLikeByPostId(Integer post_id) throws ClassNotFoundException, SQLException {
 
 		List<Like> likes = new ArrayList<Like>();
-		
-		dbConnect();
 		
 		String sql = "SELECT * FROM likes WHERE post_id=?";
 		PreparedStatement pstmt = con.prepareStatement(sql);
@@ -1009,8 +1034,6 @@ public class DB {
 		}
 		
 		System.out.print("Post_id="+post_id+"--Number of likes="+likes.size());
-		
-		dbClose();
 		
 		return likes;
 	}
@@ -1047,6 +1070,7 @@ public class DB {
 		// TODO Auto-generated method stub
 		
 		deleteLike(user_id, post_id);
+		deleteComment(user_id, post_id);
 		
 		dbConnect();
 		
@@ -1057,4 +1081,66 @@ public class DB {
 		dbClose();
 		
 	}
+	
+	public void insertComment(Comment comment) throws ClassNotFoundException, SQLException {
+		
+		dbConnect();
+		
+		String sql = "INSERT INTO comments(user_id, post_id, comment, date, time) VALUES(?, ?, ?, ?, ?)";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		
+		pstmt.setInt(1, comment.getUser_id());
+		pstmt.setInt(2, comment.getPost_id());
+		pstmt.setString(3, comment.getComment());
+		pstmt.setDate(4, comment.getDate());
+		pstmt.setTime(5, comment.getTime());
+		
+		pstmt.execute();
+		
+		dbClose();
+		
+	}
+	
+	public void deleteComment(Integer user_id, Integer post_id) throws ClassNotFoundException, SQLException {
+		
+		dbConnect();
+		
+		String sql = "DELETE FROM comments WHERE user_id=? AND post_id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		pstmt.setInt(2, post_id);
+		pstmt.executeUpdate();
+		
+		dbClose();
+		
+	}
+	
+	private List<Comment> getAllCommentsByPostId(Integer post_id) throws SQLException, ClassNotFoundException {
+		
+		List<Comment> comments = new ArrayList<Comment>();
+		
+		String sql = "SELECT * FROM comments WHERE post_id = ?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, post_id);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			
+			Comment comment = new Comment();
+			
+			comment.setId(rst.getInt("id"));
+			comment.setUser_id(rst.getInt("user_id"));
+			comment.setPost_id(rst.getInt("post_id"));
+			comment.setComment(rst.getString("comment"));
+			comment.setDate(rst.getDate("date"));
+			comment.setTime(rst.getTime("time"));
+			
+			comments.add(comment);
+			
+		}
+				
+		return comments;
+	}
+	
 }

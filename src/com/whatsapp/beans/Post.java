@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Post {
 
 	private Integer id;
@@ -15,6 +18,14 @@ public class Post {
 	
 	private List<Like> likes;
 	
+	private List<Comment> comments;
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	public List<Like> getLikes() {
 		return likes;
 	}

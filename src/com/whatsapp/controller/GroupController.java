@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.whatsapp.beans.AddContact;
+import com.whatsapp.beans.Conversation;
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.GroupMessage;
 import com.whatsapp.beans.Login;
+import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Status;
 import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
@@ -53,6 +57,9 @@ public class GroupController {
 	
 	@Autowired
 	Group group;
+	
+	@Autowired
+	Media media;
 
 	/*
 	 * when user wants to create a new group will select the new group link from
@@ -173,8 +180,20 @@ public class GroupController {
 			
 			try {
 				GroupMessage gmessage = new GroupMessage();
-				Group group = dbg.getGroupInformation(group_id);
+				Group group = dbg.getGroupInformation(user_id, group_id);
 				List<User> members = dbg.getGroupMembersInformation(group.getMembers_id());
+				
+				System.out.println("****************************************************");
+				System.out.println("group="+group);
+				System.out.println("group.getGroup_name()="+group.getGroup_name());
+				System.out.println("group.getMessages()="+group.getMessages());
+				
+				for (GroupMessage g : group.getMessages()) {
+					System.out.println("Media "+g.getMediaId()+"\n");
+				}
+				
+				System.out.println("****************************************************");
+				
 				model.addAttribute("gmessage", gmessage);
 				model.addAttribute("groupobj", group);
 				model.addAttribute("members", members);
@@ -200,6 +219,59 @@ public class GroupController {
 				groups = dbg.checkViewGroups(groups, user_id);
 				users = dbm.checkViewUsers(users, user_id);
 				
+				List<Conversation> conversationList = new ArrayList<>();
+				
+				for (User user : users) {
+					Conversation conversation = new Conversation();
+					conversation.setUser(user);
+					
+					if(user.getLastMessage()==null) 
+						user.setConversationDealy(new Long("9999999999"));
+					
+					conversation.setConversationDealy(user.getConversationDealy());
+					
+					conversation.setGroup(null);
+					
+					conversationList.add(conversation);
+				}
+				
+				for (Group group : groups) {
+					
+					Conversation conversation = new Conversation();
+					conversation.setUser(null);
+					
+					if(group.getLastMessage()==null) 
+						group.setConversationDealy(new Long("9999999999"));
+					
+					conversation.setConversationDealy(group.getConversationDealy());
+					
+					conversation.setGroup(group);
+					
+					conversationList.add(conversation);
+				
+				}
+				
+				conversationList = conversationList.stream()
+						  .sorted(Comparator.comparing(Conversation::getConversationDealy))
+						  .collect(Collectors.toList());
+				
+			/*
+			 * for (User user : users) if(user.getLastMessage()==null)
+			 * user.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * users = users.stream()
+			 * .sorted(Comparator.comparing(User::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 * 
+			 * for (Group g : groups) if(g.getLastMessage()==null)
+			 * g.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * groups = groups.stream()
+			 * .sorted(Comparator.comparing(Group::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 */
+				model.addAttribute("conversationList",conversationList);
+				model.addAttribute("media", media);
 				model.addAttribute("user_id", user_id);
 				model.addAttribute("contacts", contacts);
 				model.addAttribute("groups", groups);
@@ -261,12 +333,13 @@ public class GroupController {
 			
 			try {
 				List<User> users = new ArrayList<User>();
-				group = dbg.getGroupInformation(group_id);
+				group = dbg.getGroupInformation(user_id,group_id);
 				
 				for (Integer id : group.getMembers_id()) {
 						users.add(db.getUser(id));
 				}
 					
+				
 				model.addAttribute("users", users);
 				model.addAttribute("group", group);
 				model.addAttribute("admin", db.getUser(group.getAdmin_id()));
@@ -310,7 +383,7 @@ public class GroupController {
 			
 			try {
 				List<AddContact> nonMembers = new ArrayList<AddContact>();
-				Group group = dbg.getGroupInformation(group_id);
+				Group group = dbg.getGroupInformation(user_id, group_id);
 				List<AddContact> contacts = db.getAllContacts(user_id);
 				for (AddContact addContact : contacts) {
 					System.out.print(addContact.getName());

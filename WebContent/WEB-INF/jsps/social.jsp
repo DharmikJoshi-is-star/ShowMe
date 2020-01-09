@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -15,10 +15,25 @@
 <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> 
-		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- START FOR TOOL TIP 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- END FOR TOOL TIP -->
+
+
 <script type="text/javascript">
+
+/*START FOR TOOL TIP*/
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+/*END FOR TOOL TIP*/
+
 function myFunction() {
   var elmnt = document.getElementById(<%=request.getAttribute("postId")%>);
   elmnt.scrollIntoView();
@@ -26,6 +41,25 @@ function myFunction() {
 </script>
 
 <style type="text/css">
+
+.commentBox:focus{
+
+}
+
+.like-dislike{
+	font-size:30px;
+	color:#a80000;
+}  
+
+.like-dislike:hover, .like-dislike:focus{
+font-size: 32px;
+color:#a80000;
+}
+
+/*START FOR TOOL TIP*/
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #1ebea5;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#1ebea5; }
+/*END FOR TOOL TIP*/
 
 
 .my-margin{
@@ -354,8 +388,6 @@ text-align: center;
 
 </style>
 
-
-</style>
 		
 </head>
 
@@ -371,9 +403,9 @@ text-align: center;
     <font size="6"><a href="#home" class="active"><b>Posts</b></a></font>
   </div>
   
-  <a class="nav-link text-light my-center" 
+  <a class="nav-link text-light my-center" title="Home" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
 	href="showHome?user_id=${user_id }" style="text-align: left;">
-	<< GoHome
+	<i class="fa fa-home" style='font-size:48px;color:white'></i>
 	</a>
 
  
@@ -447,12 +479,11 @@ text-align: center;
 	<div class="container">
          <div class="row">
          <c:forEach items="${posts }" var="post">
+         
          	<c:set var="postUser" value="${database.getUser(post.getUser_id()) }"/>
          		
-         		
-	          	
 			  <!-- offset-lg-3 -->
-			   <div class="col-lg-6 ">
+			   <div class="col-lg-6">
 				
 				<div class="cardbox shadow-lg bg-white" >
 				 
@@ -464,10 +495,13 @@ text-align: center;
 				   </button>
 				   <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
 					<c:if test="${user_id ne postUser.getId() }">
-						<a class="dropdown-item" href="showReceiver?user_id=${user_id }&contact_id=${postUser.getId()}">See Profile</a>
+						<a class="dropdown-item" href="showReceiver?user_id=${user_id }&contact_id=${postUser.getId()}" 
+						
+						>See Profile</a>
 					</c:if>
 					<c:if test="${user_id eq postUser.getId() }">
-						<a class="dropdown-item" href="viewProfile?user_id=<c:out value="${user_id}"/>">See Profile</a>
+						<a class="dropdown-item" href="viewProfile?user_id=<c:out value="${user_id}"/>"
+						>See Profile</a>
 					</c:if>
 					<a class="dropdown-item" href="#">Stop following</a>
 					<a class="dropdown-item" href="#">Report</a>
@@ -475,7 +509,7 @@ text-align: center;
 				  </div><!--/ dropdown -->
 				  <div class="media m-0">
 				   <div class="d-flex mr-3">
-					<a href=""><img class="img-fluid rounded-circle" src="data:image/jpg;base64,${postUser.getPicture_str()}" alt="User"></a>
+					<a href="#"><img class="img-fluid rounded-circle" src="data:image/jpg;base64,${postUser.getPicture_str()}" alt="User"></a>
 				   </div>
 				   <div class="media-body">
 				    <p class="m-0"><c:out value="${postUser.getName() }"/> </p>
@@ -492,7 +526,7 @@ text-align: center;
 				 <div class="cardbox-base">
 				  <ul class="float-right">
 				   <li><a><i class="fa fa-comments"></i></a></li>
-				   <li><a><em class="mr-5">0</em></a></li>
+				   <li><a><em class="mr-5">${post.getComments().size()+0 }</em></a></li>
 				   <li><a><i class="fa fa-share-alt"></i></a></li>
 				   <li><a><em class="mr-3">0</em></a></li>
 				  </ul>
@@ -506,10 +540,14 @@ text-align: center;
 				   		</c:forEach>
 				   		
 				   		<c:if test="${alreadyLiked eq 0 }">
-				   			<a href="likePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"><i class="fa fa-thumbs-up" style="font-size:36px;"></i></a>
+				   			<a href="likePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"
+				   			title="like" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+				   			<i class="fa fa-heart-o like-dislike" style="color:#a80000;"></i></a>
 				   		</c:if>
 				   		<c:if test="${alreadyLiked eq 1 }">
-				   			<a href="disLikePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"><i class="fa fa-thumbs-up" style="font-size:36px;color:blue"></i></a>
+				   			<a href="disLikePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"
+				   			title="dislike" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+				   			<i class="fa fa-heart like-dislike" style="color:#a80000;"></i></a>
 				   		</c:if>
 				   	
 				   </li>
@@ -532,18 +570,21 @@ text-align: center;
 				   <li><a><span><c:out value="${post.getLikes().size()+0 }"/> Likes</span></a></li>
 				  </ul>			   
 				 </div><!--/ cardbox-base -->
-				 <!-- 
+				 
 				 <div class="cardbox-comments">
 				  <span class="comment-avatar float-left">
 				   <a href=""><img class="rounded-circle" src="data:image/jpg;base64,${adminUser.getPicture_str()}" alt="..."></a>                            
 				  </span>
-				  <!-- <div class="search">
-				   <input placeholder="Write a comment" type="text">
-				   <button><i class="fa fa-camera"></i></button>
+				  <div class="search">
+				  
+				  <form action="addComment?user_id=${adminUser.getId() }&post_id=${post.getId()}" method="post">
+				  	 <input class="commentBox" placeholder="Add a comment..." type="text" name="commentOnPost">
+				   	 <button type="submit"><i class="fa fa-camera"></i></button>
+				  </form>
+				  
 				  </div><!--/. Search -->
-				 <!--  
 				 </div>		  
-				-->
+			
 				<!--/ cardbox-like -->	
 				</div><!--/ cardbox -->
 	
@@ -559,8 +600,8 @@ text-align: center;
 	          <!-- TIME PASS ENDS HERE -->
 	          
           </c:forEach>
-          
-          </div><!--/ row -->
+            </div><!--/ row -->
+        
 	</div><!--/ container -->
 </section>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

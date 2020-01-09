@@ -18,8 +18,10 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -141,13 +143,12 @@ public class DBMessage {
 		
 	}
 
-	public List<User> checkViewUsers(List<User> users, Integer user_id) throws ClassNotFoundException, SQLException {
+	public List<User> checkViewUsers(List<User> users, Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 		
 		dbConnect();
 		
-		
-		
 		for (User user : users) {
+			
 			String tablename = db.getTableName(user_id, user.getId());
 			
 			String sql = "SELECT * FROM "+tablename+" ORDER BY srno DESC LIMIT 1";
@@ -171,27 +172,148 @@ public class DBMessage {
 				msg.setDate(rst.getDate("date"));
 				msg.setTime(rst.getTime("time"));
 			
+				
 				if(msg.getMsg().length() >= 50)
 					msg.setMsg(msg.getMsg().substring(0,40));
+				
+				
+				Media media = getLastMediaMessage(user.getId(), user_id);
+				
+				
+				System.out.println("media.getId()"+media.getId());
+				
+				if(media.getId()!=null) {
+				Message m = new Message();
+				
+				m.setMediaId(media.getId());
+				m.setSender(media.getSender());
+				m.setReceiver(media.getReceiver());
+				m.setDate(media.getDate());
+				m.setTime(media.getTime());
+				m.setMediaType(media.getType());
+				m.setMediaDescription(media.getDescription());
+				m.setMediaFileName(media.getFileName());
+				m.setMediaDocument(media.getDocument());
+				m.setMediaPicture(media.getPicture());
+				
+				
+				List<Message> list = new ArrayList<Message>();
+				list.add(msg);
+				list.add(m);
+				
+				List<Message> messageList = list.stream()
+						  .sorted(Comparator.comparing(Message::getTime).reversed())
+						  .collect(Collectors.toList());
+				
+				list = messageList.stream()
+						  .sorted(Comparator.comparing(Message::getDate).reversed())
+						  .collect(Collectors.toList());
+				
+				msg = list.get(0);
+				
+				}
 				
 				long millis=System.currentTimeMillis();  
 		        Date date=new Date(millis);
 			
-				long diffInMillies = Math.abs(date.getTime() - rst.getDate("date").getTime());
-				long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+				long diffInMillies = Math.abs(date.getTime() - msg.getDate().getTime());
+				Long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+				
+			
+				user.setLastMessageDate(msg.getDate());
+				user.setLastMessageTime(msg.getTime());
 				
 				user.setConversationDealy(diff);
 				
 				user.setLastMessage(msg);
 			
 			}
-			
-			
+		
 		}
 
 		dbClose();
 		
 		return users;
+	}
+
+	private Media getLastMediaMessage(Integer user_id, Integer admin_id) throws SQLException, ClassNotFoundException, IOException {
+		
+		String sql = "SELECT * FROM media where (sender=? AND receiver=?) OR (sender=? AND receiver=?) ORDER BY id DESC LIMIT 1";
+		
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		pstmt.setInt(2, admin_id);
+		pstmt.setInt(3, admin_id);
+		pstmt.setInt(4, user_id);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		Media media = new Media();
+		while(rst.next()) {
+			
+			if(rst.getInt("sender")==user_id || rst.getInt("receiver")==user_id) {
+			
+			media.setId(rst.getInt("id"));
+			media.setSender(rst.getInt("sender"));
+			media.setReceiver(rst.getInt("receiver"));
+			media.setType(rst.getString("type"));
+			media.setFileName(rst.getString("filename"));
+			
+			if(media.getType().equals(MediaTypeEnum.PICTURE.toString())) {
+				
+				Blob blob = rst.getBlob("document");
+	            
+	            InputStream inputStream = blob.getBinaryStream();
+	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	            byte[] buffer = new byte[4096];
+	            int bytesRead = -1;
+	             
+	            while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                outputStream.write(buffer, 0, bytesRead);                  
+	            }
+	             
+	            byte[] imageBytes = outputStream.toByteArray();
+	            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+	
+	            media.setPicture(base64Image);
+	            media.setDocument(null);
+				
+			}else if(media.getType().equals(MediaTypeEnum.DOCUMENT.toString())){
+				
+				/*byte[] fileBytes = rst.getBytes("document");
+	            OutputStream targetFile=  new FileOutputStream("document.pdf");
+	            targetFile.write(fileBytes);
+	            targetFile.close();
+				*/
+				
+				Blob blob = rst.getBlob("document");
+	            
+	            InputStream inputStream = blob.getBinaryStream();
+	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	            byte[] buffer = new byte[4096];
+	            int bytesRead = -1;
+	             
+	            while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                outputStream.write(buffer, 0, bytesRead);                  
+	            }
+	             
+	            byte[] imageBytes = outputStream.toByteArray();
+	            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+	
+	            media.setDocument(base64Image);
+				
+	            media.setPicture(null);
+			}
+		
+			media.setDescription(rst.getString("description"));
+			media.setDate(rst.getDate("date"));
+			media.setTime(rst.getTime("time"));
+			break;
+		
+		}
+		}
+		
+		return media;
 	}
 
 	public void removeChatTable(String tablename) throws ClassNotFoundException, SQLException {
@@ -301,9 +423,14 @@ public class DBMessage {
 		media.setDate(date);
 		media.setTime(time);
 		
+		System.out.println("media.getFilePath()="+media.getFilePath());
 		
 		File file=new File(media.getFilePath());
 		media.setFileName(file.getName());
+		System.out.println("----file Object----");
+		System.out.println("file name: "+file.getName());
+		System.out.println("file path: "+file.getPath());
+		
 		FileInputStream fis=new FileInputStream(file);
 		
 		dbConnect();

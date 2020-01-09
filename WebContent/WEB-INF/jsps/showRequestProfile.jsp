@@ -382,16 +382,111 @@ Remove or comment-out the code block below to see how the browser will fall-back
     }
 }
 
+.my-margin{
+	margin-top: 6rem;
+}
+.my-width{
+	width:70%;
+}
+.my-bg{
+	
+}
+.my-text{
+	color: #1ebea5;
+}
+body{
+	padding: 2rem 0rem;
+}
+.image-parent {
+	max-width: 40px;
+}
+.my-height-nav {
+	height: 4rem;
+	margin-top: -1.5rem;
+}
+.my-center{
+	text-align: center;
+	vertical-align: middle;
+	line-height: 3rem;  
+}
+
+
+
+.topnav {
+  position: relative;
+  overflow: hidden;
+  background-color: #1ebea5;
+}
+
+.topnav a {
+  float: left;
+ /*color: #f2f2f2;*/
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.topnav a:hover {
+  background-color: #1ebea5;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #1ebea5;
+  color: white;
+}
+
+.topnav-centered a {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+  
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+
+
 </style>
 </head>
 <body>
 
 
+<header class="container my-bg my-height-nav">
+			
+<div class="topnav">
 
-<a href="javascript:history.go(-1)">back</a>
+  <!-- Centered link -->
+  <div class="topnav-centered">
+    <font size="6"><a href="#ProfileInformation" class="active"><b>Profile Information</b></a></font>
+  </div>
+  
+  <a class="nav-link text-light my-center" 
+	href="javascript:history.go(-1)" style="text-align: left;">
+	<i class="fa fa-home" style='font-size:48px;color:white'></i>
+	</a>
 
-<header>
-
+</div>
+		
+</header>
 	<div class="container">
 
 		<div class="profile">
@@ -440,18 +535,14 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 				<p><span class="profile-real-name">${request.getEmail()}</span>  📷✈️🏕️</p>
 			</div>
-			
-			
-			
 		</div>
 		<!-- End of profile section -->
 
 	</div>
 	<!-- End of container -->
 
-</header>
-<HR>
-<BR>
+
+
 	<div class="container">
 
 		<div class="gallery">
@@ -490,7 +581,5 @@ Remove or comment-out the code block below to see how the browser will fall-back
 	</div>
 	<!-- End of container -->
 
-
-<BR>
 </body>
 </html>

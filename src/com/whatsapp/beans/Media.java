@@ -20,7 +20,6 @@ public class Media {
 	private String document;
 	private Date date;
 	private Time time;
-
 	
 	public String getFileName() {
 		return fileName;

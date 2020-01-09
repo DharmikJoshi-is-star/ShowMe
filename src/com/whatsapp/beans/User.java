@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.Base64;
 import java.util.List;
 
@@ -51,7 +53,28 @@ public class User {
 	
 	private Message lastMessage;
 	
+	private Date lastMessageDate;
+	
+	private Time lastMessageTime;
+	
 	private Long conversationDealy;
+
+	
+	public Date getLastMessageDate() {
+		return lastMessageDate;
+	}
+
+	public void setLastMessageDate(Date lastMessageDate) {
+		this.lastMessageDate = lastMessageDate;
+	}
+
+	public Time getLastMessageTime() {
+		return lastMessageTime;
+	}
+
+	public void setLastMessageTime(Time lastMessageTime) {
+		this.lastMessageTime = lastMessageTime;
+	}
 
 	public Long getConversationDealy() {
 		return conversationDealy;
@@ -66,6 +89,7 @@ public class User {
 	}
 
 	public void setLastMessage(Message lastMessage) {
+		
 		this.lastMessage = lastMessage;
 	}
 

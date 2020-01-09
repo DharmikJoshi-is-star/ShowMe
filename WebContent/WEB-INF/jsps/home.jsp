@@ -1,4 +1,4 @@
-<%@page import="java.util.concurrent.TimeUnit"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,27 +11,32 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<link rel="stylesheet" 
-				href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-			<link rel="stylesheet"
-				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-			<link rel="stylesheet" href="chat.css">
-			<link rel="stylesheet"
-				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-			<title>Chat Application</title>
-			<script
-				src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-			<link rel="stylesheet"
-				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-			<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-			<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-				rel="stylesheet">
-			<meta name="viewport"
-				content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<link rel="stylesheet"
-				href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-			<link rel="stylesheet"
-				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" 
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="chat.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Chat Application</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- START FOR TOOL TIP -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- END FOR TOOL TIP -->
 
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <meta name="viewport" content="width=device-width">
@@ -49,23 +54,42 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
 
-
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <link rel="stylesheet"
 	href="https://onesignal.github.io/emoji-picker/lib/css/emoji.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	
+ <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+	
+	
 <!-- 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
  -->
+ 
+<!--   
+  <span class="entypo-user-add"></span>
+   <span class="entypo-thumbs-up"></span>
+   <span class="entypo-picture"></span>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 
 <script type="text/javascript">
 function openNav() {
   document.getElementById("myNav").style.display = "block";
 }
+
+/*START FOR TOOL TIP*/
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+/*END FOR TOOL TIP*/
 
 function closeNav() {
   document.getElementById("myNav").style.display = "none";
@@ -88,6 +112,13 @@ function seeBottom() {
 </script>
 
 <style>
+
+
+/*START FOR TOOL TIP*/
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #1ebea5;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#1ebea5; }
+/*END FOR TOOL TIP*/
+
 
 /*Code for admin status start here*/
 * {
@@ -704,8 +735,8 @@ body {
 }
 
 .my-img {
-	height: 30px;
-	width: 30px;
+	height: 40px;
+	width: 40px;
 }
 
 		.my-margin{
@@ -732,7 +763,28 @@ body {
 .my-white {
 	color: #ffffff;
 }
-		</style>
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  }
+  
+ body { 
+    /* Image Location */ 
+    background-image: C:\Users\Dharmik joshi\Pictures\Saved Picturesbackground.png;/*url("https%3A%2F%2Fcrew.bet%2Fwp-content%2Fuploads%2F2017%2F02%2Fbet-blocks-bg-purple.png%3Fid%3D2014"); */
+  
+    /* Background image is centered vertically and horizontally at all times */ 
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-size: cover; 
+    background-color: #f2f2f2; 
+    /* Font Colour */ 
+    color:white; 
+} 
+
+</style>
 		
 
 
@@ -744,23 +796,23 @@ body {
 	<div id="myNav" class="overlay">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		<div class="overlay-content">
-			<a href="show-group-form?user_id=<c:out value="${user_id}"/>">New
+			<a href="show-group-form?user_id=<c:out value="${user_id}"/>" >New
 				group</a>
-			<a href="social?user_id=${user_id}&postId=#">See Posts</a>
-			<a href="viewProfile?user_id=<c:out value="${user_id}"/>">Profile</a>
-			<a href="checkRequest?userId=<c:out value="${user_id}"/>">Friend
-				Requests</a> <a href="<c:url value="/logout"/>">LogOut</a>
+			<a href="social?user_id=${user_id}&postId=#"><i class="fa fa-globe" style="font-size:40px;"></i>Posts</a>
+			<a href="viewProfile?user_id=<c:out value="${user_id}"/>"><i class="fa fa-user-circle-o" style="font-size:40px;"></i>Profile</a>
+			<a href="checkRequest?userId=<c:out value="${user_id}"/>">Friend Requests</a> 
+			<a href="<c:url value="/logout"/>"><i class='fas fa-sign-out-alt fa-rotate-180' style='font-size:40px;'></i>LogOut</a>
 				
 		</div>
 	</div>
 
-	<div class="container min-vh-100 border mt-0">
+	<div class="container min-vh-100 border mt-0 " style="background-color: #ffffff;">
 		<div class="row m-4 border">
 			<div class="col-4 border-right pl-0 pr-0">
 				<nav class="navbar navbar-light my-bg justify-content-center">
 					<span class="navbar-brand text-white"
 						style="font-size: 20px; cursor: pointer; text-align: left;"
-						onclick="openNav()">&#9776;</span> <span
+						onclick="openNav()" title="menu" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">&#9776;</span> <span
 						class="navbar-brand text-white">WhatsApp</span> <span
 						class="navbar-brand text-white"
 						style="font-size: 20px; cursor: pointer; text-align: right;">
@@ -768,96 +820,174 @@ body {
 						<span class="material-icons"
 						style="font-size: 30px; color: white; width: 10px;"
 						onclick="document.getElementById('statusId').style.display='block'">
-							&#xe917;</span>
+						
+							
+								<a data-toggle="tooltip" data-placement="bottom" class="color-tooltip"><i class="fa fa-spinner" 
+								title=status data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></i></a>
+						
+						</span>
 					</span>
 
 				</nav>
 			
 				<div id="div1" style="height: 500px;position:relative;">
+					
+						
+					<!-- 
+					 <a href="findFriends?userId=<c:out value="${user_id}"/>" class="list-group d-flex w-100 justify-content-between">
+							&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-plus"
+							style="font-size: 40px; color: light green"></i> &nbsp;&nbsp;FIND
+							FRIENDS
+					</a>
+					  -->
 						<div id="div2" style="max-height:115%;overflow:auto;">
+						
 							<div id="div3" style="height:auto;">
-							
+
 				<!-- <ul class="list-group list-group-flush"> -->
 				<div class="list-group">
 					
-					
-						<a href="findFriends?userId=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+					<a href="findFriends?userId=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start sticky">
 							&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-plus"
-							style="font-size: 24px; color: light green"></i> &nbsp;&nbsp;FIND
-							FRIENDS
-						</a>
+							style="font-size: 35px; color: light green;"></i> &nbsp;&nbsp;
+							<b>FIND FRIENDS</b>
+					</a>
 					
-
-					<c:forEach items="${users}" var="user">
-						<c:if test="${not empty user.getView()}">
+					<c:forEach items="${conversationList}" var="conversation">
+						
+						<c:choose>
+							<c:when test="${not empty conversation.getUser() }">
 							
-								<a href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+								<a href="showChat?contact_id=<c:out value="${conversation.getUser().getId()}"/>&user_id=<c:out value="${user_id }"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
 									<div class="d-flex w-100 justify-content-between">
 									<div class="mb-1" style="margin-top: 0.2rem;">
-										<img src="data:image/jpg;base64,${user.getPicture_str()}" alt="" class="rounded-circle my-img"> 
+										<img src="data:image/jpg;base64,${conversation.getUser().getPicture_str()}" alt="" class="rounded-circle my-img"> 
 										&nbsp;
-											<c:out value="${user.getName() }" /> 
+											<c:out value="${conversation.getUser().getName() }" /> 
 										
 										</div>
 										<c:choose>
-											<c:when test="${empty user.getConversationDealy()}">
+											<c:when test="${empty conversation.getConversationDealy()}">
 												<small></small>
 											</c:when>
-											<c:when test="${user.getConversationDealy() == 0}">
+											<c:when test="${conversation.getConversationDealy() == 0}">
 												<small>today</small>
 											</c:when>
-											<c:when test="${user.getConversationDealy() != 0 && user.getConversationDealy()<=10}">
-												<small>${user.getConversationDealy()} days ago</small>
+											<c:when test="${conversation.getConversationDealy() == 1}">
+												<small>yesterday</small>
 											</c:when>
-											<c:when test="${user.getConversationDealy() > 10}">
-												<small>${user.getLastMessage().getDate()}</small>
+											<c:when test="${conversation.getConversationDealy() != 0 && conversation.getConversationDealy()<=10}">
+												<small>${conversation.getConversationDealy()} days ago</small>
+											</c:when>
+											<c:when test="${conversation.getConversationDealy() > 10}">
+												<small>${conversation.getUser().getLastMessage().getDate()}</small>
 											</c:when>
 										</c:choose>
 									</div>
+									<c:if test="${not empty conversation.getUser().getView()}">
 									<span class="badge badge-primary badge-pill float-right">new</span>
+									</c:if>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<small>${user.getLastMessage().getMsg() } </small>
+									<c:choose>
+										<c:when  test="${not empty conversation.getUser().getLastMessage().getMediaType() }">
+										
+											<c:if  test="${conversation.getUser().getLastMessage().getMediaType() == 'PICTURE' }">
+											
+												<i class="fa fa-camera" style="color:lightgray"></i> &nbsp;	photo
+											</c:if>
+											<c:if  test="${conversation.getUser().getLastMessage().getMediaType() == 'DOCUMENT' }">
+											
+												<i class="fa fa-file-pdf-o" style="color:lightgray"></i> &nbsp;  ${conversation.getUser().getLastMessage().getMediaFileName() } PDF
+										
+											</c:if>
+										</c:when>
+										
+										<c:when  test="${empty conversation.getUser().getLastMessage().getMediaType() }">
+											<small>${conversation.getUser().getLastMessage().getMsg() }</small>
+										</c:when>
+										<c:when test="${empty conversation.getUser().getLastMessage().getMsg() }">
+											no message
+										</c:when>
+										
+									</c:choose>
+									
 								</a>
+						
+								
+							</c:when>
 							
-						</c:if>
-					</c:forEach>
-
-					<c:forEach items="${groups }" var="group">
-						<c:if test="${not empty group.getView()}">
+							<c:when test="${not empty conversation.getGroup() }">
 							
-								<a href="showGroup?group_id=${group.group_id }&user_id=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
+							
+							
+							<a href="showGroup?group_id=${conversation.getGroup().group_id }&user_id=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
 									
 									<div class="d-flex w-100 justify-content-between">
 										<div class="mb-1" style="margin-top: 0.2rem;">
-										<i class="fa fa-users" style="font-size: 24px; color: light green"></i> 
+										<i class="fa fa-users" style="font-size: 35px; color: light green"></i> 
 										&nbsp;
 										
-											<c:out value="${group.getGroup_name()}" /> 
+											<c:out value="${conversation.getGroup().getGroup_name()}" /> 
 										
 										</div>
 										<c:choose>
-											<c:when test="${empty group.getConversationDealy()}">
+											<c:when test="${empty conversation.getConversationDealy()}">
 												<small> </small>
 											</c:when>
-											<c:when test="${group.getConversationDealy() == 0}">
+											<c:when test="${conversation.getConversationDealy() == 0}">
 												<small>today</small>
 											</c:when>
-											<c:when test="${group.getConversationDealy() != 0 && group.getConversationDealy()<=10}">
-												<small>${group.getConversationDealy()} days ago</small>
+											<c:when test="${conversation.getConversationDealy() != 0 && conversation.getConversationDealy()<=10}">
+												<small>${conversation.getConversationDealy()} days ago</small>
 											</c:when>
-											<c:when test="${group.getConversationDealy() > 10}">
-												<small>${group.getLastMessage().getDate()}</small>
+											<c:when test="${conversation.getConversationDealy() > 10}">
+												<small>${conversation.getGroup().getLastMessage().getDate()}</small>
 											</c:when>
 										</c:choose>
 									</div>
+									<c:if test="${not empty conversation.getGroup().getView()}">
 									<span class="badge badge-primary badge-pill float-right">new</span>
+									</c:if>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<small>${database.getUser(group.getLastMessage().getSender_id()).getName()}:  ${group.getLastMessage().getMsg() }</small>
+									
+									<c:choose>
+										
+										<c:when  test="${not empty conversation.getGroup().getLastMessage().getMediaType() }">
+										
+											<c:if  test="${conversation.getGroup().getLastMessage().getMediaType() == 'PICTURE' }">
+											
+												 ${conversation.getGroup().getLastMessage().getSender_name()}: <i class="fa fa-camera" style="color:lightgray"></i> &nbsp;	Photo
+											</c:if>
+											
+										
+											<c:if  test="${conversation.getGroup().getLastMessage().getMediaType() == 'DOCUMENT' }">
+											
+												${conversation.getGroup().getLastMessage().getSender_name()}: <i class="fa fa-file-text" style="color:lightgray"></i> &nbsp; ${group.getLastMessage().getMediaFileName() } PDF
+										
+											</c:if>
+											
+										</c:when>
+										
+										<c:when  test="${empty conversation.getGroup().getLastMessage().getMediaType() }">
+											<c:if test="${not empty conversation.getGroup().getLastMessage().getMsg() }">
+												${conversation.getGroup().getLastMessage().getSender_name()}: <small>${conversation.getGroup().getLastMessage().getMsg() }</small>
+											</c:if>
+											
+											<c:if test="${empty conversation.getGroup().getLastMessage().getMsg() }">
+												no message
+											</c:if>
+										</c:when>
+									
+									</c:choose>
+									
 								</a>
+					
 							
-						</c:if>
+							</c:when>
+						</c:choose>
+		
 					</c:forEach>
-
+<!-- 
 					<c:forEach items="${users}" var="user">
 						<c:if test="${empty user.getView()}">
 							<a href="showChat?contact_id=<c:out value="${user.getId()}"/>&user_id=<c:out value="${user_id }"/>" class="list-group-item list-group-item-action flex-column align-items-start ">
@@ -882,17 +1012,38 @@ body {
 											<c:when test="${user.getConversationDealy() > 10}">
 												<small>${user.getLastMessage().getDate()}</small>
 											</c:when>
+											
 										</c:choose>
 									
 									</div>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<c:if test="${not empty user.getLastMessage().getMsg() }">
-									<small>${user.getLastMessage().getMsg() }</small>
-									</c:if>
-									<c:if test="${empty user.getLastMessage().getMsg() }">
-									no message
-									</c:if>
+									<c:choose>
+										<c:when  test="${not empty user.getLastMessage().getMediaType() }">
+										
+											<c:if  test="${user.getLastMessage().getMediaType() == 'PICTURE' }">
+											
+												<i class="fa fa-camera" style="color:lightgray"></i> &nbsp;	Photo
+											</c:if>
+											<c:if  test="${user.getLastMessage().getMediaType() == 'DOCUMENT' }">
+											
+												<i class="fa fa-file-text" style="color:lightgray"></i> &nbsp; ${user.getLastMessage().getMediaFileName() } PDF
+										
+											</c:if>
+										</c:when>
+										
+										<c:when  test="${empty user.getLastMessage().getMediaType() }">
+											
+											<c:if test="${ not empty user.getLastMessage().getMsg() }">
+												<small>${user.getLastMessage().getMsg() }</small>
+											</c:if>
+										
+											<c:if test="${empty user.getLastMessage().getMsg() }">
+												no message
+											</c:if>
+											
+										</c:when>
 									
+									</c:choose>
 								</a>
 						</c:if>
 					</c:forEach>
@@ -924,17 +1075,40 @@ body {
 										</c:choose>
 										
 									</div>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<c:if test="${not empty group.getLastMessage().getMsg() }">
-										<small>${database.getUser(group.getLastMessage().getSender_id()).getName()}: ${group.getLastMessage().getMsg() }</small>
-									</c:if>
-									<c:if test="${empty group.getLastMessage().getMsg() }">
-										<small>no message</small>
-									</c:if>
+									
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<c:choose>
+										<c:when  test="${not empty group.getLastMessage().getMediaType() }">
+										
+											<c:if  test="${group.getLastMessage().getMediaType() == 'PICTURE' }">
+											
+												 ${group.getLastMessage().getSender_name()}: <i class="fa fa-camera" style="color:lightgray"></i> &nbsp;	Photo
+											</c:if>
+											<c:if  test="${group.getLastMessage().getMediaType() == 'DOCUMENT' }">
+											
+												${group.getLastMessage().getSender_name()}: <i class="fa fa-file-text" style="color:lightgray"></i> &nbsp; ${group.getLastMessage().getMediaFileName() } PDF
+										
+											</c:if>
+										</c:when>
+										
+										<c:when  test="${empty group.getLastMessage().getMediaType() }">
+										
+											<c:if test="${not empty group.getLastMessage().getMsg() }">
+												${group.getLastMessage().getSender_name()}: <small>${group.getLastMessage().getMsg() }</small>
+											</c:if>
+											
+											<c:if test="${empty group.getLastMessage().getMsg() }">
+												no message
+											</c:if>
+											
+										</c:when>
+										
+									</c:choose>
 									
 								</a>
 						</c:if>
 					</c:forEach>
+					-->
 					</div>
 				<!-- </ul> -->
 			
@@ -944,6 +1118,26 @@ body {
 			<!-- FROMO HERE CHAT WINDOW WILL START -->
 
 			<c:choose>
+
+
+				<c:when test="${groupobj == null && receiver == null}">
+					<div class="col-8" style="background-color: #ffffff;">
+					
+						
+							<div style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
+							
+						
+							<img width="600" align="middle" height="600" style='opacity: 0.5;filter: alpha(opacity=50);' src="data:image/jpg;base64,${admin.getPicture_str()}"> 
+							
+								<!--<img width="600" align="middle" height="600" style='opacity: 0.5;filter: alpha(opacity=50); ' 
+							src="https%3A%2F%2Fcrew.bet%2Fwp-content%2Fuploads%2F2017%2F02%2Fbet-blocks-bg-purple.png%3Fid%3D2014&imgrefurl=https%3A%2F%2Fcrew.bet%2F&docid=vlXieFs5pN2iyM&tbnid=b1rnPBZBPJ2juM%3A&vet=10ahUKEwjqteaHiPTmAhVP63MBHcrJAfwQMwiQASgdMB0..i&w=1800&h=1200&bih=722&biw=1536&q=background%20images%20for%20a%20chat%20applications&ved=0ahUKEwjqteaHiPTmAhVP63MBHcrJAfwQMwiQASgdMB0&iact=mrc&uact=8">
+							-->
+								
+					
+						</div>
+						
+					</div>
+				</c:when>
 
 				<c:when test="${ not empty groupobj}">
 					<!-- THIS IS FOR GROUP CHAT -->
@@ -962,23 +1156,81 @@ body {
 
 
 							<!--  -->
-
+							
 							<div style="text-align: left;">
+								
+								
+								<abbr class="fa fa-paperclip" id="chooseDocGroup" style="font-size: 24px; cursor: pointer;color: white" 
+								title="select pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>
+							 &nbsp; &nbsp;	
+							<sf:form 
+								action="insertMediaToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=document" 
+									modelAttribute="media" 
+										method="post" 
+											cssStyle="display:none;"
+												name = "mediaFormForDocumentGroup"
+												autocomplete="on">
+								
+							 <sf:input id="chooseDocumentGroup" type="file" path="filePath" name="sendDocument"  style="display: none;" />
+					
+							 <button type="submit" id="mediaDocumentGroup" style="display: none;"> </button>
+							
+							</sf:form>
+					
+						
+								<script>
+									var  event_media="a";
+											
+									 $("#chooseDocGroup").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#chooseDocumentGroup").trigger("click");
+									  });
+									 
+									 $("#chooseDocumentGroup").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaDocumentGroup").trigger("click");
+									  });
+									
+								</script> 
+								
+								<abbr class="fa fa-camera" id="choosePictureGroup" style="font-size: 24px; color: white ; cursor: pointer;" 
+								title="select picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr> 
+								 &nbsp; &nbsp;	
+									<sf:form action="insertMediaToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=picture" modelAttribute="media" method="post" cssStyle="display:none;">
+								
+									 <sf:input id="chooseGroup" type="file" path="filePath" name="sendPicture" style="display: none;" 
+									/>
+								
+									 <button type="submit" id="mediaPictureGroup" style="display: none;"> </button>
+									
+									</sf:form>
+						
+									<script>
 
-
-								<a href="#"> <abbr class="fa fa-paperclip"
-									style="font-size: 24px; color: black"></abbr> <input
-									id="choose" type="file" name="sendPicture"
-									style="display: none;"> <script>
-								  $("abbr").on("click", function() {
-								    $("input").trigger("click");
-								  });
-							</script>
-								</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									var  event_media="a";
+									
+									 $("#choosePictureGroup").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#chooseGroup").trigger("click");
+									  });
+									
+									 $("#chooseGroup").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaPictureGroup").trigger("click");
+									  });
+									
+									</script> 
+										
+								
+								
 								<div class="dropdown">
 									<button onclick="myFunction()" class="dropbtn">
 										<i class="fa fa-ellipsis-v"
-											style="font-size: 24px; color: black"></i>
+											style="font-size: 24px; "></i>
 									</button>
 									<div id="myDropdown" class="dropdown-content">
 										
@@ -988,7 +1240,7 @@ body {
 										<a href="#contact">Contact</a>  -->
 										<a href="refreshGroup?user_id=<c:out value="${user_id}"/>&group_id=<c:out value="${groupobj.group_id}"/>">
 											<i class="fa fa-refresh"
-											style="font-size: 18px; color: black"></i> refresh
+											style="font-size: 18px; color:black;"></i> refresh
 										</a>
 									</div>
 								</div>
@@ -1011,7 +1263,7 @@ body {
 						        openDropdown.classList.remove('show');
 						      }
 						    }
-						  }
+				 }
 						}
 						</script>
 							</div>
@@ -1027,18 +1279,65 @@ body {
 						<c:forEach items="${groupobj.getMessages()}" var="message">
 
 							<c:if test="${message.getSender_id() ne user_id }">
+							
 								<div class="row m-1 justify-content-start">
 									
 										<span class="col-md-9 my-received-message p-2 rounded">
-
+										
 											<c:forEach items="${members }" var="member">
 												<c:if test="${member.getId() eq message.getSender_id()}">
 
-													<span><c:out value="${member.getName() }" /></span>: 
-			 							${message.getMsg() }
-			 							
-			 						</c:if>
-											</c:forEach>
+													<span style="font-size: 10px; color: green;font-family:inherit;"><b><c:out value="${member.getName() }" /></b></span>
+													<br>
+													<c:choose>
+												<c:when test="${empty message.getMediaType() }">
+													${message.getMsg() }
+												</c:when>
+												
+												<c:when test="${not empty message.getMediaType() }">
+												
+													<c:if test="${message.getMediaType() == 'PICTURE' }">
+													<a href="data:image/jpg;base64,${message.getMediaPicture() }" 
+													title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+													download="${message.getMediaFileName()}.jpg">
+															<img width="200" height="200" src="data:image/jpg;base64,${message.getMediaPicture() }"
+															download="${message.getMediaFileName()}.jpg">
+														</a>
+													</c:if>
+													
+													<c:if test="${message.getMediaType() == 'DOCUMENT' }">
+														 <p>
+														 
+														 <!-- href="data:application/pdf;base64,${message.getMediaDocument() }" -->
+														<a  
+														target="_blank" onclick="OpenSesame(${message.getMediaDocument()})"
+														href="data:application/pdf;base64,${message.getMediaDocument() }"
+														title="click to download pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}.pdf" >
+														
+														<i class="far fa-file-pdf" style="font-size:48px"></i>
+														${message.getMediaFileName()}.pdf</a> 
+														 
+														 </p>
+													<script>
+														function OpenSesame(fileName) {
+														 
+														  var dataURI = "data:application/pdf;base64," +fileName;
+														  window.open(dataURI);
+														 
+														}
+													</script>
+														<!-- <object width="200" height="200" data="data:application/pdf;base64,${message.getMediaDocument() }"></object>
+													 -->
+												</c:if>
+												
+												</c:when>
+												
+												
+											</c:choose>
+												
+			 									</c:if>
+							</c:forEach>
 
 										</span>
 									
@@ -1050,12 +1349,60 @@ body {
 							<c:if test="${message.getSender_id() eq user_id }">
 								<div class="row m-1 justify-content-end">
 									
-										<span class="col-md-9 my-sender-message p-2 rounded"> <c:forEach
+										<span class="col-md-9 my-sender-message p-2 rounded"> 
+										<c:forEach
 												items="${members }" var="member">
 												<c:if test="${member.getId() eq message.getSender_id()}">
-
-													<span><c:out value="${member.getName() }" /></span>: 
-			 							${message.getMsg() }
+													<span style="font-size: 10px; color: red;font-family:inherit;"><b><c:out value="${member.getName() }" /></b></span>
+													<br>
+													
+			 									<c:choose>
+												<c:when test="${empty message.getMediaType() }">
+													${message.getMsg() }
+												</c:when>
+												
+												<c:when test="${not empty message.getMediaType() }">
+												
+													<c:if test="${message.getMediaType() == 'PICTURE' }">
+													<a href="data:image/jpg;base64,${message.getMediaPicture() }" 
+													title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+													download="${message.getMediaFileName()}.jpg">
+															<img width="200" height="200" src="data:image/jpg;base64,${message.getMediaPicture() }"
+															download="${message.getMediaFileName()}.jpg">
+														</a>
+													</c:if>
+													
+													<c:if test="${message.getMediaType() == 'DOCUMENT' }">
+														 <p>
+														 
+														 <!-- href="data:application/pdf;base64,${message.getMediaDocument() }" -->
+														<a  
+														target="_blank" onclick="OpenSesame(${message.getMediaDocument()})"
+														href="data:application/pdf;base64,${message.getMediaDocument() }"
+														title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}.pdf" >
+														
+														<i class="far fa-file-pdf" style="font-size:48px"></i>
+														${message.getMediaFileName()}.pdf</a> 
+														 
+														 </p>
+													<script>
+														function OpenSesame(fileName) {
+														 
+														  var dataURI = "data:application/pdf;base64," +fileName;
+														  window.open(dataURI);
+														 
+														}
+													</script>
+														<!-- <object width="200" height="200" data="data:application/pdf;base64,${message.getMediaDocument() }"></object>
+													 -->
+												</c:if>
+												
+												</c:when>
+												
+												
+											</c:choose>
+												
 			 								
 			 						</c:if>
 											</c:forEach>
@@ -1101,13 +1448,12 @@ body {
 				<c:when test="${ not empty receiver}">
 					<!-- THIS IS FOR ONE-TO-ONE CHAT -->
 					<div class="col-8">
-
-
 						<nav
 							class="navbar navbar-light my-bg justify-content-left align-items-center align-middle">
-							<span> <img id="myImg"
+							<span> <img id="myImg" 
 								src="data:image/jpg;base64,${receiver.getPicture_str() }" alt=""
-								class="rounded-circle my-img my-bg"> <span
+								class="rounded-circle my-img my-bg" style="cursor: pointer;"
+								title="click to view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"> <span
 								class="navbar-brand text-white"><c:out
 										value="${receiver.getName() }"></c:out></span>
 							</span>
@@ -1144,20 +1490,103 @@ body {
 
 
 							<div style="text-align: left;">
-							<!-- showMedia?user_id=${user_id }&contact_id=${receiver.getId()} -->
-								<abbr class="fa fa-paperclip" style="font-size: 24px; color: black" onclick="openFileBox()"></abbr> 
+							<!-- onclick="openFileBoxForDocument()" onchange="clickOnDocumentSumbit()"-->
+							<abbr class="fa fa-paperclip" id="chooseDoc" style="font-size: 24px; cursor: pointer;color: white" 
+							title="select pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>
+							 &nbsp; &nbsp;	
+							<sf:form 
+								action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=document" 
+									modelAttribute="media" 
+										method="post" 
+											cssStyle="display:none;"
+												name = "mediaFormForDocument"
+												autocomplete="on">
 								
+							 <sf:input id="chooseDocument" type="file" path="filePath" name="sendDocument"  style="display: none;" />
+					
+							 <button type="submit" id="mediaDocument" style="display: none;"> </button>
+							
+							</sf:form>
+					
+							<!--
+							<form 
+								action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=document" 
+								  enctype="multipart/form-data"
+									
+										method="post" 
+											style="display:none;"
+												autocomplete="on">
+								
+							 <input id="chooseDocument" type="file" name="filePath" style="display: none;" >
+						
+							 <button type="submit" id="mediaDocument" style="display: none;"> </button>
+							
+							</form>
+							-->
+								<script>
+									var  event_media="a";
+											
+									 $("#chooseDoc").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#chooseDocument").trigger("click");
+									  });
+									 
+									 $("#chooseDocument").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaDocument").trigger("click");
+									  });
+									 
+									 
+									/*
+								  		function openFileBoxForDocument(){
+								  			if(event_media=="a"){
+								  				
+								  			 $("#chooseDocument").trigger("click");
+								  			event_media = "b";
+								  			
+								  			}
+								  			 
+								  		}
+								  		
+								  		function clickOnDocumentSumbit(){
+								  			$("#mediaDocument").trigger("click");
+								  		}
+								*/
+								</script> 
+							
+							<!-- onclick="openFileBox()" onchange="clickOnSumbit()"-->
+							<!-- showMedia?user_id=${user_id }&contact_id=${receiver.getId()} -->
+								<abbr class="fa fa-camera" id="choosePicture" style="font-size: 24px; color: white ; cursor: pointer;" 
+								title="select picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr> 
+								 &nbsp; &nbsp;	
 									<sf:form action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=picture" modelAttribute="media" method="post" cssStyle="display:none;">
 								
-									 <sf:input id="choose" type="file" path="filePath" name="sendPicture" style="display: none;" onchange="clickOnSumbit()"/>
+									 <sf:input id="choose" type="file" path="filePath" name="sendPicture" style="display: none;" 
+									/>
 								
 									 <button type="submit" id="mediaPicture" style="display: none;"> </button>
 									
 									</sf:form>
 						
 									<script>
+
 									var  event_media="a";
-			
+									
+									 $("#choosePicture").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#choose").trigger("click");
+									  });
+									
+									 $("#choose").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaPicture").trigger("click");
+									  });
+									 
+									 /*
 								  		function openFileBox(){
 								  			if(event_media=="a"){
 								  				
@@ -1169,14 +1598,16 @@ body {
 								  		}
 								  		
 								  		function clickOnSumbit(){
+								  			
 								  			$("#mediaPicture").trigger("click");
 								  		}
-								
+								*/
 										</script> 
+										
 								<div class="dropdown">
 									<button onclick="myFunction()" class="dropbtn">
 										<i class="fa fa-ellipsis-v"
-											style="font-size: 24px; color: black"></i>
+											style="font-size: 24px; "></i>
 									</button>
 									<div id="myDropdown" class="dropdown-content">
 										<a href="showReceiver?user_id=${user_id }&contact_id=${receiver.getId()}">profile</a>
@@ -1228,7 +1659,53 @@ body {
 								<div class="row m-1 justify-content-start">
 									
 										<span class="col-md-9 my-received-message p-2 rounded">
-											${message.getMsg() } </span>
+											
+											<c:choose>
+												<c:when test="${empty message.getMediaType() }">
+													${message.getMsg() }
+												</c:when>
+												
+												<c:when test="${not empty message.getMediaType() }">
+												
+													<c:if test="${message.getMediaType() == 'PICTURE' }">
+													<a href="data:image/jpg;base64,${message.getMediaPicture() }"
+													title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+													download="${message.getMediaFileName()}.jpg">
+														<img width="200" height="200" src="data:image/jpg;base64,${message.getMediaPicture() }" 
+														download="${message.getMediaFileName()}.jpg">
+														</a>	
+													</c:if>
+													
+													<c:if test="${message.getMediaType() == 'DOCUMENT' }">
+														<p>
+														<a  
+														target="_blank" onclick="OpenSesame(${message.getMediaDocument()})"
+														href="data:application/pdf;base64,${message.getMediaDocument() }"
+														title="click to download pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}.pdf" >
+														
+														<i class="far fa-file-pdf" style="font-size:48px;"></i>
+														${message.getMediaFileName()}.pdf</a> 
+														</p>
+												<!-- 
+													<script>
+														function OpenSesame(fileName) {
+														 
+														  var dataURI = "data:application/pdf;base64," +fileName;
+														  window.open(dataURI);
+														 
+														}
+													</script>
+													 -->
+													</c:if>
+												
+												</c:when>
+												
+												
+											</c:choose>
+											
+											
+											</span>
 									
 									<span class="time-right" style="font-size: 10px;"><c:out
 											value="${message.getTime()}" /></span>
@@ -1239,7 +1716,55 @@ body {
 								<div class="row m-1 justify-content-end">
 									
 										<span class="col-md-9 my-sender-message p-2 rounded">
-											${message.getMsg() } </span>
+											<c:choose>
+												<c:when test="${empty message.getMediaType() }">
+													${message.getMsg() }
+												</c:when>
+												
+												<c:when test="${not empty message.getMediaType() }">
+												
+													<c:if test="${message.getMediaType() == 'PICTURE' }">
+													<a href="data:image/jpg;base64,${message.getMediaPicture() }" 
+													title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+													download="${message.getMediaFileName()}.jpg">
+															<img width="200" height="200" src="data:image/jpg;base64,${message.getMediaPicture() }" 
+															download="${message.getMediaFileName()}.jpg">
+														</a>
+													</c:if>
+													
+													<c:if test="${message.getMediaType() == 'DOCUMENT' }">
+														 <p>
+														 
+														 <!-- href="data:application/pdf;base64,${message.getMediaDocument() }" -->
+														<a  
+														target="_blank" onclick="OpenSesame(${message.getMediaDocument()})"
+														href="data:application/pdf;base64,${message.getMediaDocument() }"
+														title="click to download pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}.pdf" >
+														
+														<i class="far fa-file-pdf" style="font-size:48px"></i>
+														${message.getMediaFileName()}.pdf</a> 
+														 
+														 </p>
+													<script>
+														function OpenSesame(fileName) {
+														 
+														  var dataURI = "data:application/pdf;base64," +fileName;
+														  window.open(dataURI);
+														 
+														}
+													</script>
+														<!-- <object width="200" height="200" data="data:application/pdf;base64,${message.getMediaDocument() }"></object>
+													 -->
+												</c:if>
+												
+												</c:when>
+												
+												
+											</c:choose>
+											
+											
+										</span>
 									
 									<span class="time-left" style="font-size: 10px;"><c:out
 											value="${message.getTime()}" /></span>
@@ -1298,19 +1823,27 @@ body {
 				<h1>Status Of Your Friends</h1>
 				<hr>
 
-				<abbr class="fa fa-plus-circle"
-					style="font-size: 30px; color: #14FF7A; cursor: pointer;"><span>My
+				<abbr class="fa fa-plus-circle" id="clickOnNewStatus"
+					style="font-size: 30px; color: #14FF7A; cursor: pointer;" ><span title="click to add status update" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">My
 						status</span></abbr>
+					
 				<p>Click to add status update</p>
-				<sf:input id="choose" type="file" path="statusPicture"
+				<sf:input id="chooseStatus" type="file" path="statusPicture"
 					name="sendPicture" style="display: none;" />
-				<script>
-			  $("abbr").on("click", function() {
-			    $("input").trigger("click");
-			  });
-		</script>
-				<input type="submit" value="addStatus" style="display: none;"></input>
+				
+				<input type="submit" id="submitStatus" value="addStatus" style="display: none;"></input>
 
+					
+				<script>
+					  $("#clickOnNewStatus").on("click", function(e) {
+						  e.preventDefault();
+					    $("#chooseStatus").trigger("click");
+					  });
+					  $("#chooseStatus").on("change", function(e) {
+						  e.preventDefault();
+					    $("#submitStatus").trigger("click");
+					  });
+				</script>
 
 				<!-- -------------------------------------------------------- -->
 

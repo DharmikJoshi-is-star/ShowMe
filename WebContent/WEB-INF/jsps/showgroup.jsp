@@ -8,7 +8,13 @@
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		
+	<!-- START FOR TOOL TIP -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- END FOR TOOL TIP -->
+<!-- FOR NAV BAR ICON -->
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <!--  
 <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -21,6 +27,12 @@
                 $(document).scrollTop($(document).height()); 
             }); 
         }); 
+        
+        /*START FOR TOOL TIP*/
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();   
+        });
+        /*END FOR TOOL TIP*/
  </script> 
 <style>
 
@@ -100,7 +112,10 @@ img {
   border-radius: 50%;
 }
 */
-
+/*START FOR TOOL TIP*/
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #1ebea5;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#1ebea5; }
+/*END FOR TOOL TIP*/
 .my-margin{
 	margin-top: 6rem;
 }
@@ -243,22 +258,22 @@ Group Members :
 </c:forEach> 
 <BR><BR>
  -->
+ 
 <header class="container my-bg my-height-nav">
 			
 <div class="topnav">
 
   <!-- Centered link -->
   <div class="topnav-centered">
-    <font size="6"><a href="#home" class="active"><b>Group Information</b></a></font>
+    <font size="6"><a href="#GroupInformation" class="active"><b>Group Information</b></a></font>
   </div>
   
   <a class="nav-link text-light my-center" 
-	href="showGroup?group_id=<c:out value="${group.group_id}"/> &user_id=<c:out value="${user_id}"/>" style="text-align: left;">
-	<< GoHome
+	href="showGroup?group_id=<c:out value="${group.group_id}"/>&user_id=<c:out value="${user_id}"/>" style="text-align: left;"
+	title="home" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+	<i class="fa fa-home" style='font-size:48px;color:white'></i>
 	</a>
 
-
- 
 </div>
 		
 </header>

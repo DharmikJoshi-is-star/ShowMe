@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.whatsapp.beans.AddContact;
+import com.whatsapp.beans.Comment;
+import com.whatsapp.beans.Conversation;
 import com.whatsapp.beans.Group;
 import com.whatsapp.beans.GroupMessage;
 import com.whatsapp.beans.Login;
@@ -73,6 +75,9 @@ public class UserController {
 	
 	@Autowired
 	Media media;
+	
+	@Autowired
+	Comment comment;
 	
 	/*
 	 * This mapping parameter is the starting page for the website 
@@ -250,6 +255,84 @@ public class UserController {
 			users = dbm.checkViewUsers(users, user_id);
 			groups = dbg.checkViewGroups(groups, user_id);
 			
+			List<Conversation> conversationList = new ArrayList<>();
+			
+			for (User user : users) {
+				Conversation conversation = new Conversation();
+				conversation.setUser(user);
+				
+				if(user.getLastMessage()==null) 
+					user.setConversationDealy(new Long("9999999999"));
+				
+				conversation.setConversationDealy(user.getConversationDealy());
+				
+				conversation.setGroup(null);
+				
+				conversationList.add(conversation);
+			}
+			
+			for (Group group : groups) {
+				
+				Conversation conversation = new Conversation();
+				conversation.setUser(null);
+				
+				if(group.getLastMessage()==null) 
+					group.setConversationDealy(new Long("9999999999"));
+				
+				conversation.setConversationDealy(group.getConversationDealy());
+				
+				conversation.setGroup(group);
+				
+				conversationList.add(conversation);
+			
+			}
+			
+			conversationList = conversationList.stream()
+					  .sorted(Comparator.comparing(Conversation::getConversationDealy))
+					  .collect(Collectors.toList());
+			
+			System.out.println("------------------------------------------------------------");
+			for (Conversation conversation1 : conversationList) {
+				System.out.println("conversation1.getUser() "+conversation1.getUser());
+				System.out.println("conversation1.getGroup() "+conversation1.getGroup());
+				System.out.println("conversation1.getConversationDealy() "+conversation1.getConversationDealy());
+			}
+			System.out.println("------------------------------------------------------------");
+			/*
+			 * List<User> userList = users.stream()
+			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
+			 * .collect(Collectors.toList());
+			 * 
+			 * users = userList.stream()
+			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
+			 * .collect(Collectors.toList());
+			 */
+			
+			/*
+			 * for (User user : users) if(user.getLastMessage()==null)
+			 * user.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * users = users.stream()
+			 * .sorted(Comparator.comparing(User::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 * 
+			 * for (Group g : groups) if(g.getLastMessage()==null)
+			 * g.setConversationDealy(new Long("9999999999"));
+			 * 
+			 * groups = groups.stream()
+			 * .sorted(Comparator.comparing(Group::getConversationDealy))
+			 * .collect(Collectors.toList());
+			 * 
+			 * System.out.println("##################################################"); for
+			 * (Group group : groups) { if(group.getLastMessage()!=null) {
+			 * System.out.println("group.getLastMessage().getMediaType() "+group.
+			 * getLastMessage().getMediaType());
+			 * System.out.println("group.getLastMessage().getMsg() "+group.getLastMessage().
+			 * getMsg()); } }
+			 * System.out.println("##################################################");
+			 */
+			
+			model.addAttribute("conversationList", conversationList);
 			model.addAttribute("user_id", user_id);
 			model.addAttribute("contacts", contacts);
 			model.addAttribute("groups", groups);
@@ -360,6 +443,8 @@ public class UserController {
 			List<Post> sortedPosts = posList.stream()
 					  .sorted(Comparator.comparing(Post::getDate).reversed())
 					  .collect(Collectors.toList());
+			
+			
 			/*
 			for (Post post : sortedPosts) {
 				
@@ -407,5 +492,33 @@ public class UserController {
 		return "redirect:social?user_id="+user_id;
 	}
 	
+	@RequestMapping("/addComment")
+	public String addComment(Model model, 
+							@RequestParam("user_id") Integer user_id, 
+							@RequestParam("post_id") Integer post_id,
+							HttpServletRequest request) {
+		
+		if(!request.getParameter("commentOnPost").isEmpty()) {
+		
+			comment.setComment(request.getParameter("commentOnPost"));
+			comment.setUser_id(user_id);
+			comment.setPost_id(post_id);
+			long millis=System.currentTimeMillis();  
+	        Date date=new Date(millis);
+	        Time time = new Time(millis);
+			comment.setDate(date);
+			comment.setTime(time);
+			
+			try {
+				db.insertComment(comment);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		model.addAttribute("postId", post_id);
+		return "redirect:social?user_id="+user_id;
+	}
 }
 

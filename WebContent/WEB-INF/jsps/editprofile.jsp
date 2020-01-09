@@ -32,7 +32,7 @@ color: gray;
 </head>
 <body>
 
-	<div class="container my-margin">
+	<div class="container">
 		<h1 style="text-align:center;" class="header-text">Edit Profile</h1>
 		<sf:form method="post" action="process-editprofile-form?image=${image}" modelAttribute="user">
 			<div class="form-row">

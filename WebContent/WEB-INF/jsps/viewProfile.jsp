@@ -16,7 +16,27 @@
 	href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- START FOR TOOL TIP -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- END FOR TOOL TIP -->
+
+<script type="text/javascript">
+/*START FOR TOOL TIP*/
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+/*END FOR TOOL TIP*/
+</script>
+
 <style>
+
+
+/*START FOR TOOL TIP*/
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #1ebea5;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#1ebea5; }
+/*END FOR TOOL TIP*/
 .input-file-container {
 	position: relative;
 	width: 225px;
@@ -391,6 +411,90 @@ supports (display: grid ) { .profile { display:grid;
 	}
 }
 }
+
+
+.my-margin{
+	margin-top: 6rem;
+}
+.my-width{
+	width:70%;
+}
+.my-bg{
+	
+}
+.my-text{
+	color: #1ebea5;
+}
+body{
+	padding: 2rem 0rem;
+}
+.image-parent {
+	max-width: 40px;
+}
+.my-height-nav {
+	height: 4rem;
+	margin-top: -1.5rem;
+}
+.my-center{
+	text-align: center;
+	vertical-align: middle;
+	line-height: 3rem;  
+}
+
+
+
+.topnav {
+  position: relative;
+  overflow: hidden;
+  background-color: #1ebea5;
+}
+
+.topnav a {
+  float: left;
+ /*color: #f2f2f2;*/
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.topnav a:hover {
+  background-color: #1ebea5;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #1ebea5;
+  color: white;
+}
+
+.topnav-centered a {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+  
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -429,12 +533,27 @@ supports (display: grid ) { .profile { display:grid;
 <a href="showHome?user_id=<c:out value="${user.getId()}"/>">Go Home</a>
 
 -->
-	<header>
+<header class="container my-bg my-height-nav">
+			
+<div class="topnav">
+
+  <!-- Centered link -->
+  <div class="topnav-centered">
+    <font size="6"><a href="#ProfileInformation" class="active"><b>Profile Information</b></a></font>
+  </div>
+  
+  <a class="nav-link text-light my-center" 
+	href="javascript:history.go(-1)" style="text-align: left;"
+	title="home" data-toggle="tooltip" class="color-tooltip">
+	<i class="fa fa-home" style='font-size:48px;color:white'></i>
+	</a>
+
+</div>
+		
+</header>
 
 		<div class="container">
-			<a href="javascript:history.go(-1)">Back</a>
-
-			<div class="profile">
+		<div class="profile">
 
 				<div class="profile-image">
 
@@ -504,7 +623,6 @@ supports (display: grid ) { .profile { display:grid;
 		</div>
 		<!-- End of container -->
 
-	</header>
 
 	<div class="container">
 
