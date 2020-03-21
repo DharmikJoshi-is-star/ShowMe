@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -59,10 +60,11 @@ public class User {
 	
 	private Long conversationDealy;
 
+	private List<Integer> userInterest = new ArrayList<Integer>(10);
 	
 	public Date getLastMessageDate() {
 		return lastMessageDate;
-	}
+	} 
 
 	public void setLastMessageDate(Date lastMessageDate) {
 		this.lastMessageDate = lastMessageDate;
@@ -192,6 +194,14 @@ public class User {
 
 	public void setStatus(List<Status> status) {
 		this.status = status;
+	}
+
+	public List<Integer> getUserInterest() {
+		return userInterest;
+	}
+
+	public void setUserInterest(List<Integer> userInterest) {
+		this.userInterest = userInterest;
 	}
 
 	

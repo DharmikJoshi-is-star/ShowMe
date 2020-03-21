@@ -16,12 +16,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- END FOR TOOL TIP -->
+<script
+			src="https://kit.fontawesome.com/81c2c05f29.js"
+			crossorigin="anonymous"
+		></script>
 
 <script type="text/javascript">
 /*START FOR TOOL TIP*/
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();   
 });
+
+
 /*END FOR TOOL TIP*/
 </script>
 
@@ -135,6 +141,80 @@ body{
     transform: none;
   }
 }
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+}
+/* body {
+	background: #1ebea5;
+	font-size: 14px;
+	position: relative;
+	font-family: 'Roboto', sans-serif;
+} */
+.navigation {
+	position: fixed;
+	left: -70px;
+	top: 0;
+	bottom: 0;
+	background: #f6f4f3;
+	border-right: 1px solid #1ebea5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition: 0.2s ease-in-out left;
+	box-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.open {
+	left: 0;
+}
+.nav-list {
+	text-align: center;
+	list-style: none;
+}
+.nav-item {
+	padding: 16px 10px;
+	transition: 0.1s ease-in-out transform;
+}
+.link {
+	color: #fff;
+	text-decoration: none;
+}
+.icon-nav {
+	font-size: 40px;/* 1.5em; */
+	margin-bottom: 5px;
+	color: #1ebea5;
+	text-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.label {
+	font-size: 10px;/* 0.6em; */
+	font-weight: 300;
+	opacity: 0;
+	transition: 0.2s ease-in-out opacity;
+	color: black;
+}
+.nav-item:hover {
+	transform: scale(1.2);
+	transform-origin: center center;
+}
+.nav-item:hover .label {
+	opacity: 1;
+}
+.trigger {
+	position: absolute;
+	top: 20px;
+	left: 90px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	color: #fff;
+	transition: 0.15s ease-in-out transform;
+}
+.rotate-trigger {
+	transform: rotate(180deg);
+}
+
 </style>
 </head>
 <body>
@@ -157,8 +237,72 @@ body{
 		
 </header>
 
+<c:set var="user_id" value="${userId }"></c:set>
+
+<div class="navigation open">
+			<div class="trigger"><i class="fas fa-chevron-left trigger-icon icon-nav"></i></div>
+
+			<ul class="nav-list">
+				<!-- Home link -->
+				<li class="nav-item">
+					<a href="showHome?user_id=${user_id }" class="link">
+						<i class="fas fa-home icon-nav"></i>
+						</br>
+						<span class="label">Home</span>
+					</a>
+				</li>
+				<!-- About link -->
+				<li class="nav-item">
+					<a href="viewProfile?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-circle icon-nav"></i>
+						</br>
+						<span class="label">Profile</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="show-group-form?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fas fa-group icon-nav"></i>
+						</br>
+						<span class="label">New group</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="viewAllPosts?user_id=${user_id}&prev=${0}&next=${1}&postId=#" class="link">
+						<i class="fa fa-id-badge icon-nav"></i>
+						</br>
+						<span class="label">Posts</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="checkRequest?userId=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-plus icon-nav"></i>
+						</br>
+						<span class="label">Friend Request</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="#" onclick="document.getElementById('statusId').style.display='block'" class="link">
+						<i class="fa fa-eye icon-nav"></i>
+						</br>
+						<span class="label">Status</span>
+					</a>
+				</li>
+					
+				<li class="nav-item">
+					<a href="<c:url value="/logout"/>" class="link">
+						<i class="fas fa-sign-out-alt fa-rotate-180 icon-nav"></i>
+						</br>
+						<span class="label">Logout</span>
+					</a>
+				</li>
+			</ul>
+</div>
+
 <div class="container my-margin">
-	<c:forEach items="${users }" var="user">
+
+	<H1>LIST OF RECOMMENDED USERS</H1>
+
+	<c:forEach items="${recommendUser }" var="user">
 	
 	<c:set value="0" var="loop"/>
 	
@@ -185,8 +329,8 @@ body{
 										title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
 										<c:out value="${user.name }"/></a></h5>
 										
-										<h6 class="card-subtitle mb-2 text-muted">Works At</h6>
-										<p class="card-text">Bio, if provided!</p>
+										<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() }</h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
 										<div class="card-link row">
 											<a href="addFromFindFriend?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Accept Request</a>
 											<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
@@ -222,8 +366,122 @@ body{
 										title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
 										<c:out value="${user.name }"/></a></h5>
 										
-										<h6 class="card-subtitle mb-2 text-muted">Works At</h6>
-										<p class="card-text">Bio, if provided!</p>
+										<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() }</h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
+										<div class="card-link row">
+											<a href="deleteRequest?userId=${userId}&requestId=${user.id}" class="card-link col col-md-4">Delete Request</a>
+											<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
+										</div>
+									</div>
+								
+								</div>
+							</div>
+						</div>
+			</c:if>
+		</c:if>
+	</c:forEach>
+	
+	<c:if test="${loop eq 0 }">
+	
+	<div class="card my-card">
+			<div class="card-body">
+				<div class="row">
+				
+					<div class="col-xs-3">
+						<a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=accept">
+						<img src="data:image/jpg;base64,${user.picture_str}" alt="" class="my-img rounded mx-auto d-block ml-md-3">
+						</a>
+					</div>
+					<div class="col">
+						
+						<h5 class="card-title"><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=request"
+						title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"><c:out value="${user.name }"/></a></h5>
+						
+						<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() } </h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
+						<div class="card-link row">
+							<a href="sentRequest?userId=${userId}&requestId=${user.id}" class="card-link col col-md-4">Sent Request</a>
+							<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
+						</div>
+					</div>
+				
+				</div>
+			</div>
+	</div>
+	
+	</c:if>
+	
+	</c:forEach>
+
+
+	<H1>LIST OF USERS</H1>
+	
+	<c:forEach items="${users }" var="user">
+	
+	<c:set value="0" var="loop"/>
+	
+	<c:forEach items="${requestedUsers }" var="requested">
+
+			<c:if test="${user.getId() eq requested.request_by}">
+				
+				<c:if test="${loop eq 0 }">
+				
+				<c:set value="1" var="loop"/>
+					
+						<div class="card my-card">
+							<div class="card-body">
+								<div class="row">
+								
+									<div class="col-xs-3">
+										<a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=accept">
+										<img src="data:image/jpg;base64,${user.picture_str}" alt="" class="my-img rounded mx-auto d-block ml-md-3">
+										</a>
+									</div>
+									<div class="col">
+										
+										<h5 class="card-title"><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=accept" 
+										title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+										<c:out value="${user.name }"/></a></h5>
+										
+										<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() }</h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
+										<div class="card-link row">
+											<a href="addFromFindFriend?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Accept Request</a>
+											<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
+										</div>
+									</div>
+								
+								</div>
+							</div>
+						</div>
+				</c:if>
+			</c:if>
+			
+	</c:forEach>
+
+	<c:forEach items="${alreadyRequestedUsers }" var="alreadyRequestedUser">
+		
+		<c:if test="${loop eq 0 }">
+			<c:if test="${user.getId() eq  alreadyRequestedUser.getRequest_to()}">
+				<c:set value="1" var="loop"/>
+						
+						<div class="card my-card">
+							<div class="card-body">
+								<div class="row">
+								
+									<div class="col-xs-3">
+										<a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=accept">
+										<img src="data:image/jpg;base64,${user.picture_str}" alt="" class="my-img rounded mx-auto d-block ml-md-3">
+										</a>
+									</div>
+									<div class="col">
+										
+										<h5 class="card-title"><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=delete"
+										title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+										<c:out value="${user.name }"/></a></h5>
+										
+										<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() }</h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
 										<div class="card-link row">
 											<a href="deleteRequest?userId=${userId}&requestId=${user.id}" class="card-link col col-md-4">Delete Request</a>
 											<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
@@ -253,8 +511,8 @@ body{
 						<h5 class="card-title"><a href="showFindFriendProfile?user_id=${userId}&f_id=${user.id}&type=request"
 						title="view profile" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"><c:out value="${user.name }"/></a></h5>
 						
-						<h6 class="card-subtitle mb-2 text-muted">Works At</h6>
-						<p class="card-text">Bio, if provided!</p>
+						<h6 class="card-subtitle mb-2 text-muted">Friends: ${user.getContacts().size() }</h6>
+										<p class="card-text">Posts: ${user.getPosts().size() }</p>
 						<div class="card-link row">
 							<a href="sentRequest?userId=${userId}&requestId=${user.id}" class="card-link col col-md-4">Sent Request</a>
 							<!-- <a href="rejectRequest?userId=${userId}&contactId=${user.id}" class="card-link col col-md-4">Delete Request</a> -->
@@ -273,6 +531,20 @@ body{
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+//for vertical-nav
+const trigger = document.querySelector('.trigger');
+const nav = document.querySelector('.navigation');
+
+const toggleClass = (element, className) => element.classList.toggle(className);
+
+trigger.addEventListener('click', () => {
+	toggleClass(nav, 'open');
+	toggleClass(trigger, 'rotate-trigger');
+});
+</script>
 
 </body>
 </html>

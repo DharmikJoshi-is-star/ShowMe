@@ -240,6 +240,7 @@ public class DBGroup {
 					m.setMediaFileName(media.getFileName());
 					m.setMediaDocument(media.getDocument());
 					m.setMediaPicture(media.getPicture());
+					m.setMediaVideo(media.getVideo());
 					
 					groupMessage.add(m);
 				}
@@ -439,6 +440,7 @@ public class DBGroup {
 						m.setMediaFileName(media.getFileName());
 						m.setMediaDocument(media.getDocument());
 						m.setMediaPicture(media.getPicture());
+						m.setMediaVideo(media.getVideo());
 						
 						List<GroupMessage> list = new ArrayList<GroupMessage>();
 						list.add(gmsg);
@@ -628,6 +630,8 @@ public class DBGroup {
 		
 		            media.setPicture(base64Image);
 		            media.setDocument(null);
+
+		            media.setVideo(null);
 					
 				}else if(media.getType().equals(MediaTypeEnum.DOCUMENT.toString())){
 					
@@ -654,7 +658,41 @@ public class DBGroup {
 		            media.setDocument(base64Image);
 					
 		            media.setPicture(null);
+		            
+		            media.setVideo(null);
+		            
+				}else if(media.getType().equals(MediaTypeEnum.VIDEO.toString())){
+					
+					/*byte[] fileBytes = rst.getBytes("document");
+		            OutputStream targetFile=  new FileOutputStream("document.pdf");
+		            targetFile.write(fileBytes);
+		            targetFile.close();
+					*/
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		
+
+		            media.setDocument(null);
+					
+		            media.setPicture(null);
+		            
+		            media.setVideo(base64Image);
 				}
+				
+				
 			
 				media.setDescription(rst.getString("description"));
 				media.setDate(rst.getDate("date"));
@@ -704,6 +742,8 @@ public class DBGroup {
 		
 		            media.setPicture(base64Image);
 		            media.setDocument(null);
+		            media.setVideo(null);
+		            
 					
 				}else if(media.getType().equals(MediaTypeEnum.DOCUMENT.toString())){
 					
@@ -730,7 +770,38 @@ public class DBGroup {
 		            media.setDocument(base64Image);
 					
 		            media.setPicture(null);
+		            
+		            media.setVideo(null);
+		            
+				
+				}else if(media.getType().equals(MediaTypeEnum.VIDEO.toString())){
+					
+					/*byte[] fileBytes = rst.getBytes("document");
+		            OutputStream targetFile=  new FileOutputStream("document.pdf");
+		            targetFile.write(fileBytes);
+		            targetFile.close();
+					*/
+					
+					Blob blob = rst.getBlob("document");
+		            
+		            InputStream inputStream = blob.getBinaryStream();
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[4096];
+		            int bytesRead = -1;
+		             
+		            while ((bytesRead = inputStream.read(buffer)) != -1) {
+		                outputStream.write(buffer, 0, bytesRead);                  
+		            }
+		             
+		            byte[] imageBytes = outputStream.toByteArray();
+		            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+		
+		            media.setVideo(base64Image);
+		            media.setDocument(null);
+					
+		            media.setPicture(null);
 				}
+				
 			
 				media.setDescription(rst.getString("description"));
 				media.setDate(rst.getDate("date"));

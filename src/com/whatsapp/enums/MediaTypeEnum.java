@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public enum MediaTypeEnum {
 
 	PICTURE,
-	DOCUMENT;
+	DOCUMENT,
+	VIDEO;
 	
 }

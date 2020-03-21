@@ -1,39 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Chat Application</title>
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css' />
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- START FOR TOOL TIP -->
+	
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- END FOR TOOL TIP -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
 <script
 			src="https://kit.fontawesome.com/81c2c05f29.js"
 			crossorigin="anonymous"
 		></script>
+
 
 <script type="text/javascript">
 /*START FOR TOOL TIP*/
@@ -41,6 +41,8 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();   
 });
 /*END FOR TOOL TIP*/
+ 
+
 </script>
 
 <style>
@@ -377,8 +379,7 @@ The following code will only run if your browser supports CSS grid.
 Remove or comment-out the code block below to see how the browser will fall-back to flexbox & floated styling. 
 
 */
-@
-supports (display: grid ) { .profile { display:grid;
+@supports (display: grid ) { .profile { display:grid;
 	grid-template-columns: 1fr 2fr;
 	grid-template-rows: repeat(3, auto);
 	grid-column-gap: 3rem;
@@ -509,6 +510,8 @@ body{
 
 
 /*POST-UPLOAD*/
+
+/*POST-UPLOAD*/
 .pindicator {
   background-color: pindicator;
   display: flex;
@@ -589,19 +592,80 @@ body{
 }
 
 /*POST_UPLOAD*/
+/*POST_UPLOAD*/
+
+/*just bg and body style*/
+/*just bg and body style*/
+/* .container{
+background-color:#fafafa;
+padding-bottom:20px;
+margin-top:10px;
+border-radius:5px;
+} */
+.center{
+text-align:center;  
+}
+#top{
+margin-top:20px;  
+}
+.btn-container{
+background:#1E2832;
+border-radius:5px;
+padding-bottom:20px;
+margin-bottom:20px;
+}
+.white{
+color:1E2832;
+}
+.imgupload{
+color:#fafafa;
+padding-top:40px;
+font-size:7em;
+}
+#namefile{
+color:#ffffff;
+}
+h4>strong{
+color:#ff3f3f
+}
+.btn-primary{
+border-color: #ff3f3f !important;
+color: #ffffff;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+background-color: #ff3f3f !important;
+border-color: #ff3f3f !important;
+}
+
+/*these two are set to not display at start*/
+.imgupload.ok{
+display:none;
+color:green;
+}
+.imgupload.stop{
+display:none;
+color:red;
+}
 
 
-/*For modal design*/
+/*this sets the actual file input to overlay our button*/ 
+#fileup{
+opacity: 0;
+-moz-opacity: 0;
+filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+width:200px;
+cursor: pointer;
+position:absolute;
+left: 50%;
+transform: translateX(-50%);
+bottom: 40px;
+height: 50px;
+}
 
-/*for modal style*/
-
-
-/**/
-
-
-
-/**/
-
+/*switch between input and not active input*/
+#submitbtn{
+  padding:5px 50px;
+  
+}
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 * {
@@ -643,13 +707,13 @@ body{
 	text-decoration: none;
 }
 .icon-nav {
-	font-size: 40px;/*1.5em;*/
+	font-size: 40px;/* 1.5em; */
 	margin-bottom: 5px;
 	color: #1ebea5;
 	text-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
 }
 .label {
-	font-size: 10px;/* 0.6em;*/
+	font-size: 10px;/* 0.6em; */
 	font-weight: 300;
 	opacity: 0;
 	transition: 0.2s ease-in-out opacity;
@@ -676,50 +740,12 @@ body{
 	transform: rotate(180deg);
 }
 
-/**/
-
-
-/**/
-
 
 </style>
+
 </head>
 <body>
-	<!-- 
-<h1>Profile</h1>
-	<BR>
-	<img src="data:image/jpg;base64,${user.getPicture_str()}" width="200" height="200" /><BR>
-	Name: <c:out value="${user.getName() }"/><BR>
-	Email: <c:out value="${user.getEmail() }"/><BR>
-	Contact: <c:out value="${user.getContact() }"/><BR>
-	Password: <c:out value="${user.getPassword() }"/><BR>
-	<HR>
-	<H3>Your Posts:</H3>
-	<BR>
-	
-	<c:forEach items="${user.getPosts() }" var="posts">
-		<img src="data:image/jpg;base64,${posts.getPost()}" width="200" height="200" />
-		<BR>
-		<h4>Caption: <c:out value="${posts.caption }"/></h4>
-	</c:forEach>
-	<BR>
-	<HR>
-	<BR>
-	
-	<sf:form method="post" action="addPost?user_id=${user.getId()}" modelAttribute="newPost" >
-		<sf:input type="file" path="post" />
-		<sf:input type="text" path="caption" />
-		<input type="submit" value="add">
-	</sf:form>
-	
-<HR>	
-<BR>
-<BR>
-<a href="show-editprofile-form?user_id=<c:out value="${user.getId()}"/>">Edit</a>
-<BR>	
-<a href="showHome?user_id=<c:out value="${user.getId()}"/>">Go Home</a>
 
--->
 <header class="container my-bg my-height-nav">
 			
 <div class="topnav">
@@ -739,8 +765,7 @@ body{
 		
 </header>
 
-<!-- -->
-
+<c:set var="user_id" value="${user.getId() }"></c:set>
 
 <div class="navigation open">
 			<div class="trigger"><i class="fas fa-chevron-left trigger-icon icon-nav"></i></div>
@@ -801,8 +826,6 @@ body{
 			</ul>
 </div>
 
-
-
 <div class="container">
 		<div class="profile">
 
@@ -816,17 +839,15 @@ body{
 				<div class="profile-user-settings">
 
 					<h1 class="profile-user-name">${user.getName()}</h1>
-					<br>
-					<a href="show-editprofile-form?user_id=<c:out value="${user.getId()}"/>">
+
+					<a
+						href="show-editprofile-form?user_id=<c:out value="${user.getId()}"/>">
 						<button class="btn profile-edit-btn">Edit Profile</button>
 					</a>
-					<a href="showProfileInterest?user_id=<c:out value="${user.getId()}"/>">
-						<button class="btn profile-edit-btn">Interest</button>
-					</a>					
-					<!-- <button class="btn profile-settings-btn"
+					<button class="btn profile-settings-btn"
 						aria-label="profile settings">
 						<i class="fas fa-cog" aria-hidden="true"></i>
-					</button> -->
+					</button>
 
 				</div>
 
@@ -837,7 +858,7 @@ body{
 									value="${user.getPosts().size() }" /> </span> posts</li>
 						<li><span class="profile-stat-count"><c:out
 									value="${user.getContacts().size() }" /> </span> friends</li>
-						<!-- <li><span class="profile-stat-count">206</span> following</li> -->
+						<li><span class="profile-stat-count">206</span> following</li>
 					</ul>
 
 				</div>
@@ -845,35 +866,20 @@ body{
 				<div class="profile-bio">
 
 					<p>
-						Username: <span class="profile-real-name">${user.getEmail()}</span>
+						<span class="profile-real-name">${user.getEmail()}</span> 📷✈️🏕️
 					</p>
-					<%--  <sf:form class="md-form" method="post"
-						action="addPost?user_id=${user.getId()}" modelAttribute="newPost">
+					
+					
 
-						<div class="file-field">
+				</div>
 
-							<a class="btn-floating purple-gradient mt-0 float-left"> <i
-								class="fas fa-cloud-upload-alt" aria-hidden="true"></i> <sf:input
-									type="file" path="post" />
-							</a>
-							<div class="file-path-wrapper">
-								<sf:input path="caption" type="hidden" placeholder="Add Caption" />
-							</div>
-							<input type="submit" value="add">
-
-						</div>
-
-
-					</sf:form> --%>
-
-			 	</div>
 
 
 
 			</div>
 			<!-- End of profile section -->
-
-<HR>		
+<HR color="black">
+		
 		
 
 </div>
@@ -882,19 +888,19 @@ body{
 <!-- POST & UPLOAD -->
 <div class="pindicator">
  
-		  <div class="bullet current">
+		  <div class="bullet next future">
 		    <span class="icon">
 		      <a href="viewProfile?user_id=<c:out value="${user.getId()}"/>">
-		      	<i class="fa fa-table" aria-hidden="true" style="color: white; font-size:36px;"></i>
+		      <i class="fa fa-table" aria-hidden="true" style="color: white; font-size:30px;"></i>
 		      </a>
 		    </span>
 		    <div class="text">POSTS</div>
 		  </div>
-		  <div class="bullet next future">
+		  <div class="bullet current">
 		    <span class="icon">
 		    <a href="viewAddPost?user_id=<c:out value="${user.getId()}"/>">
-		    	<i class="fa fa-upload" aria-hidden="true" style="color: white; font-size:36px;"></i>
-		    </a>
+		    <i class="fa fa-upload" aria-hidden="true" style="color: white; font-size:30px;"></i>
+		      </a>
 		    
 		    </span>
 		    <div class="text">UPLOAD</div>
@@ -905,56 +911,65 @@ body{
 	<br>
 	<br>
 
-	<div class="container">
-	
-	<HR>
-		<div class="gallery">
 
-			<c:forEach items="${user.getPosts() }" var="post">
-
-				<div class="gallery-item" tabindex="0">
-
-					<img src="data:image/jpg;base64,${post.getPost()}" class="gallery-image" alt="post" width="200" height="200" data-toggle="modal" data-target="#modalForPost${post.getId()}" >
-
-					<div class="gallery-item-info">
-
-						<ul>
-							<li class="gallery-item-likes"><span class="visually-hidden"></span><i
-								class="fas fa-heart" aria-hidden="true"></i> ${post.getLikes().size() }</li>
-							
-							<li class="gallery-item-comments"><span class="visually-hidden"></span>
-								<i class="fas fa-comment" aria-hidden="true"></i> ${post.getComments().size() }
-							</li>
-							
-							<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<li class="gallery-item-comments"><span class="visually-hidden"> </span>
-								<a href="deletePost?user_id=${user.getId()}&post_id=${post.getId()}">
-									<i class="fa fa-trash" style="color: white" aria-hidden="true"></i>
-								</a>
-							</li>
-						</ul>
-						
-					</div>
-
-				</div>
+<div class="container center">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="white">Upload Pictures</h1>
 			
-				
-<!--  -->			
-				
-			</c:forEach>
-
 		</div>
-		<!-- End of gallery -->
-
-
 	</div>
-	<!-- End of container -->
 
-<script type="text/javascript">
+	<sf:form name="upload" method="post" action="addPost?user_id=${user.getId()}"  
+				modelAttribute="newPost" >
+				
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 center">
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 class="imgupload"><i class="fa fa-file-image-o" id="btnup" style="cursor: pointer;"></i></h1>
+					<h1 class="imgupload ok"><i class="fa fa-check"></i></h1>
+					<h1 class="imgupload stop"><i class="fa fa-times"></i></h1>
+					<!--this field changes dinamically displaying the filename we are trying to upload-->
+					<p id="namefile">Only pics allowed! (jpg,jpeg,bmp,png)</p>
+					<!--our custom btn which which stays under the actual one-->
+					<!-- < type="button" id="btnup" class="btn btn-primary btn-lg">Browse for your pic!</button> -->
+					<!--this is the actual file input, is set with opacity=0 beacause we wanna see our custom one-->
+					<sf:input type="file" value="" name="fileup" id="fileup" path="post"/>
+				</div>
+			</div>
+		</div>
+			<!--additional fields-->
+		<div class="row">			
+			<div class="col-md-12">
+			
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+				<input type="submit" value="Submit!" class="btn btn-primary" id="submitbtn">
+				
+			</div>
+		</div>
+	</sf:form>
+</div>
 
 
-//script
+
+</body>
+
+<script>
+
+$("#btnup").on("click", function(e) {
+	  e.preventDefault();
+	  e.stopPropagation();
+  $("#fileup").trigger("click");
+});
+
+
+$("#fileup").on("change", function(e) {
+	  e.preventDefault();
+	  e.stopPropagation();
+  $("#submitbtn").trigger("click");
+});
+
 //for vertical-nav
 const trigger = document.querySelector('.trigger');
 const nav = document.querySelector('.navigation');
@@ -966,9 +981,7 @@ trigger.addEventListener('click', () => {
 	toggleClass(trigger, 'rotate-trigger');
 });
 
+
 </script>
-
-
-</body>
 
 </html>

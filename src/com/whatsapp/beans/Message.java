@@ -27,11 +27,17 @@ public class Message {
 		
 		private String mediaPicture;
 		private String mediaDocument;
-		
+		private String mediaVideo;
 	
 		
 	
 		
+		public String getMediaVideo() {
+			return mediaVideo;
+		}
+		public void setMediaVideo(String mediaVideo) {
+			this.mediaVideo = mediaVideo;
+		}
 		public String getMediaType() {
 			return mediaType;
 		}

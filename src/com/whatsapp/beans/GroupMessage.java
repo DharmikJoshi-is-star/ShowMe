@@ -1,5 +1,5 @@
 package com.whatsapp.beans;
-
+ 
 import java.sql.Time;
 
 import java.util.Date;
@@ -24,9 +24,16 @@ public class GroupMessage {
 	
 	private String mediaPicture;
 	private String mediaDocument;
-	
+	private String mediaVideo;
 	
 
+	
+	public String getMediaVideo() {
+		return mediaVideo;
+	}
+	public void setMediaVideo(String mediaVideo) {
+		this.mediaVideo = mediaVideo;
+	}
 	public String getMediaType() {
 		return mediaType;
 	}

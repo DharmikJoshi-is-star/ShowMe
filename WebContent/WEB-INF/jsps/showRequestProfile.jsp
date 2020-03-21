@@ -12,6 +12,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
+
+<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
 <style>
 
 :root {
@@ -464,6 +467,79 @@ body{
   }
 }
 
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+}
+/* body {
+	background: #1ebea5;
+	font-size: 14px;
+	position: relative;
+	font-family: 'Roboto', sans-serif;
+} */
+.navigation {
+	position: fixed;
+	left: -70px;
+	top: 0;
+	bottom: 0;
+	background: #f6f4f3;
+	border-right: 1px solid #1ebea5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition: 0.2s ease-in-out left;
+	box-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.open {
+	left: 0;
+}
+.nav-list {
+	text-align: center;
+	list-style: none;
+}
+.nav-item {
+	padding: 16px 10px;
+	transition: 0.1s ease-in-out transform;
+}
+.link {
+	color: #fff;
+	text-decoration: none;
+}
+.icon-nav {
+	font-size: 40px;/* 1.5em; */
+	margin-bottom: 5px;
+	color: #1ebea5;
+	text-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.label {
+	font-size: 10px;/* 0.6em; */
+	font-weight: 300;
+	opacity: 0;
+	transition: 0.2s ease-in-out opacity;
+	color: black;
+}
+.nav-item:hover {
+	transform: scale(1.2);
+	transform-origin: center center;
+}
+.nav-item:hover .label {
+	opacity: 1;
+}
+.trigger {
+	position: absolute;
+	top: 20px;
+	left: 90px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	color: #fff;
+	transition: 0.15s ease-in-out transform;
+}
+.rotate-trigger {
+	transform: rotate(180deg);
+}
+
 
 </style>
 </head>
@@ -487,6 +563,66 @@ body{
 </div>
 		
 </header>
+
+<div class="navigation open">
+			<div class="trigger"><i class="fas fa-chevron-left trigger-icon icon-nav"></i></div>
+
+			<ul class="nav-list">
+				<!-- Home link -->
+				<li class="nav-item">
+					<a href="showHome?user_id=${user_id }" class="link">
+						<i class="fas fa-home icon-nav"></i>
+						</br>
+						<span class="label">Home</span>
+					</a>
+				</li>
+				<!-- About link -->
+				<li class="nav-item">
+					<a href="viewProfile?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-circle icon-nav"></i>
+						</br>
+						<span class="label">Profile</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="show-group-form?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fas fa-group icon-nav"></i>
+						</br>
+						<span class="label">New group</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="viewAllPosts?user_id=${user_id}&prev=${0}&next=${1}&postId=#" class="link">
+						<i class="fa fa-id-badge icon-nav"></i>
+						</br>
+						<span class="label">Posts</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="checkRequest?userId=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-plus icon-nav"></i>
+						</br>
+						<span class="label">Friend Request</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="#" onclick="document.getElementById('statusId').style.display='block'" class="link">
+						<i class="fa fa-eye icon-nav"></i>
+						</br>
+						<span class="label">Status</span>
+					</a>
+				</li>
+					
+				<li class="nav-item">
+					<a href="<c:url value="/logout"/>" class="link">
+						<i class="fas fa-sign-out-alt fa-rotate-180 icon-nav"></i>
+						</br>
+						<span class="label">Logout</span>
+					</a>
+				</li>
+			</ul>
+</div>
+
 	<div class="container">
 
 		<div class="profile">
@@ -526,14 +662,14 @@ body{
 				<ul>
 					<li><span class="profile-stat-count"><c:out value="${request.getPosts().size() }" /></span> posts</li>
 					<li><span class="profile-stat-count"><c:out value="${request.getContacts().size() }" /></span> friends</li>
-					<li><span class="profile-stat-count">206</span> following</li>
+					<!-- <li><span class="profile-stat-count">206</span> following</li> -->
 				</ul>
 
 			</div>
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">${request.getEmail()}</span>  📷✈️🏕️</p>
+				<p>Username: <span class="profile-real-name">${request.getEmail()}</span>  </p>
 			</div>
 		</div>
 		<!-- End of profile section -->
@@ -562,8 +698,8 @@ body{
 						
 							<ul>
 								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> ${posts.getLikes().size() }</li>
-								<!-- <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 0</li>
-							 -->
+								<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> ${posts.getComments().size() }</li>
+							 
 							</ul>
 							
 						</div>
@@ -582,4 +718,21 @@ body{
 	<!-- End of container -->
 
 </body>
+
+
+<script type="text/javascript">
+
+//for vertical-nav
+const trigger = document.querySelector('.trigger');
+const nav = document.querySelector('.navigation');
+
+const toggleClass = (element, className) => element.classList.toggle(className);
+
+trigger.addEventListener('click', () => {
+	toggleClass(nav, 'open');
+	toggleClass(trigger, 'rotate-trigger');
+});
+</script>
+
+
 </html>

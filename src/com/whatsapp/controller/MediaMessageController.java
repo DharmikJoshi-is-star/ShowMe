@@ -95,6 +95,41 @@ public class MediaMessageController {
 	}
 	
 	
+	@RequestMapping("/insertVideo")
+	public String insertVideo(Model model, 
+						@RequestParam("user_id") Integer user_id, 
+							@RequestParam("contact_id") Integer contact_id,
+							@ModelAttribute("media") Media media,
+							@RequestParam("type") String type,
+							HttpServletRequest request) {
+		
+		
+		System.out.println(media.getFilePath());
+		System.out.println("type="+type);
+		try {
+			
+			if(type.equals("picture")) {
+				media.setType(MediaTypeEnum.PICTURE.toString());
+			}
+			if(type.equals("document")) {
+				media.setType(MediaTypeEnum.DOCUMENT.toString());
+			}
+			if(type.equals("video")) {
+				media.setType(MediaTypeEnum.VIDEO.toString());
+			}
+			
+			if(!media.getFilePath().equals(""))
+				dbm.insertMedia(user_id, contact_id, media);
+		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:showChat?user_id="+user_id+"&contact_id="+contact_id;
+	}
+	
+	
+	
 	@RequestMapping("/insertMediaToGroup")
 	public String insertMediaToGroup(Model model, 
 						@RequestParam("user_id") Integer user_id, 
@@ -123,6 +158,37 @@ public class MediaMessageController {
 		return "redirect:showGroup?user_id="+user_id+"&group_id="+group_id;
 	}
 	
+	
+	@RequestMapping("/insertVideoToGroup")
+	public String insertVideoToGroup(Model model, 
+						@RequestParam("user_id") Integer user_id, 
+							@RequestParam("group_id") Integer group_id,
+							@ModelAttribute("media") Media media,
+							@RequestParam("type") String type,
+							HttpServletRequest request) {
+		
+		System.out.println(media.getFilePath());
+		System.out.println("type="+type);
+		try {
+			
+			if(type.equals("picture")) {
+				media.setType(MediaTypeEnum.PICTURE.toString());
+			}
+			if(type.equals("document")) {
+				media.setType(MediaTypeEnum.DOCUMENT.toString());
+			}
+			if(type.equals("video")) {
+				media.setType(MediaTypeEnum.VIDEO.toString());
+			}
+			if(!media.getFilePath().equals(""))
+				dbg.insertMediaIntoGroup(user_id, group_id, media);
+		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:showGroup?user_id="+user_id+"&group_id="+group_id;
+	}
 	
 	@RequestMapping("/deleteMedia")
 	public String insertMedia(Model model, 

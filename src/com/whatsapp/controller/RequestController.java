@@ -20,6 +20,7 @@ import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
 import com.whatsapp.database.DBGroup;
 import com.whatsapp.database.DBMessage;
+import com.whatsapp.recommendation.UserRecommendationKNN;
 
 @Controller
 public class RequestController {
@@ -89,10 +90,55 @@ public class RequestController {
 						break;
 					}
 				}
+				
+				
+				System.out.println("////////////////");
+				
+				List<User> tempUser = db.getUsersToRecommend(userId);
+				
+				System.out.println("---");
+			
+				int index= 0;
+				
+				for (User user : tempUser) {
 					
+					if(user.getId() == userId) {
+						index = tempUser.indexOf(user);
+						break;
+					}
+					
+				}
+				
+				tempUser.remove(index);
+				
+				User u  = new User();
+				
+				u.setId(userId);
+				u = db.getInterestOfUsers(u);
+				
+				System.out.println("////////////////");
+
+				//User u = db.getUser(userId);
+			
+				UserRecommendationKNN userRecommendationKNN = new UserRecommendationKNN();
+				List<User> listOfRecommendedUsers = userRecommendationKNN.recommendUsersForUser(10, u, tempUser);
+				
+				for (User user : listOfRecommendedUsers) {
+					System.out.println("List of recommend User");
+					System.out.println(user.getId());
+					System.out.println(user.getName());
+				}
+				
+				List<User> recommendUser =  new ArrayList<User>();
+				
+				for (User user : listOfRecommendedUsers) {
+					recommendUser.add(db.getUser(user.getId()));
+				}
+				
 			model.addAttribute("users", findFriends);
 			model.addAttribute("requestedUsers", requestsToUser);
 			model.addAttribute("alreadyRequestedUsers", requests);
+			model.addAttribute("recommendUser", recommendUser);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

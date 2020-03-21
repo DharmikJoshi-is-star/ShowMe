@@ -18,6 +18,7 @@ public class Media {
 	private String description = "NO DESCRIPTION";
 	private String picture;
 	private String document;
+	private String video;
 	private Date date;
 	private Time time;
 	
@@ -88,6 +89,12 @@ public class Media {
 	}
 	public void setTime(Time time) {
 		this.time = time;
+	}
+	public String getVideo() {
+		return video;
+	}
+	public void setVideo(String video) {
+		this.video = video;
 	}
 	
 	

@@ -7,6 +7,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Chat Application</title>
+
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -16,8 +17,6 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> 
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <!-- START FOR TOOL TIP 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
@@ -25,7 +24,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- END FOR TOOL TIP -->
 
-
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script
+			src="https://kit.fontawesome.com/81c2c05f29.js"
+			crossorigin="anonymous"
+		></script>
 <script type="text/javascript">
 
 /*START FOR TOOL TIP*/
@@ -38,6 +42,20 @@ function myFunction() {
   var elmnt = document.getElementById(<%=request.getAttribute("postId")%>);
   elmnt.scrollIntoView();
 }
+
+function modalTrigger(){
+	var modal = document.getElementById(<%=request.getAttribute("modalId")%>);
+	modal.trigger();
+	modal.show();
+	modal.modal();
+}
+
+$(document).ready(function(){
+	
+    $(<%=request.getAttribute("modalId")%>).modal();
+});
+
+
 </script>
 
 <style type="text/css">
@@ -185,8 +203,12 @@ text-align: center;
     position: relative;
     display: block;
 }
-.cardbox .cardbox-item img{
+.cardbox .cardbox-item .cardbox-post img{
+ width: 200 ;
+ height: 200;
+ align: middle;
 }
+
 .img-responsive{
     display: block;
     max-width: 100%;
@@ -386,13 +408,283 @@ text-align: center;
   }
 }
 
+
+/*For pagiation start*/
+.pagination { 
+    display: inline-block; 
+} 
+  
+.pagination a { 
+    font-weight:bold; 
+    font-size:20px; 
+    float: center; 
+    padding: 8px 16px; 
+    text-decoration: none; 
+    color: #1ebea5;
+} 
+.pagination a.active { 
+    background-color:#009900; 
+} 
+.pagination a:hover:not(.active) { 
+    background-color: #1ebea5; 
+    color: white;
+} 
+/*For pagiation end*/
+
+	p.prev{
+		text-align: center;
+	}
+	p.next{
+		text-align: center;
+	}
+
+
+
+/*for modal style*/
+    .split {
+      height: 100%;
+      width: 50%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      overflow-x: hidden;
+      
+    }
+    
+    .left {
+      left: 0;
+      background-color: #eee;;
+      border-color: #000;
+    }
+    
+    .right {
+      right: 0;
+      background-color: #fff;
+      overflow-y: scroll; /* Add the ability to scroll */
+      border: 1px black;
+    }
+    
+    ::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(83, 82, 82); 
+  border-radius: 10px;
+}
+
+    .centered img {
+    
+      margin-top: 5%;
+      
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      width: 600px;
+      height: 620px;
+      
+      
+    }
+
+  
+.modal-dialog {
+ 
+          width: 70%;
+ 
+          height:600px !important;
+ 
+        }
+ 
+.modal-content {
+ 
+    /* 80% of window height */
+ 
+    height: 60%;
+ 
+    background-color:#BBD6EC;
+ 
+}       
+ 
+.modal-header {
+ 
+    background-color: #337AB7;
+ 
+    padding:10px 16px;
+ 
+    color:#FFF;
+ 
+    border-bottom:2px dashed #337AB7;
+ 
+ }
+
+
+ #postProfile {
+  overflow: hidden;
+  background-color: #FFF;
+  width: 50%;
+  border-color: #000;
+  padding-left: 15px;
+}
+
+#postProfile p {
+  float: left;
+  display: block;
+  color: #000;
+  text-align: center;
+  padding: 20px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#postProfile a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+#postProfile a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.content {
+    border-color: 2px black;
+background-color: #eee;
+  padding: 16px;
+
+}
+
+.content p{
+    color: #000;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+    padding-top: 100px;
+}
+
+.commentSection {
+  overflow: hidden;
+  background-color:#fff;
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+}
+
+.commentSection a{
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+/**/
+
+
+/**/
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+}
+/* body {
+	background: #1ebea5;
+	font-size: 14px;
+	position: relative;
+	font-family: 'Roboto', sans-serif;
+} */
+.navigation {
+	position: fixed;
+	left: -70px;
+	top: 0;
+	bottom: 0;
+	background: #f6f4f3;
+	border-right: 1px solid #1ebea5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition: 0.2s ease-in-out left;
+	box-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.open {
+	left: 0;
+}
+.nav-list {
+	text-align: center;
+	list-style: none;
+}
+.nav-item {
+	padding: 16px 10px;
+	transition: 0.1s ease-in-out transform;
+}
+.link {
+	color: #fff;
+	text-decoration: none;
+}
+.icon-nav {
+	font-size: 40px;/*1.5em;*/
+	margin-bottom: 5px;
+	color: #1ebea5;
+	text-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.label {
+	font-size: 10px;/*0.6em;*/
+	font-weight: 300;
+	opacity: 0;
+	transition: 0.2s ease-in-out opacity;
+	color: black;
+}
+.nav-item:hover {
+	transform: scale(1.2);
+	transform-origin: center center;
+}
+.nav-item:hover .label {
+	opacity: 1;
+}
+.trigger {
+	position: absolute;
+	top: 20px;
+	left: 90px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	color: #fff;
+	transition: 0.15s ease-in-out transform;
+}
+.rotate-trigger {
+	transform: rotate(180deg);
+}
+
+/**/
+
+
 </style>
 
 		
 </head>
 
 
-<body onload="myFunction(),loc(1)">
+<body onload="myFunction(),modalTrigger()">
+
+
+
 
 <header class="container my-bg my-height-nav">
 			
@@ -412,6 +704,73 @@ text-align: center;
 </div>
 		
 </header>
+
+
+<!-- -->
+
+
+<div class="navigation open">
+			<div class="trigger"><i class="fas fa-chevron-left trigger-icon icon-nav"></i></div>
+
+			<ul class="nav-list">
+				<!-- Home link -->
+				<li class="nav-item">
+					<a href="showHome?user_id=${user_id }" class="link">
+						<i class="fas fa-home icon-nav"></i>
+						</br>
+						<span class="label">Home</span>
+					</a>
+				</li>
+				<!-- About link -->
+				<li class="nav-item">
+					<a href="viewProfile?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-circle icon-nav"></i>
+						</br>
+						<span class="label">Profile</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="show-group-form?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fas fa-group icon-nav"></i>
+						</br>
+						<span class="label">New group</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="viewAllPosts?user_id=${user_id}&prev=${0}&next=${1}&postId=#" class="link">
+						<i class="fa fa-id-badge icon-nav"></i>
+						</br>
+						<span class="label">Posts</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="checkRequest?userId=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-plus icon-nav"></i>
+						</br>
+						<span class="label">Friend Request</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="#" onclick="document.getElementById('statusId').style.display='block'" class="link">
+						<i class="fa fa-eye icon-nav"></i>
+						</br>
+						<span class="label">Status</span>
+					</a>
+				</li>
+					
+				<li class="nav-item">
+					<a href="<c:url value="/logout"/>" class="link">
+						<i class="fas fa-sign-out-alt fa-rotate-180 icon-nav"></i>
+						</br>
+						<span class="label">Logout</span>
+					</a>
+				</li>
+			</ul>
+</div>
+
+
+
+<!-- -->
 
 
 <c:set var="adminUser" value="${database.getUser(user_id)}"/>
@@ -483,7 +842,7 @@ text-align: center;
          	<c:set var="postUser" value="${database.getUser(post.getUser_id()) }"/>
          		
 			  <!-- offset-lg-3 -->
-			   <div class="col-lg-6">
+			   <div class="col-lg-6" >
 				
 				<div class="cardbox shadow-lg bg-white" >
 				 
@@ -495,16 +854,15 @@ text-align: center;
 				   </button>
 				   <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
 					<c:if test="${user_id ne postUser.getId() }">
-						<a class="dropdown-item" href="showReceiver?user_id=${user_id }&contact_id=${postUser.getId()}" 
-						
-						>See Profile</a>
+						<a class="dropdown-item" href="showReceiver?user_id=${user_id }&contact_id=${postUser.getId()}" >See Profile</a>
 					</c:if>
 					<c:if test="${user_id eq postUser.getId() }">
 						<a class="dropdown-item" href="viewProfile?user_id=<c:out value="${user_id}"/>"
 						>See Profile</a>
 					</c:if>
+					<a class="dropdown-item" href="showChat?user_id=${user_id }&contact_id=${postUser.getId()}">Message</a>
 					<a class="dropdown-item" href="#">Stop following</a>
-					<a class="dropdown-item" href="#">Report</a>
+					
 				   </div>
 				  </div><!--/ dropdown -->
 				  <div class="media m-0">
@@ -519,8 +877,11 @@ text-align: center;
 				  </div><!--/ media -->
 				 </div><!--/ cardbox-heading -->
 				  
-				 <div id="${post.getId()}" class="cardbox-item" >
-				  <img class="img-fluid" src="data:image/jpg;base64,${post.getPost()}" alt="Image" data-toggle="modal" data-target="#${post.getId()}${postUser.getId()}"> 
+				 <div id="${post.getId()}" class="cardbox-item" align="center">
+					 <div class="cardbox-post">
+					  <img class="img-fluid" src="data:image/jpg;base64,${post.getPost()}" width="400" height="400"
+					   alt="Image" data-toggle="modal" data-target="#modalForPost${post.getId()}" > 
+					 </div> 
 				 </div><!--/ cardbox-item -->
 				 
 				 <div class="cardbox-base">
@@ -538,14 +899,14 @@ text-align: center;
 				   				<c:set value="1" var="alreadyLiked"/>
 				   			</c:if>
 				   		</c:forEach>
-				   		
+				   		  
 				   		<c:if test="${alreadyLiked eq 0 }">
-				   			<a href="likePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"
+				   			<a href="likePost?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}"
 				   			title="like" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
 				   			<i class="fa fa-heart-o like-dislike" style="color:#a80000;"></i></a>
 				   		</c:if>
 				   		<c:if test="${alreadyLiked eq 1 }">
-				   			<a href="disLikePost?user_id=${adminUser.getId()}&post_id=${post.getId()}"
+				   			<a href="disLikePost?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}"
 				   			title="dislike" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
 				   			<i class="fa fa-heart like-dislike" style="color:#a80000;"></i></a>
 				   		</c:if>
@@ -577,7 +938,7 @@ text-align: center;
 				  </span>
 				  <div class="search">
 				  
-				  <form action="addComment?user_id=${adminUser.getId() }&post_id=${post.getId()}" method="post">
+				  <form action="addComment?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}" method="post">
 				  	 <input class="commentBox" placeholder="Add a comment..." type="text" name="commentOnPost">
 				   	 <button type="submit"><i class="fa fa-camera"></i></button>
 				  </form>
@@ -599,21 +960,226 @@ text-align: center;
 	          
 	          <!-- TIME PASS ENDS HERE -->
 	          
+	            <!-- Modal -->
+  <div class="modal fade bd-example-modal-lg" id="modalForPost${post.getId()}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg-">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+            <div class="split left">
+                <div class="centered">
+                  <img src="data:image/jpg;base64,${post.getPost()}" alt="Avatar woman">
+                </div>  
+                </div>
+              </div>
+              
+              <div class="split right">
+
+				<!-- 	<div class="modal-header" style="position: fixed;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                  </div> -->
+					
+                <div id="postProfile" style="position: fixed;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br>
+                    
+                    <table>
+                        <tr>
+            
+                            <td rowspan="2">
+                                
+                                <img src="data:image/jpg;base64,${postUser.getPicture_str()}" style="width: 70px; height: 70px; border-radius: 50%;" alt="${post.getPost()}">
+                            </td>
+                            <td style="padding-left: 10px; color: black;">
+                                <b>${ postUser.getName() }</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; color: grey;">
+                                <small><span><i class="icon ion-md-pin"></i> ${post.getDate()}</span></small>
+								<small><span><i class="icon ion-md-time"></i> ${post.getTime() }</span></small>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    
+                    
+                </div>
+
+                <div class="content" style=" padding-top: 150px;">
+                  
+                  <c:if test="${post.getComments()!=null }">
+                   <c:forEach items="${post.getComments()}" var="postCmt">
+                        
+                        <c:set var="tempUser" value="${database.getUser(postCmt.getUser_id())  }"></c:set>
+                        
+                        <table>
+                            <tr>
+                                <td rowspan="2">
+                                    <img src="data:image/jpg;base64,${tempUser.getPicture_str()}" style="width: 50px; height: 50px; border-radius: 50%;" alt="Avatar woman">
+                                </td>
+                                <td style="padding-left: 10px; color: black;">
+                                    <b>${tempUser.getName()}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 10px; color: grey;">
+                                    ${postCmt.getComment() }
+                                </td>
+                            </tr>
+                        </table>
+                  
+                    
+                    
+                        <br>
+                        
+                   </c:forEach>
+                   </c:if>
+                        
+                    
+                
+                </div>
+
+                <div class="commentSection">
+                   
+                        <br>
+
+                        <!-- &nbsp;&nbsp;
+                        <i class="fa fa-heart" style="font-size:20px;color:red">
+                        &nbsp;247 </i>
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="far fa-comment" style="font-size:20px;color: black;">
+                            &nbsp;247 </i>
+                            <br> -->
+                        <!-- <i style="color:gray ;font-size: 10;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                         -->    
+                         <div class="cardbox-base">
+                         
+                         <ul class="float-right">
+						   <li><a><i class="fa fa-comments"></i></a></li>
+						   <li><a><em class="mr-5">${post.getComments().size()+0 }</em></a></li>
+						   <li><a><i class="fa fa-share-alt"></i></a></li>
+						   <li><a><em class="mr-3">0</em></a></li>
+						  </ul>
+                         
+                         <ul>
+				   <li>
+				   		<c:set value="0" var="alreadyLiked"/>
+				   		<c:forEach items="${post.getLikes() }" var="plike">
+				   			<c:if test="${plike.getUser_id() eq adminUser.getId() }">
+				   				<c:set value="1" var="alreadyLiked"/>
+				   			</c:if>
+				   		</c:forEach>
+				   		
+				   		<c:if test="${alreadyLiked eq 0 }">
+				   			<a href="likePost?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}"
+				   			title="like" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+				   			<i class="fa fa-heart-o like-dislike" style="color:#a80000;"></i></a>
+				   		</c:if>
+				   		<c:if test="${alreadyLiked eq 1 }">
+				   			<a href="disLikePost?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}"
+				   			title="dislike" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+				   			<i class="fa fa-heart like-dislike" style="color:#a80000;"></i></a>
+				   		</c:if>
+				   	
+				   </li>
+				   
+				  
+	                       <c:if test="${not empty post.getLikes() }">
+					   		 <c:if test="${post.getLikes().size() >= 1 }">
+					   			<li><a href="#"><img src="data:image/jpg;base64,${database.getUser(post.getLikes().get(0).getUser_id()).getPicture_str()}" class="img-fluid rounded-circle" width="50" height="50" alt="User"></a></li>
+					   		</c:if>
+						    <c:if test="${post.getLikes().size() >= 2 }">
+						   		<li><a href="#"><img src="data:image/jpg;base64,${database.getUser(post.getLikes().get(1).getUser_id()).getPicture_str()}" class="img-fluid rounded-circle" width="50" height="50" alt="User"></a></li>
+						   </c:if>
+						    <c:if test="${post.getLikes().size() >= 3 }">
+						   		<li><a href="#"><img src="data:image/jpg;base64,${database.getUser(post.getLikes().get(2).getUser_id()).getPicture_str()}" class="img-fluid rounded-circle" width="50" height="50" alt="User"></a></li>
+						   </c:if>
+						    <c:if test="${post.getLikes().size() >= 4 }">
+							   <li><a href="#"><img src="data:image/jpg;base64,${database.getUser(post.getLikes().get(3).getUser_id()).getPicture_str()}" class="img-fluid rounded-circle" width="50" height="50" alt="User"></a></li>
+						   </c:if>
+					    </c:if>
+				   
+				   <li><a><span><c:out value="${post.getLikes().size()+0 }"/> Likes</span></a></li>
+                        
+                        </ul>	
+                        </div>
+                        <br>
+                        
+					 <form action="addComment?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}&modalId=#modalForPost${post.getId()}" method="post">
+                        <input style="width: 615px; height: 50px;" type="text" id="commentBox" name="commentOnPost" placeholder="   Add a comment..." aria-describedby="basic-addon2" >
+                    
+                        <button style="width: 100px; height: 50px; color : #fff;" class="btn btn-outline-secondary" id="commentButton" type="submit"> <b style="color: rgb(124, 194, 255);">Post</b>  </button>
+                     </form>
+                      
+                      
+                </div>
+                  
+
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+ 
+	          
+	          
+	          
+	          
           </c:forEach>
-            </div><!--/ row -->
-        
-	</div><!--/ container -->
+          
+   </div><!--/ row -->
+ 	
+	     	
+
+	
+
+	
+		 
+<%--           <c:if test="${prev>0 }">
+			<a href="viewAllPosts?user_id=${user_id}&prev=${prev - 1 }&next=${next - 1 }&postId=#"><< prev</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		</c:if>
+		<c:if test="${ 20 == posts.size() }">
+			<a href="viewAllPosts?user_id=${user_id}&prev=${prev + 1 }&next=${next + 1 }&postId=#">next >></a>	
+		</c:if>
+     --%>
+     </div>
 </section>
+<div class="container-fluid">
+
+ <div class="row">
+    <div class="col-sm-6" style=" text-align: right ;">
+    <div class="pagination"> 
+	 	<c:if test="${prev>0 }">
+			<a href="viewAllPosts?user_id=${user_id}&prev=${prev - 1 }&next=${next - 1 }&postId=#">${prev} << prev</a>
+		</c:if>
+	</div>
+	</div>
+    
+    <div class="col-sm-6" style=" text-align: left;">
+    <div class="pagination"> 
+    		<c:if test="${ 20 == posts.size() }">
+			<a href="viewAllPosts?user_id=${user_id}&prev=${prev + 1 }&next=${next + 1 }&postId=#">next >> ${next+1}</a>	
+		</c:if>
+   	</div>
+    </div>
+  </div>
+</div>
+
+
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 		
 		<!-- 
 		<script>
@@ -622,6 +1188,21 @@ text-align: center;
 			 }
 		</script>*/
 		 -->
+<script>
+
+//script
+//for vertical-nav
+const trigger = document.querySelector('.trigger');
+const nav = document.querySelector('.navigation');
+
+const toggleClass = (element, className) => element.classList.toggle(className);
+
+trigger.addEventListener('click', () => {
+	toggleClass(nav, 'open');
+	toggleClass(trigger, 'rotate-trigger');
+});
+
+</script>
 </body>
 
 </html>

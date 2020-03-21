@@ -134,6 +134,7 @@ public class ReceiverController {
 			try {
 				User receiver = db.getUser(contact_id);
 				messages = dbm.getAllMessages(user_id,contact_id);
+				
 				List<AddContact> contacts = db.getAllContacts(user_id);
 				List<User> users = new ArrayList<User>();
 				
@@ -160,6 +161,7 @@ public class ReceiverController {
 					m.setMediaFileName(media.getFileName());
 					m.setMediaDocument(media.getDocument());
 					m.setMediaPicture(media.getPicture());
+					m.setMediaVideo(media.getVideo());
 					
 					messages.add(m);
 				}

@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
@@ -247,6 +248,7 @@ public class UserController {
 		try {
 			contacts = db.getAllContacts(user_id);
 			List<User> users = new ArrayList<User>();
+			
 			for(AddContact addContact : contacts) {
 						users.add(db.getUser(addContact.getContact_id()));
 			}
@@ -258,6 +260,9 @@ public class UserController {
 			List<Conversation> conversationList = new ArrayList<>();
 			
 			for (User user : users) {
+				
+				System.out.println(user.getProfile_img_get());
+				
 				Conversation conversation = new Conversation();
 				conversation.setUser(user);
 				
@@ -290,6 +295,8 @@ public class UserController {
 			conversationList = conversationList.stream()
 					  .sorted(Comparator.comparing(Conversation::getConversationDealy))
 					  .collect(Collectors.toList());
+			
+			
 			
 			System.out.println("------------------------------------------------------------");
 			for (Conversation conversation1 : conversationList) {
@@ -331,6 +338,8 @@ public class UserController {
 			 * getMsg()); } }
 			 * System.out.println("##################################################");
 			 */
+			
+			System.out.println(db.getUser(user_id).getPicture_str());
 			
 			model.addAttribute("conversationList", conversationList);
 			model.addAttribute("user_id", user_id);
@@ -376,7 +385,10 @@ public class UserController {
 		
 			user = db.getUser(user_id);
 			model.addAttribute("user", user);
-			model.addAttribute("newPost", post);
+			model.addAttribute("newPost", new Post());
+			model.addAttribute("database",db);
+			model.addAttribute("user_id",user_id);
+			
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -385,12 +397,32 @@ public class UserController {
 		return "viewProfile";
 	}
 	
+	@RequestMapping("/viewAddPost")
+	public String viewAddPost(@RequestParam("user_id") Integer user_id, Model model) {
+		
+		User user;
+		try {
+		
+			user = db.getUser(user_id);
+			model.addAttribute("user", user);
+			model.addAttribute("newPost", new Post());
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return "postUpload";
+	}
+	
 	@RequestMapping("/addPost")
 	public String addPost(@ModelAttribute("post") Post post,
 							@RequestParam("user_id") Integer user_id) {
 		
 		try {
+			System.out.println(post.getPost());
 			db.uploadPost(user_id, post);
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -401,6 +433,8 @@ public class UserController {
 		
 		return "redirect:viewProfile?user_id="+user_id;
 	}
+	
+	
 	
 	@RequestMapping("/deletePost")
 	public String deletePost(@RequestParam("user_id") Integer user_id,
@@ -464,36 +498,170 @@ public class UserController {
 		return "social";
 	}
 	
+	@RequestMapping("/viewAllPosts")
+	public String viewAllPosts(Model model, 
+				@RequestParam("user_id") Integer user_id, 
+					@RequestParam("postId") String postId, 
+					 @RequestParam("prev") Integer prev,  
+					 	@RequestParam("next") Integer next) {
+		
+		User user;
+		try {
+			user = db.getUser(user_id);
+			List<Post> postsList = new ArrayList<Post>();
+			
+			for (AddContact addContact : user.getContacts()) {
+				List<Post> posts = db.getAllPostByUser(addContact.getContact_id());
+				for (Post post : posts) {
+					postsList.add(post);
+				}
+			}
+			
+			List<Post> posts = user.getPosts();
+			
+			for (Post post : posts) {
+				postsList.add(post);
+			}
+			
+			List<Post> posList = postsList.stream()
+					  .sorted(Comparator.comparing(Post::getTime).reversed())
+					  .collect(Collectors.toList());
+			
+			List<Post> sortedPosts = posList.stream()
+					  .sorted(Comparator.comparing(Post::getDate).reversed())
+					  .collect(Collectors.toList());
+			
+			List<Post> tempPosts = new ArrayList<Post>();
+			
+			for (int i = 20*prev; i < 20*next; i++) {
+				
+				if(i<sortedPosts.size())
+					tempPosts.add(sortedPosts.get(i));
+				
+			}
+			
+			
+			model.addAttribute("user_id",user_id);
+			model.addAttribute("posts", tempPosts);
+			model.addAttribute("database", db);
+			model.addAttribute("postId", postId);
+			model.addAttribute("prev", prev);
+			model.addAttribute("next", next);
+			model.addAttribute("modalId", "#");
+			
+			System.out.println("hello");
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return "social";
+		
+	}
+	
+	
 	@RequestMapping("/likePost")
-	public String likePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+	public String likePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id,
+			 @RequestParam("prev") Integer prev,  @RequestParam("next") Integer next){
 		
 		try {
 			db.insertLike(user_id, post_id);
 			model.addAttribute("postId", post_id);
+			model.addAttribute("prev", prev);
+			model.addAttribute("next", next);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return "redirect:social?user_id="+user_id;
+		return "redirect:viewAllPosts?user_id="+user_id;
+	}
+	
+	
+	@RequestMapping("/likePostFromProfile")
+	public String likePostFromProfile(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+		
+		try {
+			db.insertLike(user_id, post_id);
+			model.addAttribute("postId", post_id);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:viewProfile?user_id="+user_id;
 	}
 	
 	@RequestMapping("/disLikePost")
-	public String disLikePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+	public String disLikePost(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id,
+			 @RequestParam("prev") Integer prev,  @RequestParam("next") Integer next){
 		
 		try {
 			db.deleteLike(user_id, post_id);
 			model.addAttribute("postId", post_id);
+			model.addAttribute("prev", prev);
+			model.addAttribute("next", next);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return "redirect:social?user_id="+user_id;
+		return "redirect:viewAllPosts?user_id="+user_id;
+	}
+	
+	@RequestMapping("/disLikePostFromProfile")
+	public String disLikePostFromProfile(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("post_id") Integer post_id){
+		
+		try {
+			db.deleteLike(user_id, post_id);
+			model.addAttribute("postId", post_id);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:viewProfile?user_id="+user_id;
 	}
 	
 	@RequestMapping("/addComment")
 	public String addComment(Model model, 
+							@RequestParam("user_id") Integer user_id, 
+							@RequestParam("post_id") Integer post_id,
+							HttpServletRequest request,
+							 @RequestParam("prev") Integer prev,  @RequestParam("next") Integer next, @RequestParam("modalId") String modalId) {
+		
+		if(!request.getParameter("commentOnPost").isEmpty()) {
+		
+			comment.setComment(request.getParameter("commentOnPost"));
+			comment.setUser_id(user_id);
+			comment.setPost_id(post_id);
+			long millis=System.currentTimeMillis();  
+	        Date date=new Date(millis);
+	        Time time = new Time(millis);
+			comment.setDate(date);
+			comment.setTime(time);
+			
+			try {
+				db.insertComment(comment);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
+		model.addAttribute("postId", post_id);
+		model.addAttribute("modalId", modalId);
+		
+		return "redirect:viewAllPosts?user_id="+user_id;
+	}
+	
+	@RequestMapping("/addCommentFromProfile")
+	public String addCommentFromProfile(Model model, 
 							@RequestParam("user_id") Integer user_id, 
 							@RequestParam("post_id") Integer post_id,
 							HttpServletRequest request) {
@@ -517,8 +685,57 @@ public class UserController {
 			}
 		}
 		
-		model.addAttribute("postId", post_id);
-		return "redirect:social?user_id="+user_id;
+		
+		return "redirect:viewProfile?user_id="+user_id;
+	}
+	
+	@RequestMapping("/showProfileInterest")
+	public String showProfileInterest(@RequestParam("user_id") Integer user_id,
+										Model model) {
+		
+		User user = new User();
+		user.setId(user_id);
+		
+		List<String> interestName = new ArrayList<String>(Arrays.asList( "blogging", "cooking", "dancing", "entertaining", "foodie", "movie", "music", "sports", "singing", "todonothing"));
+	
+		try {
+			user = db.getInterestOfUsers(user);
+			model.addAttribute("user",user);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("interestName", interestName);
+		
+		return "showProfileInterest";
+	}
+	
+	@RequestMapping("/updateProfileInterest")
+	public String updateProfileInterest(@RequestParam("user_id") Integer user_id, HttpServletRequest request) {
+		
+		User user = new User();
+		user.setId(user_id);
+		
+		List<Integer> interest = new ArrayList<Integer>();
+		for (int i = 1; i <=10 ; i++) {
+			interest.add(Integer.parseInt(request.getParameter("myInterest"+i)));
+			System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			System.out.println(Integer.parseInt(request.getParameter("myInterest"+i)));
+		}
+		
+		user.setUserInterest(interest);
+		
+		
+		try {
+			System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			db.toUpdateUserInterest(user);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:showProfileInterest?user_id="+user_id;
 	}
 }
 

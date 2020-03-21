@@ -33,6 +33,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- START FOR TOOL TIP -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -59,15 +60,22 @@
 	href="https://onesignal.github.io/emoji-picker/lib/css/emoji.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	
+	<script
+			src="https://kit.fontawesome.com/81c2c05f29.js"
+			crossorigin="anonymous"
+		></script>
  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		
-	
-	
+<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
+
+
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">	
+ <link href='https://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
 <!-- 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
  -->
@@ -562,8 +570,7 @@ hr {
 	animation-duration: 0.6s;
 }
 
-@
--webkit-keyframes zoom {
+@-webkit-keyframes zoom {
 	from {-webkit-transform: scale(0)
 }
 
@@ -572,8 +579,7 @@ to {
 }
 
 }
-@
-keyframes zoom {
+@keyframes zoom {
 	from {transform: scale(0)
 }
 
@@ -781,9 +787,184 @@ body {
     background-size: cover; 
     background-color: #f2f2f2; 
     /* Font Colour */ 
-    color:white; 
+   
 } 
 
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+}
+/* body {
+	background: #1ebea5;
+	font-size: 14px;
+	position: relative;
+	font-family: 'Roboto', sans-serif;
+} */
+.navigation {
+	position: fixed;
+	left: -70px;
+	top: 0;
+	bottom: 0;
+	background: #f6f4f3;
+	border-right: 1px solid #1ebea5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition: 0.2s ease-in-out left;
+	box-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.open {
+	left: 0;
+}
+.nav-list {
+	text-align: center;
+	list-style: none;
+}
+.nav-item {
+	padding: 16px 10px;
+	transition: 0.1s ease-in-out transform;
+}
+.link {
+	color: #fff;
+	text-decoration: none;
+}
+.icon-nav {
+	font-size: 40px;/* 1.5em; */
+	margin-bottom: 5px;
+	color: #1ebea5;
+	text-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
+}
+.label {
+	font-size: 10px;/* 0.6em; */
+	font-weight: 300;
+	opacity: 0;
+	transition: 0.2s ease-in-out opacity;
+	color: black;
+}
+.nav-item:hover {
+	transform: scale(1.2);
+	transform-origin: center center;
+}
+.nav-item:hover .label {
+	opacity: 1;
+}
+.trigger {
+	position: absolute;
+	top: 20px;
+	left: 90px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	color: #fff;
+	transition: 0.15s ease-in-out transform;
+}
+.rotate-trigger {
+	transform: rotate(180deg);
+}
+
+/*attachment menu*/
+
+/* Layout */
+
+.attachment-menu {
+  position: absolute;
+/*   top: 20%;*/
+  left: 88%; /*with help of this we can shift the position of dropped icons*/ */
+}
+.attachment-menu a {
+  position: absolute;
+  left: calc(50% - 10px);
+  top: 25px;
+  opacity: 0;
+  visibility: hidden;
+  
+  transition: opacity 0.2s linear,
+    top 0.2s linear,
+    left 0.2s linear,
+    visibility 0.2s linear;
+}
+
+.attachment-menu-open:checked~.attachment-menu a {
+  visibility: visible;
+  opacity: 1;
+}
+
+.attachment-menu-open:checked~.attachment-menu a:nth-child(1) {
+  left: calc(50% - 10px);
+  top: 203px;
+}
+.attachment-menu-open:checked~.attachment-menu a:nth-child(2) {
+  /*left: calc(50% - 37.28px);
+  top: 57.28px;*/
+  left: calc(50% - 10px);
+  top: 135px;
+}
+.attachment-menu-open:checked~.attachment-menu a:nth-child(3) {
+  left: calc(50% - 10px);
+  top: 67px;
+}
+.attachment-menu-open:checked~.attachment-menu a:nth-child(4) {
+  left: calc(50% + 17.28px);
+  top: 57.28px;
+}
+.attachment-menu-open:checked~.attachment-menu a:nth-child(5) {
+  left: calc(50% + 30px);
+  top: 32px;
+}
+
+/* Checkbox */
+.attachment-menu-open {
+  display: none;
+}
+.attachment-menu-button {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  display: block;
+  box-sizing: border-box;
+  padding: 10px;
+
+  position: absolute;
+  left: 85%;
+/*   left: calc(50% - 25px); /*with the help of this we can shift the menu button*/
+  top: calc(10%);
+   
+  cursor: pointer;
+  background: #1ebea5;
+  border: 1px solid #1ebea5;
+/*   box-shadow: 0px 3px 0px 1px #b9bbbd,
+    inset 0px 2px 8px 5px #c9cbcd; */
+  border-radius: 50px;
+}
+.attachment-menu-button:hover {
+  background: #1ebea5;
+}
+
+/* Menu items */
+a.icon-attachment {
+  display: inline-block;
+  cursor: pointer;
+  
+  /* I'm serious about hiding */
+  font-size: 0px;
+  color: rgba(0,0,0,0);
+}
+a.icon-attachment:before {
+  position: absolute;
+  top: 3px;
+  color: white;
+  font-size: 30px;
+  z-index: 1;
+  border-radius: 50px;
+  background-color: #1ebea5;
+   padding: 15px;
+}
+a.icon-attachment:hover:before {
+  color: white;
+}
 </style>
 		
 
@@ -791,41 +972,99 @@ body {
 </head>
 <body onload="seeBottom()">
 
+
+<div class="navigation open">
+			<div class="trigger"><i class="fas fa-chevron-left trigger-icon icon-nav"></i></div>
+
+			<ul class="nav-list">
+				<!-- Home link -->
+				<li class="nav-item">
+					<a href="showHome?user_id=${user_id }" class="link">
+						<i class="fas fa-home icon-nav"></i>
+						</br>
+						<span class="label">Home</span>
+					</a>
+				</li>
+				<!-- About link -->
+				<li class="nav-item">
+					<a href="viewProfile?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-circle icon-nav"></i>
+						</br>
+						<span class="label">Profile</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="show-group-form?user_id=<c:out value="${user_id}"/>" class="link">
+						<i class="fas fa-group icon-nav"></i>
+						</br>
+						<span class="label">New group</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="viewAllPosts?user_id=${user_id}&prev=${0}&next=${1}&postId=#" class="link">
+						<i class="fa fa-id-badge icon-nav"></i>
+						</br>
+						<span class="label">Posts</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="checkRequest?userId=<c:out value="${user_id}"/>" class="link">
+						<i class="fa fa-user-plus icon-nav"></i>
+						</br>
+						<span class="label">Friend Request</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="#" onclick="document.getElementById('statusId').style.display='block'" class="link">
+						<i class="fa fa-eye icon-nav"></i>
+						</br>
+						<span class="label">Status</span>
+					</a>
+				</li>
+					
+				<li class="nav-item">
+					<a href="<c:url value="/logout"/>" class="link">
+						<i class="fas fa-sign-out-alt fa-rotate-180 icon-nav"></i>
+						</br>
+						<span class="label">Logout</span>
+					</a>
+				</li>
+			</ul>
+</div>
+
+
 	<c:set var="user_id" value="${user_id}" />
 
-	<div id="myNav" class="overlay">
+	<%-- <div id="myNav" class="overlay">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		<div class="overlay-content">
 			<a href="show-group-form?user_id=<c:out value="${user_id}"/>" >New
 				group</a>
-			<a href="social?user_id=${user_id}&postId=#"><i class="fa fa-globe" style="font-size:40px;"></i>Posts</a>
+			<a href="viewAllPosts?user_id=${user_id}&prev=${0}&next=${1}&postId=#"><i class="fa fa-globe" style="font-size:40px;"></i>Posts</a>
 			<a href="viewProfile?user_id=<c:out value="${user_id}"/>"><i class="fa fa-user-circle-o" style="font-size:40px;"></i>Profile</a>
-			<a href="checkRequest?userId=<c:out value="${user_id}"/>">Friend Requests</a> 
+			<a href="checkRequest?userId=<c:out value="${user_id}"/>"></a> 
 			<a href="<c:url value="/logout"/>"><i class='fas fa-sign-out-alt fa-rotate-180' style='font-size:40px;'></i>LogOut</a>
 				
 		</div>
 	</div>
-
+ --%>
 	<div class="container min-vh-100 border mt-0 " style="background-color: #ffffff;">
 		<div class="row m-4 border">
 			<div class="col-4 border-right pl-0 pr-0">
 				<nav class="navbar navbar-light my-bg justify-content-center">
-					<span class="navbar-brand text-white"
+					<!-- <span class="navbar-brand text-white"
 						style="font-size: 20px; cursor: pointer; text-align: left;"
-						onclick="openNav()" title="menu" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">&#9776;</span> <span
-						class="navbar-brand text-white">WhatsApp</span> <span
-						class="navbar-brand text-white"
-						style="font-size: 20px; cursor: pointer; text-align: right;">
-
-						<span class="material-icons"
-						style="font-size: 30px; color: white; width: 10px;"
-						onclick="document.getElementById('statusId').style.display='block'">
+						onclick="openNav()" title="menu" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">&#9776;</span> -->
+						<span
+						class="navbar-brand text-white">WhatsApp</span> 
+						<span class="navbar-brand text-white" style="font-size: 20px; cursor: pointer; text-align: right;">
+					
+						<!-- <span class="material-icons" style="font-size: 30px; color: white; width: 10px;" onclick="document.getElementById('statusId').style.display='block'">
+								<a data-toggle="tooltip" data-placement="bottom" class="color-tooltip">
+									<i class="fa fa-spinner" title=status data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></i>
+								</a>
+						</span> -->
 						
-							
-								<a data-toggle="tooltip" data-placement="bottom" class="color-tooltip"><i class="fa fa-spinner" 
-								title=status data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></i></a>
-						
-						</span>
 					</span>
 
 				</nav>
@@ -850,7 +1089,7 @@ body {
 					<a href="findFriends?userId=<c:out value="${user_id}"/>" class="list-group-item list-group-item-action flex-column align-items-start sticky">
 							&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-plus"
 							style="font-size: 35px; color: light green;"></i> &nbsp;&nbsp;
-							<b>FIND FRIENDS</b>
+							<b>Recommand friend</b>
 					</a>
 					
 					<c:forEach items="${conversationList}" var="conversation">
@@ -898,6 +1137,11 @@ body {
 											<c:if  test="${conversation.getUser().getLastMessage().getMediaType() == 'DOCUMENT' }">
 											
 												<i class="fa fa-file-pdf-o" style="color:lightgray"></i> &nbsp;  ${conversation.getUser().getLastMessage().getMediaFileName() } PDF
+										
+											</c:if>
+												<c:if  test="${conversation.getUser().getLastMessage().getMediaType() == 'VIDEO' }">
+											
+												<i class="fa fa-file-video-o" style="color:lightgray"></i> &nbsp;  ${conversation.getUser().getLastMessage().getMediaFileName() } 
 										
 											</c:if>
 										</c:when>
@@ -965,7 +1209,13 @@ body {
 												${conversation.getGroup().getLastMessage().getSender_name()}: <i class="fa fa-file-text" style="color:lightgray"></i> &nbsp; ${group.getLastMessage().getMediaFileName() } PDF
 										
 											</c:if>
+										
+											<c:if  test="${conversation.getGroup().getLastMessage().getMediaType() == 'VIDEO' }">
 											
+												${conversation.getGroup().getLastMessage().getSender_name()}: <i class="fa fa-file-video-o" style="color:lightgray"></i> &nbsp; ${group.getLastMessage().getMediaFileName() } 
+										
+											</c:if>
+												
 										</c:when>
 										
 										<c:when  test="${empty conversation.getGroup().getLastMessage().getMediaType() }">
@@ -1159,8 +1409,29 @@ body {
 							
 							<div style="text-align: left;">
 								
+								<!-- 
+								<label class="attachment-menu-button" for="attachment-menu-open" aria-hidden="true" >
+								<i class="fa fa-paperclip fa-2x" style="color: white;"></i></label>
 								
-								<abbr class="fa fa-paperclip" id="chooseDocGroup" style="font-size: 24px; cursor: pointer;color: white" 
+								  <input class="attachment-menu-open" id="attachment-menu-open" type="checkbox" aria-hidden="true" />
+								  
+								  <nav class="attachment-menu" role="navigation">
+								  
+								   
+								    
+								   		<abbr id="chooseVideoGroup"><a href="#" class="icon-attachment fa fa-video-camera">Video</a></abbr>
+								   
+								    	<a href="#" id="chooseDocGroup" class="icon-attachment fa fa-file-pdf-o">Document</a>
+								   
+								    	<a href="#" id="choosePictureGroup" class="icon-attachment fa fa-file-photo-o">Picture</a>
+								   
+								    
+								  </nav>
+								 -->
+								
+								
+								
+								<abbr class="fa fa-paperclip" id="chooseDocGroup1" style="font-size: 24px; cursor: pointer;color: white" 
 								title="select pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>
 							 &nbsp; &nbsp;	
 							<sf:form 
@@ -1181,7 +1452,7 @@ body {
 								<script>
 									var  event_media="a";
 											
-									 $("#chooseDocGroup").on("click", function(e) {
+									 $("#chooseDocGroup1").on("click", function(e) {
 										  e.preventDefault();
 										  e.stopPropagation();
 									    $("#chooseDocumentGroup").trigger("click");
@@ -1195,13 +1466,14 @@ body {
 									
 								</script> 
 								
+								
+								
 								<abbr class="fa fa-camera" id="choosePictureGroup" style="font-size: 24px; color: white ; cursor: pointer;" 
-								title="select picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr> 
+								title="select picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>  
 								 &nbsp; &nbsp;	
 									<sf:form action="insertMediaToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=picture" modelAttribute="media" method="post" cssStyle="display:none;">
 								
-									 <sf:input id="chooseGroup" type="file" path="filePath" name="sendPicture" style="display: none;" 
-									/>
+									 <sf:input id="chooseGroup" type="file" path="filePath" name="sendPicture" style="display: none;" />
 								
 									 <button type="submit" id="mediaPictureGroup" style="display: none;"> </button>
 									
@@ -1224,8 +1496,35 @@ body {
 									  });
 									
 									</script> 
-										
 								
+								<abbr class="fa fa-file-video-o" id="chooseVideoGroup" style="font-size: 24px; color: white ; cursor: pointer;" 
+								title="select video" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>  
+								 &nbsp; &nbsp;	
+								<sf:form action="insertVideoToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=video" modelAttribute="media" method="post" cssStyle="display:none;">
+						
+									 <sf:input id="chooseVideoFileGroup" type="file" path="filePath" name="sendVideo" style="display: none;" />
+								
+									 <button type="submit" id="mediaVideoGroup" style="display: none;"> </button>
+									
+									</sf:form>
+						
+									<script>
+
+									var  event_media="a";
+									
+									 $("#chooseVideoGroup").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#chooseVideoFileGroup").trigger("click");
+									  });
+									
+									 $("#chooseVideoFileGroup").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaVideoGroup").trigger("click");
+									  });
+									 
+									 </script>
 								
 								<div class="dropdown">
 									<button onclick="myFunction()" class="dropbtn">
@@ -1276,6 +1575,7 @@ body {
 						<div id="div2" style="max-height:105%;overflow:auto;">
 							<div id="div3" style="height:auto;padding-bottom: 30px;">
 							<div class="chats">
+							
 						<c:forEach items="${groupobj.getMessages()}" var="message">
 
 							<c:if test="${message.getSender_id() ne user_id }">
@@ -1331,6 +1631,17 @@ body {
 													 -->
 												</c:if>
 												
+												<c:if test="${message.getMediaType() == 'VIDEO' }">
+														
+														<a href="data:video/mp4;base64,${message.getMediaVideo() }"
+														title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}">
+															
+															<video width="400" height="200"  controls src="data:video/mp4;base64,${message.getMediaVideo() }">
+															</video>
+														</a>	
+													</c:if>
+													
 												</c:when>
 												
 												
@@ -1396,7 +1707,21 @@ body {
 													</script>
 														<!-- <object width="200" height="200" data="data:application/pdf;base64,${message.getMediaDocument() }"></object>
 													 -->
-												</c:if>
+													 
+													 </c:if>
+													 
+													 <c:if test="${message.getMediaType() == 'VIDEO' }">
+														
+														<a href="data:video/mp4;base64,${message.getMediaVideo() }"
+														title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}">
+															
+															<video width="400" height="200" controls src="data:video/mp4;base64,${message.getMediaVideo() }">
+															</video>
+														</a>	
+													</c:if>
+													
+												
 												
 												</c:when>
 												
@@ -1428,7 +1753,7 @@ body {
 										<div class="input-group-prepend  my-bg">
 											<button type="submit" class="my-bg">
 												<span class="input-group-text fa my-bg text-white"
-													id="validationTooltipUsernamePrepend">&#xf1d9;</span>
+													id="validationTooltipUsernamePrepend"><i class="fa fa-send-o"></i></span>
 											</button>
 										</div>
 
@@ -1490,10 +1815,30 @@ body {
 
 
 							<div style="text-align: left;">
+							
+							
+							<label class="attachment-menu-button" for="attachment-menu-open" aria-hidden="true" >
+								<i class="fa fa-paperclip fa-2x" style="color: white;"></i></label>
+								
+								  <input class="attachment-menu-open" id="attachment-menu-open" type="checkbox" aria-hidden="true" />
+								  
+								  <nav class="attachment-menu" role="navigation">
+								  
+								   
+								    
+								   		<a href="#" id="chooseVideo" class="icon-attachment fa fa-video-camera">Video</a>
+								   
+								    	<a href="#" id="chooseDoc" class="icon-attachment fa fa-file-pdf-o">Document</a>
+								   
+								    	<a href="#" id="choosePicture" class="icon-attachment fa fa-file-photo-o">Picture</a>
+								   
+								    
+								  </nav>
+							
 							<!-- onclick="openFileBoxForDocument()" onchange="clickOnDocumentSumbit()"-->
-							<abbr class="fa fa-paperclip" id="chooseDoc" style="font-size: 24px; cursor: pointer;color: white" 
+							<!-- <abbr class="fa fa-paperclip" id="chooseDoc" style="font-size: 24px; cursor: pointer;color: white" 
 							title="select pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr>
-							 &nbsp; &nbsp;	
+							 &nbsp; &nbsp;	 -->
 							<sf:form 
 								action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=document" 
 									modelAttribute="media" 
@@ -1558,9 +1903,9 @@ body {
 							
 							<!-- onclick="openFileBox()" onchange="clickOnSumbit()"-->
 							<!-- showMedia?user_id=${user_id }&contact_id=${receiver.getId()} -->
-								<abbr class="fa fa-camera" id="choosePicture" style="font-size: 24px; color: white ; cursor: pointer;" 
+								<!-- <abbr class="fa fa-camera" id="choosePicture" style="font-size: 24px; color: white ; cursor: pointer;" 
 								title="select picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr> 
-								 &nbsp; &nbsp;	
+								 &nbsp; &nbsp;	 -->
 									<sf:form action="insertMedia?user_id=${ user_id}&contact_id=${receiver.getId()}&type=picture" modelAttribute="media" method="post" cssStyle="display:none;">
 								
 									 <sf:input id="choose" type="file" path="filePath" name="sendPicture" style="display: none;" 
@@ -1603,6 +1948,37 @@ body {
 								  		}
 								*/
 										</script> 
+										
+										
+										<!-- <abbr class="fa fa-file-video-o" id="chooseVideo" style="font-size: 24px; color: white ; cursor: pointer;" 
+								title="select video" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"></abbr> 
+								 &nbsp; &nbsp;	 -->
+									<sf:form action="insertVideo?user_id=${ user_id}&contact_id=${receiver.getId()}&type=video" modelAttribute="media" method="post" cssStyle="display:none;">
+								
+									 <sf:input id="chooseVideoFile" type="file" path="filePath" name="sendVideo" style="display: none;" />
+								
+									 <button type="submit" id="mediaVideo" style="display: none;"> </button>
+									
+									</sf:form>
+						
+									<script>
+
+									var  event_media="a";
+									
+									 $("#chooseVideo").on("click", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#chooseVideoFile").trigger("click");
+									  });
+									
+									 $("#chooseVideoFile").on("change", function(e) {
+										  e.preventDefault();
+										  e.stopPropagation();
+									    $("#mediaVideo").trigger("click");
+									  });
+									 
+									 </script>
+										
 										
 								<div class="dropdown">
 									<button onclick="myFunction()" class="dropbtn">
@@ -1698,6 +2074,18 @@ body {
 													</script>
 													 -->
 													</c:if>
+													
+													
+													<c:if test="${message.getMediaType() == 'VIDEO' }">
+														
+														<a href="data:video/mp4;base64,${message.getMediaVideo() }"
+														title="click to download video" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}.mp4">
+															
+															<video width="400" height="200"  controls src="data:video/mp4;base64,${message.getMediaVideo() }">
+															</video>
+														</a>	
+													</c:if>
 												
 												</c:when>
 												
@@ -1758,6 +2146,18 @@ body {
 													 -->
 												</c:if>
 												
+												<c:if test="${message.getMediaType() == 'VIDEO' }">
+														
+														<a href="data:video/mp4;base64,${message.getMediaVideo() }"
+														title="click to download video" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
+														download="${message.getMediaFileName()}">
+															
+															<video width="400" height="200"  controls src="data:video/mp4;base64,${message.getMediaVideo() }">
+															</video>
+														</a>	
+												</c:if>
+												
+												
 												</c:when>
 												
 												
@@ -1788,7 +2188,7 @@ body {
 										<div class="input-group-prepend  my-bg">
 											<button type="submit" class="my-bg">
 												<span class="input-group-text fa my-bg text-white"
-													id="validationTooltipUsernamePrepend">&#xf1d9;</span>
+													id="validationTooltipUsernamePrepend"><i class="fa fa-send-o"></i></span>
 											</button>
 										</div>
 										<!--   -->
@@ -1823,7 +2223,7 @@ body {
 				<h1>Status Of Your Friends</h1>
 				<hr>
 
-				<abbr class="fa fa-plus-circle" id="clickOnNewStatus"
+				<abbr class="fas fa-edit" id="clickOnNewStatus"
 					style="font-size: 30px; color: #14FF7A; cursor: pointer;" ><span title="click to add status update" data-toggle="tooltip" data-placement="bottom" class="color-tooltip">My
 						status</span></abbr>
 					
@@ -2096,5 +2496,17 @@ window.onclick = function(event) {
     statusModel.style.display = "none";
   }
 }
+
+//for vertical-nav
+const trigger = document.querySelector('.trigger');
+const nav = document.querySelector('.navigation');
+
+const toggleClass = (element, className) => element.classList.toggle(className);
+
+trigger.addEventListener('click', () => {
+	toggleClass(nav, 'open');
+	toggleClass(trigger, 'rotate-trigger');
+});
+
 </script>
 </html>
