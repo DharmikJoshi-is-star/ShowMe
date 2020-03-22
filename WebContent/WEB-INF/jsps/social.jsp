@@ -42,7 +42,7 @@ function myFunction() {
   var elmnt = document.getElementById(<%=request.getAttribute("postId")%>);
   elmnt.scrollIntoView();
 }
-
+<%-- 
 function modalTrigger(){
 	var modal = document.getElementById(<%=request.getAttribute("modalId")%>);
 	modal.trigger();
@@ -54,7 +54,7 @@ $(document).ready(function(){
 	
     $(<%=request.getAttribute("modalId")%>).modal();
 });
-
+ --%>
 
 </script>
 
@@ -681,7 +681,7 @@ background-color: #eee;
 </head>
 
 
-<body onload="myFunction(),modalTrigger()">
+<body onload="myFunction()">
 
 
 
@@ -938,6 +938,8 @@ background-color: #eee;
 				  </span>
 				  <div class="search">
 				  
+				  <!-- &modalId=#modalForPost${post.getId()} -->
+				  
 				  <form action="addComment?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}" method="post">
 				  	 <input class="commentBox" placeholder="Add a comment..." type="text" name="commentOnPost">
 				   	 <button type="submit"><i class="fa fa-camera"></i></button>
@@ -1110,8 +1112,8 @@ background-color: #eee;
                         </ul>	
                         </div>
                         <br>
-                        
-					 <form action="addComment?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}&modalId=#modalForPost${post.getId()}" method="post">
+                        <!-- &modalId=#modalForPost${post.getId()} -->
+					 <form action="addComment?user_id=${adminUser.getId()}&post_id=${post.getId()}&prev=${prev}&next=${next}" method="post">
                         <input style="width: 615px; height: 50px;" type="text" id="commentBox" name="commentOnPost" placeholder="   Add a comment..." aria-describedby="basic-addon2" >
                     
                         <button style="width: 100px; height: 50px; color : #fff;" class="btn btn-outline-secondary" id="commentButton" type="submit"> <b style="color: rgb(124, 194, 255);">Post</b>  </button>

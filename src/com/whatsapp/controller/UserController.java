@@ -547,7 +547,7 @@ public class UserController {
 			model.addAttribute("postId", postId);
 			model.addAttribute("prev", prev);
 			model.addAttribute("next", next);
-			model.addAttribute("modalId", "#");
+			/* model.addAttribute("modalId", "#"); */
 			
 			System.out.println("hello");
 		} catch (ClassNotFoundException | SQLException | IOException e) {
@@ -631,7 +631,9 @@ public class UserController {
 							@RequestParam("user_id") Integer user_id, 
 							@RequestParam("post_id") Integer post_id,
 							HttpServletRequest request,
-							 @RequestParam("prev") Integer prev,  @RequestParam("next") Integer next, @RequestParam("modalId") String modalId) {
+							 @RequestParam("prev") Integer prev,  @RequestParam("next") Integer next) {
+		
+		/*, @RequestParam("modalId") String modalId*/
 		
 		if(!request.getParameter("commentOnPost").isEmpty()) {
 		
@@ -655,7 +657,7 @@ public class UserController {
 		model.addAttribute("prev", prev);
 		model.addAttribute("next", next);
 		model.addAttribute("postId", post_id);
-		model.addAttribute("modalId", modalId);
+		/* model.addAttribute("modalId", modalId); */
 		
 		return "redirect:viewAllPosts?user_id="+user_id;
 	}

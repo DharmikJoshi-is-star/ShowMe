@@ -21,8 +21,6 @@ public class AddContact {
 	@Pattern(regexp = "\\w+@\\w+.\\w+",message = "invalid username")
 	private String email;
 
-	
-
 
 	public int getUser_id() {
 		return user_id;
