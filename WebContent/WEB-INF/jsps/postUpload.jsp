@@ -366,10 +366,10 @@ img {
 }
 
 /* Spinner Animation */
-@keyframes loader {to { transform:rotate(360deg);
-	
-}
-
+@keyframes loader {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /*
@@ -740,7 +740,44 @@ height: 50px;
 	transform: rotate(180deg);
 }
 
+/**/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
 
 </head>
@@ -919,13 +956,10 @@ height: 50px;
 			
 		</div>
 	</div>
-
-	<sf:form name="upload" method="post" action="addPost?user_id=${user.getId()}"  
-				modelAttribute="newPost" >
-				
+			
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3 center">
-				<div class="btn-container">
+				<div class="btn-container" id="chooseUploadForReceiver-icon">
 					<!--the three icons: default, ok file (img), error file (not an img)-->
 					<h1 class="imgupload"><i class="fa fa-file-image-o" id="btnup" style="cursor: pointer;"></i></h1>
 					<h1 class="imgupload ok"><i class="fa fa-check"></i></h1>
@@ -935,21 +969,80 @@ height: 50px;
 					<!--our custom btn which which stays under the actual one-->
 					<!-- < type="button" id="btnup" class="btn btn-primary btn-lg">Browse for your pic!</button> -->
 					<!--this is the actual file input, is set with opacity=0 beacause we wanna see our custom one-->
-					<sf:input type="file" value="" name="fileup" id="fileup" path="post"/>
+					
 				</div>
 			</div>
 		</div>
 			<!--additional fields-->
-		<div class="row">			
-			<div class="col-md-12">
-			
-				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
-				<input type="submit" value="Submit!" class="btn btn-primary" id="submitbtn">
-				
-			</div>
-		</div>
-	</sf:form>
+		
+	
 </div>
+
+
+<div id="modalSelectUploadForReceiver" class="modal">
+
+								  <!-- Modal content -->
+								  <div class="modal-content">
+								    <span class="close" id="closeUpload">&times;</span>
+								    <p>Select Picture</p>
+								   
+								    <form name="upload" method="post" action="addPost?user_id=${user.getId()}" >
+										<input id="chooseUploadForReceiver" type="file" name="chooseUploadForReceiver" />
+								     	<BR><BR>
+								        <input type="hidden" id="dataUrlForselectUploadForReceiver" name="dataUrlForselectUploadForReceiver">
+								        <img id="previewUploadForReceiver" height="400" width="400"> 
+								        <BR><BR>
+										<div class="row">			
+											<div class="col-md-12">
+											
+												<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+												<input type="submit" value="Submit!" class="btn btn-primary" id="submitbtn">
+												
+											</div>
+										</div>
+								    </form>
+								    
+								  </div>
+								
+								</div>
+
+                                <script type="text/javascript">
+                                
+                                var modalSelectUploadForReceiver = document.getElementById("modalSelectUploadForReceiver");
+								var chooseUploadForReceivericon = document.getElementById("chooseUploadForReceiver-icon");
+                             	var closeUpload = document.getElementById("closeUpload");
+                             	var chooseUploadForReceiver = document.getElementById("chooseUploadForReceiver");
+                                var dataUrlForselectUploadForReceiver = document.getElementById("dataUrlForselectUploadForReceiver");
+                                var previewUploadForReceiver = document.getElementById("previewUploadForReceiver");
+
+                             	chooseUploadForReceivericon.onclick = function() {
+                             		modalSelectUploadForReceiver.style.display = "block";
+	                             }
+                             	closeUpload.onclick = function() {
+	                            	 modalSelectUploadForReceiver.style.display = "none";
+	                             }
+	                             window.onclick = function(event) {
+	                               if (event.target == modalSelectUploadForReceiver) {
+	                            	   modalSelectUploadForReceiver.style.display = "none";
+	                               }
+	                             }
+
+	                              chooseUploadForReceiver.addEventListener("change", function() {
+	                                  var file = this.files[0]; 
+	                                  console.log(file);
+	                                  if (file) {
+	                                  		var reader = new FileReader();
+	                                    	reader.addEventListener("load", function() {
+	                                      		
+	                                      		dataUrlForselectUploadForReceiver.setAttribute("value", this.result);
+	                                      		previewUploadForReceiver.setAttribute("src", this.result);
+	                                      		
+	                                    	});
+											reader.readAsDataURL(file);
+	                                  }
+	                                });
+                                
+                                </script>
 
 
 
@@ -957,7 +1050,7 @@ height: 50px;
 
 <script>
 
-$("#btnup").on("click", function(e) {
+/* $("#btnup").on("click", function(e) {
 	  e.preventDefault();
 	  e.stopPropagation();
   $("#fileup").trigger("click");
@@ -968,7 +1061,7 @@ $("#fileup").on("change", function(e) {
 	  e.preventDefault();
 	  e.stopPropagation();
   $("#submitbtn").trigger("click");
-});
+}); */
 
 //for vertical-nav
 const trigger = document.querySelector('.trigger');

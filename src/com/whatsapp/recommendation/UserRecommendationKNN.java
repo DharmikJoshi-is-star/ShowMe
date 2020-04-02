@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.whatsapp.beans.User;
 
+@Component
 public class UserRecommendationKNN {
 
 	private Float euclideanDistance(List<Integer> list1, List<Integer> list2){

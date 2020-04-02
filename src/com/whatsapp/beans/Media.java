@@ -22,6 +22,14 @@ public class Media {
 	private Date date;
 	private Time time;
 	
+	private String dataurl;
+	
+	public String getDataurl() {
+		return dataurl;
+	}
+	public void setDataurl(String dataurl) {
+		this.dataurl = dataurl;
+	}
 	public String getFileName() {
 		return fileName;
 	}

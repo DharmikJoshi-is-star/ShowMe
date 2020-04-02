@@ -132,19 +132,29 @@ public class ReceiverController {
 			List<Message> messages = new ArrayList<>();
 			
 			try {
-				User receiver = db.getUser(contact_id);
+				User receiver = db.getNeccessaryUserValues(contact_id);
+				
 				messages = dbm.getAllMessages(user_id,contact_id);
 				
-				List<AddContact> contacts = db.getAllContacts(user_id);
-				List<User> users = new ArrayList<User>();
+				List<User> users = db.getAllUserContactsWithNecessaryStatus(user_id);
+
+				//List<AddContact> contacts = db.getAllContacts(user_id);
+				//List<User> users = new ArrayList<User>();
 				
-				for(AddContact addContact : contacts) {
-							users.add(db.getUser(addContact.getContact_id()));
-				}
+			/*
+			 * for(AddContact addContact : contacts) {
+			 * users.add(db.getUser(addContact.getContact_id())); }
+			 */
+				
 				users = dbm.checkViewUsers(users, user_id);
-				List<Group> groups = dbg.getGroups(new Integer(user_id));
+				
+				List<Group> groups= dbg.getGroupInformationForHome(user_id);
+				
+				//List<Group> groups = dbg.getGroups(new Integer(user_id));
+				
 				groups = dbg.checkViewGroups(groups, user_id);	
-				System.out.print(receiver.getName()+"-->receiver");
+				
+				//System.out.print(receiver.getName()+"-->receiver");
 				
 				List<Media> medias = dbm.getAllMediaTransfers(user_id, contact_id);
 				
@@ -190,72 +200,49 @@ public class ReceiverController {
 					conversationList.add(conversation);
 				}
 				
-				for (Group group : groups) {
-					
-					Conversation conversation = new Conversation();
-					conversation.setUser(null);
-					
-					if(group.getLastMessage()==null) 
-						group.setConversationDealy(new Long("9999999999"));
-					
-					conversation.setConversationDealy(group.getConversationDealy());
-					
-					conversation.setGroup(group);
-					
-					conversationList.add(conversation);
-				
-				}
-				
-				conversationList = conversationList.stream()
-						  .sorted(Comparator.comparing(Conversation::getConversationDealy))
-						  .collect(Collectors.toList());
-				
-				
-			/*
-			 * List<User> userList = users.stream()
-			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
-			 * .collect(Collectors.toList());
-			 * 
-			 * users = userList.stream()
-			 * .sorted(Comparator.comparing(User::getLastMessageTime).reversed())
-			 * .collect(Collectors.toList());
+			
+			
+			 for (Group group : groups) {
 			 
-				users = users.stream()
-						  .sorted(Comparator.comparing(User::getConversationDealy))
-						  .collect(Collectors.toList());
-			*/	
+			 Conversation conversation = new Conversation(); conversation.setUser(null);
+			 
+			 if(group.getLastMessage()==null) 
+				 group.setConversationDealy(new Long("9999999999"));
+			 
+			 conversation.setConversationDealy(group.getConversationDealy());
+			 
+			 conversation.setGroup(group);
+			 
+			 conversationList.add(conversation);
+			 
+			 }
+			
+			
+			
+			  conversationList = conversationList.stream()
+			  .sorted(Comparator.comparing(Conversation::getConversationDealy))
+			  .collect(Collectors.toList());
+			 
 				
-			/*
-			 * for (User user : users) if(user.getLastMessage()==null)
-			 * user.setConversationDealy(new Long("9999999999"));
-			 * 
-			 * users = users.stream()
-			 * .sorted(Comparator.comparing(User::getConversationDealy))
-			 * .collect(Collectors.toList());
-			 * 
-			 * for (Group g : groups) if(g.getLastMessage()==null)
-			 * g.setConversationDealy(new Long("9999999999"));
-			 * 
-			 * groups = groups.stream()
-			 * .sorted(Comparator.comparing(Group::getConversationDealy))
-			 * .collect(Collectors.toList());
-			 */
-				model.addAttribute("conversationList", conversationList);
+				
+				model.addAttribute("conversationList", conversationList); // list of user and groups
 				model.addAttribute("mediaDoc", media);
-				model.addAttribute("receiver", receiver);
-				model.addAttribute("messages", messages);
+				model.addAttribute("receiver", receiver); // information of receiver
+				model.addAttribute("messages", messages); // messages between user and receiver
 				model.addAttribute("user_id", user_id);
-				model.addAttribute("contacts", contacts);
-				model.addAttribute("groups", groups);
-				model.addAttribute("users",users);
+				//model.addAttribute("contacts", contacts);
+				//model.addAttribute("groups", groups); 
+				//model.addAttribute("users",users);
 				model.addAttribute("userStatus",status);
-				model.addAttribute("admin", db.getUser(user_id));
+				model.addAttribute("admin", db.getNeccessaryStatusUserValues(user_id));
 				model.addAttribute("database", db);
-				model.addAttribute("model", model);
+				//model.addAttribute("model", model);
 				model.addAttribute("media", media);
+				
 				long millis=System.currentTimeMillis();  
 		        Date date=new Date(millis);
 				model.addAttribute("todaysDate",date );
+				
 			} catch (ClassNotFoundException | SQLException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

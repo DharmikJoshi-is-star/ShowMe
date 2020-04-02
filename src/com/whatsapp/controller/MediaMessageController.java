@@ -1,11 +1,18 @@
 package com.whatsapp.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,24 +76,56 @@ public class MediaMessageController {
 	public String insertMedia(Model model, 
 						@RequestParam("user_id") Integer user_id, 
 							@RequestParam("contact_id") Integer contact_id,
-							@ModelAttribute("media") Media media,
+							//@ModelAttribute("media") Media media,
 							@RequestParam("type") String type,
 							HttpServletRequest request) {
 		
-		
-		System.out.println(media.getFilePath());
-		System.out.println("type="+type);
 		try {
 			
 			if(type.equals("picture")) {
+			 
+				 String str = request.getParameter("dataUrlForselectPictureForReceiver").toString();
+
+					File pathFile = new File(request.getParameter("choosePictureForReceiver").toString());
+					
+					FileOutputStream fos = new FileOutputStream(pathFile);
+					
+					String b64 = str.substring(str.indexOf(",") + 1);
+					
+				    byte[] decoder = Base64.getDecoder().decode(b64);
+					
+				    fos.write(decoder);
+				    
+				    fos.close();
+				    
+					media.setFilePath(pathFile.getPath());
+				 
 				media.setType(MediaTypeEnum.PICTURE.toString());
 			}
 			if(type.equals("document")) {
+				
+				String str = request.getParameter("dataUrlForselectDocumentForReceiver").toString();
+
+				File pathFile = new File(request.getParameter("chooseDocumentForReceiver").toString());
+				
+				FileOutputStream fos = new FileOutputStream(pathFile);
+				
+				String b64 = str.substring(str.indexOf(",") + 1);
+				
+			    byte[] decoder = Base64.getDecoder().decode(b64);
+				
+			    fos.write(decoder);
+			    
+			    fos.close();
+			    
+				media.setFilePath(pathFile.getPath());
+				
 				media.setType(MediaTypeEnum.DOCUMENT.toString());
 			}
 			if(!media.getFilePath().equals(""))
 				dbm.insertMedia(user_id, contact_id, media);
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+			
+		} catch (ClassNotFoundException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -106,6 +145,8 @@ public class MediaMessageController {
 		
 		System.out.println(media.getFilePath());
 		System.out.println("type="+type);
+		
+		
 		try {
 			
 			if(type.equals("picture")) {
@@ -115,20 +156,36 @@ public class MediaMessageController {
 				media.setType(MediaTypeEnum.DOCUMENT.toString());
 			}
 			if(type.equals("video")) {
+				
+				String str = request.getParameter("dataUrlForselectVideoForReceiver").toString();
+
+				File pathFile = new File(request.getParameter("chooseVideoForReceiver").toString());
+				
+				FileOutputStream fos = new FileOutputStream(pathFile);
+				
+				String b64 = str.substring(str.indexOf(",") + 1);
+				
+			    byte[] decoder = Base64.getDecoder().decode(b64);
+				
+			    fos.write(decoder);
+			    
+			    fos.close();
+			    
+				media.setFilePath(pathFile.getPath());
+				
+				
 				media.setType(MediaTypeEnum.VIDEO.toString());
 			}
 			
 			if(!media.getFilePath().equals(""))
 				dbm.insertMedia(user_id, contact_id, media);
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException  | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return "redirect:showChat?user_id="+user_id+"&contact_id="+contact_id;
 	}
-	
-	
 	
 	@RequestMapping("/insertMediaToGroup")
 	public String insertMediaToGroup(Model model, 
@@ -138,19 +195,53 @@ public class MediaMessageController {
 							@RequestParam("type") String type,
 							HttpServletRequest request) {
 		
-		System.out.println(media.getFilePath());
+		//System.out.println(media.getFilePath());
 		System.out.println("type="+type);
 		try {
 			
 			if(type.equals("picture")) {
+				
+				String str = request.getParameter("dataUrlForselectPictureForGroup").toString();
+
+				File pathFile = new File(request.getParameter("choosePictureForGroup").toString());
+				
+				FileOutputStream fos = new FileOutputStream(pathFile);
+				
+				String b64 = str.substring(str.indexOf(",") + 1);
+				
+			    byte[] decoder = Base64.getDecoder().decode(b64);
+				
+			    fos.write(decoder);
+			    
+			    fos.close();
+			    
+				media.setFilePath(pathFile.getPath());
+				
 				media.setType(MediaTypeEnum.PICTURE.toString());
 			}
 			if(type.equals("document")) {
+				
+				String str = request.getParameter("dataUrlForselectDocumentForGroup").toString();
+
+				File pathFile = new File(request.getParameter("chooseDocumentForGroup").toString());
+				
+				FileOutputStream fos = new FileOutputStream(pathFile);
+				
+				String b64 = str.substring(str.indexOf(",") + 1);
+				
+			    byte[] decoder = Base64.getDecoder().decode(b64);
+				
+			    fos.write(decoder);
+			    
+			    fos.close();
+			    
+				media.setFilePath(pathFile.getPath());
+				
 				media.setType(MediaTypeEnum.DOCUMENT.toString());
 			}
 			if(!media.getFilePath().equals(""))
 				dbg.insertMediaIntoGroup(user_id, group_id, media);
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException  | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -178,11 +269,28 @@ public class MediaMessageController {
 				media.setType(MediaTypeEnum.DOCUMENT.toString());
 			}
 			if(type.equals("video")) {
+				
+				String str = request.getParameter("dataUrlForselectVideoForGroup").toString();
+
+				File pathFile = new File(request.getParameter("chooseVideoForGroup").toString());
+				
+				FileOutputStream fos = new FileOutputStream(pathFile);
+				
+				String b64 = str.substring(str.indexOf(",") + 1);
+				
+			    byte[] decoder = Base64.getDecoder().decode(b64);
+				
+			    fos.write(decoder);
+			    
+			    fos.close();
+			    
+				media.setFilePath(pathFile.getPath());
+				
 				media.setType(MediaTypeEnum.VIDEO.toString());
 			}
 			if(!media.getFilePath().equals(""))
 				dbg.insertMediaIntoGroup(user_id, group_id, media);
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException  | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

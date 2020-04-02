@@ -37,6 +37,9 @@ public class DB {
 	// ctrl+shift+f for format
 	// heroku
 	// Step 1: Declare all variables
+	//localhost:3306
+	//password : NDNiqt63194
+	//url = node22838-wtfmedia.jelastichosting.nl
 	private String username = "root";
 	private String password = "";
 	private String dbName = "whatsapp";
@@ -56,6 +59,21 @@ public class DB {
 
 	}
 
+	
+	//to get all user-contact of given user id
+	/*SELECT *
+		FROM user
+		WHERE id
+		IN (
+		
+		SELECT contact_id
+		FROM contact
+		WHERE user_id =1
+		)
+		LIMIT 0 , 30
+	 */
+	
+	
 	public Boolean checkCredentials(Login login) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		int count = 0;
@@ -97,9 +115,31 @@ public class DB {
 		pstmt.setBinaryStream(5, fis, (int) file.length());
 
 		pstmt.executeUpdate();
+		
+		sql = "select id from user where email=? AND password=?";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, user.getEmail());
+		pstmt.setString(2, user.getPassword());
 
+		ResultSet rst = pstmt.executeQuery();
+
+		while (rst.next()) { // return true if exist
+			user.setId(rst.getInt("id"));
+			break;
+		}
+		
+		List<Integer> interest = new ArrayList<Integer>();
+		
+		for (int i = 0; i < 10; i++) {
+			interest.add(i);
+		}
+		
+		user.setUserInterest(interest);
+		
 		dbClose();
 
+		toInsertUserInterest(user);
+		
 		insertLogin(user);
 	}
 
@@ -342,6 +382,188 @@ public class DB {
 		return tablename;
 	}
 
+	//get all the friend of user with necessary information
+	public List<User> getAllUserContactsWithNecessary(Integer user_id) throws SQLException, ClassNotFoundException, IOException{
+		dbConnect();
+		
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * FROM user WHERE id IN ( SELECT contact_id FROM contact WHERE user_id = ? )";
+		
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		ResultSet rst = pstmt.executeQuery();
+		
+		while (rst.next()) {
+
+			User user = new User();
+			
+			user.setId(rst.getInt("id"));
+			user.setName(rst.getString("name"));
+			user.setEmail(rst.getString("email"));
+			user.setContact(rst.getString("contact"));
+
+			Blob blob = rst.getBlob("profile_img");
+
+			InputStream inputStream = blob.getBinaryStream();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int bytesRead = -1;
+
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+
+			byte[] imageBytes = outputStream.toByteArray();
+			String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+			user.setPicture_str(base64Image);
+		
+			users.add(user);
+		}
+		
+		
+		dbClose();
+		
+		return users;
+	}
+	
+	//get all the friend of user with necessary information & status
+		public List<User> getAllUserContactsWithNecessaryStatus(Integer user_id) throws SQLException, ClassNotFoundException, IOException{
+			dbConnect();
+			
+			List<User> users = new ArrayList<User>();
+			String sql = "SELECT * FROM user WHERE id IN ( SELECT contact_id FROM contact WHERE user_id = ? )";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, user_id);
+			ResultSet rst = pstmt.executeQuery();
+			
+			while (rst.next()) {
+
+				User user = new User();
+				
+				user.setId(rst.getInt("id"));
+				user.setName(rst.getString("name"));
+				user.setEmail(rst.getString("email"));
+				user.setContact(rst.getString("contact"));
+
+				Blob blob = rst.getBlob("profile_img");
+
+				InputStream inputStream = blob.getBinaryStream();
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				byte[] buffer = new byte[4096];
+				int bytesRead = -1;
+
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, bytesRead);
+				}
+
+				byte[] imageBytes = outputStream.toByteArray();
+				String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+				user.setPicture_str(base64Image);
+			
+				user.setStatus(getStatusByUserId(rst.getInt("id")));
+				
+				users.add(user);
+			}
+			
+			
+			dbClose();
+			
+			return users;
+		}
+	
+	//using this we will get only necessary information of user
+	public User getNeccessaryUserValues(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
+		
+		dbConnect();
+
+		User user = new User();
+		
+		String sql = "Select * from user where id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, user_id);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		while (rst.next()) {
+
+			user.setId(rst.getInt("id"));
+			user.setName(rst.getString("name"));
+			user.setEmail(rst.getString("email"));
+			user.setContact(rst.getString("contact"));
+
+			Blob blob = rst.getBlob("profile_img");
+
+			InputStream inputStream = blob.getBinaryStream();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int bytesRead = -1;
+
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+
+			byte[] imageBytes = outputStream.toByteArray();
+			String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+			user.setPicture_str(base64Image);
+		
+		}
+		
+		dbConnect();
+		
+		return user;
+		
+	}
+	
+	//using this we will get only necessary and status information of user
+		public User getNeccessaryStatusUserValues(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
+			
+			dbConnect();
+
+			User user = new User();
+			
+			String sql = "Select * from user where id=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, user_id);
+			
+			ResultSet rst = pstmt.executeQuery();
+			
+			while (rst.next()) {
+
+				user.setId(rst.getInt("id"));
+				user.setName(rst.getString("name"));
+				user.setEmail(rst.getString("email"));
+				user.setContact(rst.getString("contact"));
+
+				Blob blob = rst.getBlob("profile_img");
+
+				InputStream inputStream = blob.getBinaryStream();
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				byte[] buffer = new byte[4096];
+				int bytesRead = -1;
+
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, bytesRead);
+				}
+
+				byte[] imageBytes = outputStream.toByteArray();
+				String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+				user.setPicture_str(base64Image);
+				
+				user.setStatus(getStatusByUserId(user_id));
+			
+			}
+			
+			dbConnect();
+			
+			return user;
+			
+		}
+	
 	public User getUser(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 		// TODO Auto-generated method stub
 
@@ -415,6 +637,8 @@ public class DB {
 		return name;
 	}
 
+	
+	
 	public void updateUser(User user, String image) throws ClassNotFoundException, SQLException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		dbConnect();
@@ -770,8 +994,11 @@ public class DB {
 		Status status = createStatus(user_id, image);
 
 		File file = new File(status.getStatusPicture());
+		
 		FileInputStream fis = new FileInputStream(file);
 
+		System.out.println(fis.toString());
+		
 		String sql = "INSERT INTO status ( user_id , image , date , time ) VALUES (  ? , ? , ? , ? )";
 
 		PreparedStatement pstmt = con.prepareStatement(sql);
@@ -954,14 +1181,17 @@ public class DB {
 
 	}
 
-	public void getAllSortedPostBetweenRange() throws ClassNotFoundException, SQLException, IOException {
+	public List<Post> getAllSortedPostBetweenRange(Integer user_id) throws ClassNotFoundException, SQLException, IOException {
 
 		List<Post> posts = new ArrayList<Post>();
 
 		dbConnect();
-		String sql = "SELECT * FROM post ORDER BY date DESC , time DESC";
+		String sql = "SELECT * FROM post WHERE user_id IN ( SELECT contact_id FROM contact WHERE user_id = ? ) OR user_id = ? ORDER BY date DESC , time DESC";
+		
 		PreparedStatement pstmt = con.prepareStatement(sql);
-
+		pstmt.setInt(1 , user_id);
+		pstmt.setInt(2, user_id);
+		
 		ResultSet rst = pstmt.executeQuery();
 
 		while (rst.next()) {
@@ -997,9 +1227,11 @@ public class DB {
 
 		dbClose();
 
+		return posts;
 	}
-
-	public List<Post> getAllPost() throws ClassNotFoundException, SQLException, IOException {
+	
+	
+		public List<Post> getAllPost() throws ClassNotFoundException, SQLException, IOException {
 
 		List<Post> posts = new ArrayList<Post>();
 
@@ -1236,7 +1468,36 @@ public class DB {
 			
 		}
 		
+		dbClose();
 		
+		return users;
+	}
+	
+	public List<User> getInterestOfUsersOtherThanFriends(Integer userId) throws ClassNotFoundException, SQLException {
+		
+		dbConnect();
+		
+		List<User> users = new ArrayList<User>();
+		
+		String sql = "Select * from user_interest where user_id IN ( select contact_id from contact where user_id != ?  )";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, userId);
+		
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			
+			User user = new User();
+			user.setId(rst.getInt("user_id"));
+			List<Integer> interest = new ArrayList<Integer>();
+			for (int i = 0; i < 10; i++) {
+				interest.add(rst.getInt(3+i));
+				System.out.println(rst.getInt(3+i));
+			}
+			user.setUserInterest(interest);		
+			users.add(user);
+		}
+	
 		dbClose();
 		
 		return users;
@@ -1252,7 +1513,6 @@ public class DB {
 		
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1, user.getId());
-		
 		
 		ResultSet rst = pstmt.executeQuery();
 		

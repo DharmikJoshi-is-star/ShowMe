@@ -39,6 +39,7 @@
 	<bean id="conversation" class="com.whatsapp.beans.Conversation"></bean>
 	<bean id="comment" class="com.whatsapp.beans.Comment"></bean>
 	
+	<bean id="userRecommendationKNN" class="com.whatsapp.recommendation.UserRecommendationKNN"></bean>
 	
 	<bean id="db" class="com.whatsapp.database.DB"></bean>
 	<bean id="dbm" class="com.whatsapp.database.DBMessage"></bean>

@@ -1,7 +1,13 @@
 package com.whatsapp.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Base64;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,12 +56,29 @@ public class StatusController {
 	 * add status will get called when user wanted to add a new status
 	 */
 	@RequestMapping("/addStatus")
-	public String addStatus(@ModelAttribute("userStatus") Status status, @RequestParam("user_id") Integer user_id) {
+	public String addStatus(@ModelAttribute("userStatus") Status status, @RequestParam("user_id") Integer user_id, HttpServletRequest request) {
 		
 		try {
+			
+			String str = request.getParameter("dataUrlForselectStatusForReceiver").toString();
+
+			File pathFile = new File(request.getParameter("chooseStatusForReceiver").toString());
+			
+			FileOutputStream fos = new FileOutputStream(pathFile);
+			
+			String b64 = str.substring(str.indexOf(",") + 1);
+			
+		    byte[] decoder = Base64.getDecoder().decode(b64);
+			
+		    fos.write(decoder);
+		    
+		    fos.close();
+			
+		    status.setStatusPicture( pathFile.getPath() );
+		    
 			if(status.getStatusPicture()!=null)
 				db.InsertStatusByUserId(user_id, status.getStatusPicture());
-		} catch (ClassNotFoundException | FileNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException  | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

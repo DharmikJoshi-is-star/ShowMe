@@ -158,8 +158,8 @@ hr {
 <div class="container my-margin">
 			<div class="card my-width m-auto">
 				<div class="card-body">
-					<h5 class="card-title text-center">WhatsApp Login</h5>
-					<h6 class="card-subtitle mb-2 text-muted text-center">Welcome to WhatsApp Web!</h6>
+					<h5 class="card-title text-center">ShowMe Login</h5>
+					<h6 class="card-subtitle mb-2 text-muted text-center">Welcome to ShowMe Social Network!</h6>
 					<sf:form method="post" action="process-login" modelAttribute="login">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Username/Email address</label>
@@ -184,30 +184,30 @@ hr {
 
 <div id="id01" class="modal">
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <sf:form class="modal-content" action="process-register-form" modelAttribute="user">
+  <form class="modal-content" action="process-register-form"  method="post">
     <div class="container">
       <h1>Sign Up</h1>
       <p>Please fill in this form to create an account.</p>
       <hr>
       <label for="name"><b>Full Name</b></label>
-      <sf:input type="text" path="name" placeholder="Enter Full Name" name="name" />
+      <input type="text" path="name" placeholder="Enter Full Name" name="name" >
 
 	  <label for="email"><b>Email</b></label>
-      <sf:input type="email" path="email" placeholder="Enter Email" name="email" />
+      <input type="email" path="email" placeholder="Enter Email" name="email" >
 				
       <label for="psw"><b>Password</b></label>
-      <sf:input path="password" type="password" placeholder="Enter Password" name="psw" />
+      <input path="password" type="password" placeholder="Enter Password" name="password" >
 
       <label for="contact"><b>Contact Number</b></label>
-      <sf:input path="contact" type="text" placeholder="Enter Contact" name="contact" />
-      
+      <input path="contact" type="text" placeholder="Enter Contact" name="contact" >
       
 	  <div class="form-row input-group mb-3">
 		<div class="input-group-prepend">
 			<span class="input-group-text">Upload</span>
 		</div>
 		<div class="custom-file">
-			<sf:input path="picture_str" type="file" class="custom-file-input" id="inputGroupFile01"/>
+			<input name="picture_str" type="hidden" id="picture_str">
+			<input type="file" class="custom-file-input" id="inputGroupFile01" name="inputGroupFile01"/>
 			<!--  --><label class="custom-file-label" for="profile">Upload your Profile Picture</label><BR><sf:errors path="picture_str"/>
 		</div>
 	  </div>
@@ -217,7 +217,7 @@ hr {
         <button type="submit" class="signupbtn" value="Sign Up">Sign Up</button>
       </div>
     </div>
-  </sf:form>
+  </form>
 </div>
 
 <script>
@@ -230,6 +230,26 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+
+var chooseUploadForReceiver = document.getElementById("inputGroupFile01");
+var dataUrlForselectUploadForReceiver = document.getElementById("picture_str");
+
+  chooseUploadForReceiver.addEventListener("change", function() {
+      var file = this.files[0]; 
+      console.log(file);
+      if (file) {
+      		var reader = new FileReader();
+        	reader.addEventListener("load", function() {
+          		
+          		dataUrlForselectUploadForReceiver.setAttribute("value", this.result);
+          		
+        	});
+			reader.readAsDataURL(file);
+      }
+    });
+
+
 </script>
 <!-- 
 <h1>Login Page</h1>

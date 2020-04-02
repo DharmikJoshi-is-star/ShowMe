@@ -181,19 +181,22 @@ public class GroupController {
 			try {
 				GroupMessage gmessage = new GroupMessage();
 				Group group = dbg.getGroupInformation(user_id, group_id);
+				
 				List<User> members = dbg.getGroupMembersInformation(group.getMembers_id());
 				
-				System.out.println("****************************************************");
-				System.out.println("group="+group);
-				System.out.println("group.getGroup_name()="+group.getGroup_name());
-				System.out.println("group.getMessages()="+group.getMessages());
-				
+			/*
+			 * System.out.println("****************************************************");
+			 * System.out.println("group="+group);
+			 * System.out.println("group.getGroup_name()="+group.getGroup_name());
+			 * System.out.println("group.getMessages()="+group.getMessages());
+			 */
 				for (GroupMessage g : group.getMessages()) {
 					System.out.println("Media "+g.getMediaId()+"\n");
 				}
 				
-				System.out.println("****************************************************");
-				
+			/*
+			 * System.out.println("****************************************************");
+			 */
 				model.addAttribute("gmessage", gmessage);
 				model.addAttribute("groupobj", group);
 				model.addAttribute("members", members);
@@ -208,15 +211,24 @@ public class GroupController {
 				e.printStackTrace();
 			}
 			
-			List<AddContact> contacts;
+			//List<AddContact> contacts;
+
+			List<User> users;
+			
+			
 			try {
-				contacts = db.getAllContacts(user_id);
-				List<User> users = new ArrayList<User>();
-				for(AddContact addContact : contacts) {
-							users.add(db.getUser(addContact.getContact_id()));
-				}
-				List<Group> groups = dbg.getGroups(new Integer(user_id));
+				//contacts = db.getAllContacts(user_id);
+				//List<User> users = new ArrayList<User>();
+			/*
+			 * for(AddContact addContact : contacts) {
+			 * users.add(db.getUser(addContact.getContact_id())); }
+			 */
+				users = db.getAllUserContactsWithNecessaryStatus(user_id);
+				
+				List<Group> groups= dbg.getGroupInformationForHome(user_id);
+				
 				groups = dbg.checkViewGroups(groups, user_id);
+				
 				users = dbm.checkViewUsers(users, user_id);
 				
 				List<Conversation> conversationList = new ArrayList<>();
@@ -270,18 +282,20 @@ public class GroupController {
 			 * .sorted(Comparator.comparing(Group::getConversationDealy))
 			 * .collect(Collectors.toList());
 			 */
+			
 				model.addAttribute("conversationList",conversationList);
 				model.addAttribute("media", media);
 				model.addAttribute("user_id", user_id);
-				model.addAttribute("contacts", contacts);
+				//model.addAttribute("contacts", contacts);
 				model.addAttribute("groups", groups);
-				model.addAttribute("users",users);
+				//model.addAttribute("users",users);
 				model.addAttribute("userStatus",status);
-				model.addAttribute("admin", db.getUser(user_id));
+				model.addAttribute("admin", db.getNeccessaryStatusUserValues(user_id));
 				model.addAttribute("database", db);
 				long millis=System.currentTimeMillis();  
 		        Date date=new Date(millis);
 				model.addAttribute("todaysDate",date );
+			
 			} catch (ClassNotFoundException|IOException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -342,7 +356,7 @@ public class GroupController {
 				
 				model.addAttribute("users", users);
 				model.addAttribute("group", group);
-				model.addAttribute("admin", db.getUser(group.getAdmin_id()));
+				model.addAttribute("admin", db.getNeccessaryStatusUserValues(group.getAdmin_id()));
 			} catch (ClassNotFoundException |IOException| SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

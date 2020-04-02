@@ -34,10 +34,12 @@ import com.whatsapp.enums.MediaTypeEnum;
 @Component
 public class DBMessage {
 	
-	DB db = new DB();
+	@Autowired
+	DB db;
 	
 	MediaTypeEnum mediaTypeEnum;
 	      
+	//localhost:3306
 	//Step 1: Declare all variables
 	private String username = "root";
 	private String password = "";
@@ -164,6 +166,7 @@ public class DBMessage {
 				}
 	
 				Message msg = new Message();
+				
 				msg.setSrno(rst.getInt("srno"));
 				msg.setSender(rst.getInt("sender"));
 				msg.setMsg(rst.getString("msg"));
@@ -221,6 +224,7 @@ public class DBMessage {
 				
 			
 				user.setLastMessageDate(msg.getDate());
+				
 				user.setLastMessageTime(msg.getTime());
 				
 				user.setConversationDealy(diff);
@@ -261,21 +265,21 @@ public class DBMessage {
 			
 			if(media.getType().equals(MediaTypeEnum.PICTURE.toString())) {
 				
-				Blob blob = rst.getBlob("document");
+				//Blob blob = rst.getBlob("document");
 	            
-	            InputStream inputStream = blob.getBinaryStream();
-	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	            byte[] buffer = new byte[4096];
-	            int bytesRead = -1;
-	             
-	            while ((bytesRead = inputStream.read(buffer)) != -1) {
-	                outputStream.write(buffer, 0, bytesRead);                  
-	            }
-	             
-	            byte[] imageBytes = outputStream.toByteArray();
-	            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+					/*
+					 * InputStream inputStream = blob.getBinaryStream(); ByteArrayOutputStream
+					 * outputStream = new ByteArrayOutputStream(); byte[] buffer = new byte[4096];
+					 * int bytesRead = -1;
+					 * 
+					 * while ((bytesRead = inputStream.read(buffer)) != -1) {
+					 * outputStream.write(buffer, 0, bytesRead); }
+					 * 
+					 * byte[] imageBytes = outputStream.toByteArray(); String base64Image =
+					 * Base64.getEncoder().encodeToString(imageBytes);
+					 */
 	
-	            media.setPicture(base64Image);
+	            media.setPicture(null);
 	            media.setDocument(null);
 	            media.setVideo(null);
 				
@@ -288,24 +292,22 @@ public class DBMessage {
 	            targetFile.close();
 				*/
 				
-				Blob blob = rst.getBlob("document");
-	            
-	            InputStream inputStream = blob.getBinaryStream();
-	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	            byte[] buffer = new byte[4096];
-	            int bytesRead = -1;
-	             
-	            while ((bytesRead = inputStream.read(buffer)) != -1) {
-	                outputStream.write(buffer, 0, bytesRead);                  
-	            }
-	             
-	            byte[] imageBytes = outputStream.toByteArray();
-	            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+					/*
+					 * Blob blob = rst.getBlob("document");
+					 * 
+					 * InputStream inputStream = blob.getBinaryStream(); ByteArrayOutputStream
+					 * outputStream = new ByteArrayOutputStream(); byte[] buffer = new byte[4096];
+					 * int bytesRead = -1;
+					 * 
+					 * while ((bytesRead = inputStream.read(buffer)) != -1) {
+					 * outputStream.write(buffer, 0, bytesRead); }
+					 * 
+					 * byte[] imageBytes = outputStream.toByteArray(); String base64Image =
+					 * Base64.getEncoder().encodeToString(imageBytes);
+					 */
 	
-	            media.setDocument(base64Image);
-				
-	            media.setPicture(null);
-	            
+				media.setPicture(null);
+	            media.setDocument(null);
 	            media.setVideo(null);
 			
 			}else if(media.getType().equals(MediaTypeEnum.VIDEO.toString())){
@@ -316,25 +318,23 @@ public class DBMessage {
 	            targetFile.close();
 				*/
 				
-				Blob blob = rst.getBlob("document");
-	            
-	            InputStream inputStream = blob.getBinaryStream();
-	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	            byte[] buffer = new byte[4096];
-	            int bytesRead = -1;
-	             
-	            while ((bytesRead = inputStream.read(buffer)) != -1) {
-	                outputStream.write(buffer, 0, bytesRead);                  
-	            }
-	             
-	            byte[] imageBytes = outputStream.toByteArray();
-	            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+					/*
+					 * Blob blob = rst.getBlob("document");
+					 * 
+					 * InputStream inputStream = blob.getBinaryStream(); ByteArrayOutputStream
+					 * outputStream = new ByteArrayOutputStream(); byte[] buffer = new byte[4096];
+					 * int bytesRead = -1;
+					 * 
+					 * while ((bytesRead = inputStream.read(buffer)) != -1) {
+					 * outputStream.write(buffer, 0, bytesRead); }
+					 * 
+					 * byte[] imageBytes = outputStream.toByteArray(); String base64Image =
+					 * Base64.getEncoder().encodeToString(imageBytes);
+					 */
 	
-	            media.setVideo(base64Image);
-				
-	            media.setPicture(null);
-	            
+				media.setPicture(null);
 	            media.setDocument(null);
+	            media.setVideo(null);
 			
 			}
 			
@@ -494,6 +494,9 @@ public class DBMessage {
 		System.out.println("media.getFilePath()="+media.getFilePath());
 		
 		File file=new File(media.getFilePath());
+		
+	
+		
 		media.setFileName(file.getName());
 		System.out.println("----file Object----");
 		System.out.println("file name: "+file.getName());

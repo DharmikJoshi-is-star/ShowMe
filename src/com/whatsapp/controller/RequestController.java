@@ -49,6 +49,10 @@ public class RequestController {
 	
 	@Autowired
 	Group group;
+	
+	@Autowired
+	UserRecommendationKNN userRecommendationKNN;
+	
 
 	/*
 	 * Find friends map will call by user when user want sent friend request to
@@ -92,12 +96,13 @@ public class RequestController {
 				}
 				
 				
-				System.out.println("////////////////");
 				
 				List<User> tempUser = db.getUsersToRecommend(userId);
 				
-				System.out.println("---");
-			
+				for (User user : tempUser) {
+					System.out.println("not a friend is : "+user.getId());
+				}
+				
 				int index= 0;
 				
 				for (User user : tempUser) {
@@ -120,8 +125,7 @@ public class RequestController {
 
 				//User u = db.getUser(userId);
 			
-				UserRecommendationKNN userRecommendationKNN = new UserRecommendationKNN();
-				List<User> listOfRecommendedUsers = userRecommendationKNN.recommendUsersForUser(10, u, tempUser);
+				List<User> listOfRecommendedUsers = userRecommendationKNN.recommendUsersForUser(5, u, tempUser);
 				
 				for (User user : listOfRecommendedUsers) {
 					System.out.println("List of recommend User");
@@ -131,7 +135,9 @@ public class RequestController {
 				
 				List<User> recommendUser =  new ArrayList<User>();
 				
+			
 				for (User user : listOfRecommendedUsers) {
+					
 					recommendUser.add(db.getUser(user.getId()));
 				}
 				

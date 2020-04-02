@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Conversation {
+	
 	private User user;
 	private Group group;
 	private Long conversationDealy;

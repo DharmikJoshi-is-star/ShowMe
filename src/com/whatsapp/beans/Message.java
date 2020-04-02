@@ -29,9 +29,7 @@ public class Message {
 		private String mediaDocument;
 		private String mediaVideo;
 	
-		
 	
-		
 		public String getMediaVideo() {
 			return mediaVideo;
 		}
