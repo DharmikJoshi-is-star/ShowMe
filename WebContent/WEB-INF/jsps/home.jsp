@@ -1373,7 +1373,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closeDocumentGroup">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Document here</p>
 								    
 								    
 								    <form action="insertMediaToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=document"  method="post" >
@@ -1433,7 +1433,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closePictureGroup">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Picture here</p>
 								    
 								    <form action="insertMediaToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=picture"  method="post" >
 										<input id="choosePictureForGroup" type="file" name="choosePictureForGroup" />
@@ -1494,7 +1494,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closeVideoGroup">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Video here</p>
 								    
 								    
 								    <form action="insertVideoToGroup?user_id=${ user_id}&group_id=${groupobj.group_id}&type=video"  method="post" >
@@ -1609,22 +1609,25 @@ color: white;
                                            	<c:choose>
                                             	
                                             	<c:when test="${empty message.getMediaType() && not empty message.getMsg()}">
+                                            		
                                                 	${message.getMsg() }
                                             	</c:when>
 													                                          
                                             	<c:when test="${not empty message.getMediaType() }">
                                             
                                                 	<c:if test="${message.getMediaType() == 'PICTURE' }">
+	                                                	
                                                	    	<a href="data:image/jpg;base64,${message.getMediaPicture() }"  title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip" download="${message.getMediaFileName()}.jpg">
                                                         <img width="200" height="200" src="data:image/jpg;base64,${message.getMediaPicture() }" download="${message.getMediaFileName()}.jpg">
                                                     	</a>
                                                 	</c:if>
                                                 
                                                 	<c:if test="${message.getMediaType() == 'DOCUMENT' }">
+                                                		
                                                     	<p>
                                                 			<a target="_blank" onclick="OpenSesame(${message.getMediaDocument()})" href="data:application/pdf;base64,${message.getMediaDocument() }" title="click to download pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip" download="${message.getMediaFileName()}.pdf" >
                                                     		<i class="far fa-file-pdf" style="font-size:48px"></i>
-                                                   				${message.getMediaFileName()}.pdf</a> 
+                                                   				${message.getMediaFileName()}</a> 
                                                      	</p>
                                                 
 		                                                <script>
@@ -1638,7 +1641,7 @@ color: white;
                                             		</c:if>
                                             
                                             		<c:if test="${message.getMediaType() == 'VIDEO' }">
-                                                    
+                                                    	
                                                     	<a href="data:video/mp4;base64,${message.getMediaVideo() }"
                                                     		title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
                                                     			download="${message.getMediaFileName()}">
@@ -1655,11 +1658,13 @@ color: white;
                                             
                                              </c:if>
                         </c:forEach>
-
-                                    </span>
+                        <BR>
+									<span class="time-right" style="font-size: 10px;">
+									<c:out value="${message.getTime()}"/>
+									</span>
+                                   </span>
                                 
-                                <span class="time-right" style="font-size: 10px;"><c:out
-                                        value="${message.getTime()}" /></span>
+                                
                             </div>
                         </c:if>
 
@@ -1675,12 +1680,17 @@ color: white;
                                                 
                                              <c:choose>
                                             <c:when test="${empty message.getMediaType() }">
+                                            	<c:set var="messageType" value="TEXT"/>
+                                  					<c:set var="messageId" value="${message.getId()}"/>
                                                 ${message.getMsg() }
                                             </c:when>
                                             
                                             <c:when test="${not empty message.getMediaType() }">
                                             
                                                 <c:if test="${message.getMediaType() == 'PICTURE' }">
+                                                	<c:set var="messageType" value="PICTURE"/>
+	                                  					<c:set var="messageId" value="${message.getMediaId()}"/>
+	                                  					
                                                 <a href="data:image/jpg;base64,${message.getMediaPicture() }" 
                                                 title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
                                                 download="${message.getMediaFileName()}.jpg">
@@ -1690,6 +1700,8 @@ color: white;
                                                 </c:if>
                                                 
                                                 <c:if test="${message.getMediaType() == 'DOCUMENT' }">
+                                                	<c:set var="messageType" value="DOCUMENT"/>
+	                                  					<c:set var="messageId" value="${message.getMediaId()}"/>
                                                      <p>
                                                      
                                                      <!-- href="data:application/pdf;base64,${message.getMediaDocument() }" -->
@@ -1717,7 +1729,8 @@ color: white;
                                                  </c:if>
                                                  
                                                  <c:if test="${message.getMediaType() == 'VIDEO' }">
-                                                    
+                                                    <c:set var="messageType" value="VIDEO"/>
+	                                  					<c:set var="messageId" value="${message.getMediaId()}"/>
                                                     <a href="data:video/mp4;base64,${message.getMediaVideo() }"
                                                     title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
                                                     download="${message.getMediaFileName()}">
@@ -1736,10 +1749,17 @@ color: white;
                                             
                                          
                                  </c:if>
-                                        </c:forEach>
-
-                                    </span> <span class="time-left" style="font-size: 10px;"><c:out
-                                            value="${message.getTime()}" /></span>
+                                    
+                                  </c:forEach>
+									<BR>
+									<span class="time-left" style="font-size: 10px;"><c:out
+                                            value="${message.getTime()}" />
+                                    </span>
+                                 </span> 
+                                 
+                                <span class="time-right" style="font-size: 10px;">
+                                       <a href="deleteMessageFromGroup?user_id=${user_id}&group_id=${groupobj.group_id}&messageId=${messageId}&messageType=${messageType}&tableName=${groupobj.group_msg_table}"><i class="fa fa-remove" style="color:red"></i></a>
+                                </span>
                                 
                             </div>
                         </c:if>
@@ -1844,7 +1864,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closeDocument">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Document here</p>
 								    
 								    
 								    <form action="insertMedia?user_id=${user_id}&contact_id=${receiver.getId()}&type=document"  method="post" >
@@ -1934,7 +1954,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closePicture">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Picture here</p>
 								    
 								    <form action="insertMedia?user_id=${user_id}&contact_id=${receiver.getId()}&type=picture"  method="post" >
 										<input id="choosePictureForReceiver" type="file" name="choosePictureForReceiver" />
@@ -1995,7 +2015,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closeVideo">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Choose Video here</p>
 								    
 								    
 								    <form action="insertVideo?user_id=${ user_id}&contact_id=${receiver.getId()}&type=video"  method="post" >
@@ -2172,11 +2192,13 @@ color: white;
                                             
                                         </c:choose>
                                         
+                                        <br>
+                                        <span class="time-left" style="font-size: 10px;"><c:out
+                                        value="${message.getTime()}" /></span>
                                         
                                         </span>
                                 
-                                <span class="time-right" style="font-size: 10px;"><c:out
-                                        value="${message.getTime()}" /></span>
+                                
                             </div>
                         </c:if>
 
@@ -2186,12 +2208,17 @@ color: white;
                                     <span class="col-md-9 my-sender-message p-2 rounded">
                                         <c:choose>
                                             <c:when test="${empty message.getMediaType() }">
-                                                ${message.getMsg() }
+                                            	<c:set var="messageType" value="TEXT"/>
+                                            	<c:set var="messageId" value="${message.getSrno() }"/>
+                                                ${message.getMsg() } 
+                                                
                                             </c:when>
                                             
                                             <c:when test="${not empty message.getMediaType() }">
                                             
                                                 <c:if test="${message.getMediaType() == 'PICTURE' }">
+                                                <c:set var="messageType" value="PICTURE"/>
+                                                <c:set var="messageId" value="${message.getMediaId() }"/>
                                                 <a href="data:image/jpg;base64,${message.getMediaPicture() }" 
                                                 title="click to download picture" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
                                                 download="${message.getMediaFileName()}.jpg">
@@ -2201,6 +2228,9 @@ color: white;
                                                 </c:if>
                                                 
                                                 <c:if test="${message.getMediaType() == 'DOCUMENT' }">
+                                                
+                                                <c:set var="messageType" value="DOCUMENT"/>
+                                                 <c:set var="messageId" value="${message.getMediaId() }"/>
                                                      <p>
                                                      
                                                      <!-- href="data:application/pdf;base64,${message.getMediaDocument() }" -->
@@ -2208,10 +2238,10 @@ color: white;
                                                     target="_blank" onclick="OpenSesame(${message.getMediaDocument()})"
                                                     href="data:application/pdf;base64,${message.getMediaDocument() }"
                                                     title="click to download pdf" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
-                                                    download="${message.getMediaFileName()}.pdf" >
+                                                    download="${message.getMediaFileName()}" >
                                                     
                                                     <i class="far fa-file-pdf" style="font-size:48px"></i>
-                                                    ${message.getMediaFileName()}.pdf</a> 
+                                                    ${message.getMediaFileName()}</a> 
                                                      
                                                      </p>
                                                 <script>
@@ -2227,7 +2257,10 @@ color: white;
                                             </c:if>
                                             
                                             <c:if test="${message.getMediaType() == 'VIDEO' }">
-                                                    
+                                            
+                                                    <c:set var="messageType" value="VIDEO"/>
+                                                     <c:set var="messageId" value="${message.getMediaId() }"/>
+                                                     
                                                     <a href="data:video/mp4;base64,${message.getMediaVideo() }"
                                                     title="click to download video" data-toggle="tooltip" data-placement="bottom" class="color-tooltip"
                                                     download="${message.getMediaFileName()}">
@@ -2243,11 +2276,21 @@ color: white;
                                             
                                         </c:choose>
                                         
-                                        
+                                        <br>
+                                        <span class="time-right" style="font-size: 10px;"><c:out
+                                        value="${message.getTime()}" />
+                                		</span>
                                     </span>
                                 
-                                <span class="time-left" style="font-size: 10px;"><c:out
-                                        value="${message.getTime()}" /></span>
+                                <span class="time-right" style="font-size: 10px;">
+                                       <a href="deleteMessageFromContact?user_id=${user_id}&contact_id=${receiver.getId()}&messageId=${messageId}&messageType=${messageType}"><i class="fa fa-remove" style="color:red"></i></a>
+                                </span>
+                                
+                               <%--  <span class="time-left" style="font-size: 10px;"><c:out
+                                        value="${message.getTime()}" />
+                                </span> --%>
+                                
+                                        
                             </div>
                         </c:if>
 
@@ -2309,7 +2352,7 @@ color: white;
 								  <!-- Modal content -->
 								  <div class="modal-content">
 								    <span class="close" id="closeStatus">&times;</span>
-								    <p>Some text in the Modal..</p>
+								    <p>Add status here..</p>
 								    
 								    
 								    <form action="addStatus?user_id=${user_id }" method="post">

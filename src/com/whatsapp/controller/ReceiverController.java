@@ -28,6 +28,7 @@ import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
 import com.whatsapp.database.DBGroup;
 import com.whatsapp.database.DBMessage;
+import com.whatsapp.enums.MediaTypeEnum;
 
 @Controller
 public class ReceiverController {
@@ -120,6 +121,27 @@ public class ReceiverController {
 			}
 		
 			}
+			return "redirect:showChat?user_id="+user_id+"&contact_id="+contact_id;
+		}
+		
+		@RequestMapping("/deleteMessageFromContact")
+		public String deleteMessage(Model model,
+										@RequestParam("user_id") Integer user_id,
+											@RequestParam("contact_id") Integer contact_id,
+												@RequestParam("messageId") Integer messageId,
+													@RequestParam("messageType") String messageType) {
+			
+			
+				try {
+					if(messageType.equals( MediaTypeEnum.TEXT.toString() ))
+						dbm.deleteMessageFromContact(user_id, contact_id, messageId);
+					else
+						dbm.deleteMedia(messageId);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 			return "redirect:showChat?user_id="+user_id+"&contact_id="+contact_id;
 		}
 		

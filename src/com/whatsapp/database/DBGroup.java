@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.whatsapp.beans.Group;
@@ -31,18 +32,23 @@ import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Message;
 import com.whatsapp.beans.User;
 import com.whatsapp.enums.MediaTypeEnum;
+import com.whatsapp.security.SecureData;
 
 @Component
 public class DBGroup {
 
+	@Autowired
+	SecureData secureData;
+	
 	//Step 1: Declare all variables
 	//localhost:3306
-		private String username = "root";
-		private String password = "";
-		private String dbName = "whatsap_group";
-		private String url = "jdbc:mysql://localhost:3306/"+dbName;
-		private String driver = "com.mysql.jdbc.Driver";
-		private Connection con;
+	//NDNiqt63194
+private String username = "root";
+private String password = "";
+private String dbName = "whatsap_group";
+private String url = "jdbc:mysql://localhost:3306/"+dbName;
+private String driver = "com.mysql.jdbc.Driver";
+private Connection con;
 		
 		DB db =  new DB();
 		
@@ -58,6 +64,41 @@ public class DBGroup {
 		
 		}
 			
+		public void encryptTheMessage() throws ClassNotFoundException, SQLException {
+			
+			dbConnect();
+			
+			String sql = "select * from group_information";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rst = pstmt.executeQuery();
+			
+			while(rst.next()) {
+				
+				String tableName = rst.getString("ref_message_table").toLowerCase();
+				Integer tableId = rst.getInt("group_id");
+				String query = "select * from "+tableName;
+				PreparedStatement pre = con.prepareStatement(query);
+				ResultSet r = pre.executeQuery();
+				
+				while(r.next()) {
+					
+					Integer messageId = r.getInt("id");
+					String message = r.getString("message");
+					
+					String updateQuery = "UPDATE "+tableName+" SET message = ? WHERE id = ? LIMIT 1 ";
+					PreparedStatement updateSta = con.prepareStatement(updateQuery);
+					updateSta.setString(1, secureData.decryptTheMessage(message));
+					updateSta.setInt(2, messageId);
+					
+					updateSta.executeUpdate();
+				}
+				
+			}
+			
+			dbClose();
+			
+		}
+		
 		public void createGroup(Group group) throws ClassNotFoundException, SQLException {
 			
 			group.setGroup_msg_table(createGroupMessageTable(group));	
@@ -182,7 +223,7 @@ public class DBGroup {
 					group.setGroup_name( rst.getString("group_name") );
 					group.setMembers_id( getMembersID(rst.getInt("group_id")) );
 					
-					List<GroupMessage> groupMessage = getGroupMessages(rst.getString("ref_message_table"));
+					List<GroupMessage> groupMessage = getGroupMessages(rst.getString("ref_message_table"), group.getGroup_id());
 					
 					groupMessage  = getMediaMessagesToListOfGroupMessages(user_id, group.getGroup_id() ,groupMessage);
 					
@@ -235,7 +276,7 @@ public class DBGroup {
 			return groupMessage;
 		}
 
-		private List<GroupMessage> getGroupMessages(String msg_table) throws SQLException {
+		private List<GroupMessage> getGroupMessages(String msg_table, Integer group_id) throws SQLException {
 			// TODO Auto-generated method stub
 			
 			String sql = "SELECT * FROM "+msg_table.toLowerCase();
@@ -250,14 +291,16 @@ public class DBGroup {
 				
 				GroupMessage gmsg = new GroupMessage();
 				
+				gmsg.setId(rst.getInt("id"));
 				gmsg.setSender_id( rst.getInt("sender_id") );
 				gmsg.setSender_name( rst.getString("sender_name") );
 				gmsg.setDate( rst.getDate("date") );
 				gmsg.setTime( rst.getTime("time") );
-				gmsg.setMsg( rst.getString("message") );
+				gmsg.setMsg(secureData.decryptTheMessage(rst.getString("message")) );
 				
 				group_messages.add(gmsg);
-
+				
+				
 			}
 			 
 			return group_messages;
@@ -308,11 +351,9 @@ public class DBGroup {
 			group.setMembers_id(getMembersID(group_id));
 			
 		
-		  List<GroupMessage> groupMessage =
-		  getGroupMessages(group.getGroup_msg_table());
+		  List<GroupMessage> groupMessage = getGroupMessages(group.getGroup_msg_table(), group_id);
 		  
-		  groupMessage = getMediaMessagesToListOfGroupMessages(user_id,
-		  group.getGroup_id() ,groupMessage);
+		  groupMessage = getMediaMessagesToListOfGroupMessages(user_id, group.getGroup_id() ,groupMessage);
 		  
 		  List<GroupMessage> groupMessageList = groupMessage.stream()
 		  .sorted(Comparator.comparing(GroupMessage::getTime))
@@ -343,7 +384,7 @@ public class DBGroup {
 			
 		}
 
-		public void insertGroupMessage(Integer user_id, String message, String tableName) throws ClassNotFoundException, SQLException, IOException {
+		public void insertGroupMessage(Integer user_id, String message, String tableName, Integer group_id) throws ClassNotFoundException, SQLException, IOException {
 
 			GroupMessage gmessage = new GroupMessage();
 			
@@ -368,7 +409,7 @@ public class DBGroup {
 			
 			pstmt.setInt(1, gmessage.getSender_id());
 			pstmt.setString(2, gmessage.getSender_name());
-			pstmt.setString(3, gmessage.getMsg());
+			pstmt.setString(3, secureData.encryptTheMessage(gmessage.getMsg()) );
 			pstmt.setDate(4, (Date) gmessage.getDate());
 			pstmt.setTime(5, gmessage.getTime());
 			
@@ -411,7 +452,7 @@ public class DBGroup {
 					gmsg.setSender_name( rst.getString("sender_name") );
 					gmsg.setDate( rst.getDate("date") );
 					gmsg.setTime( rst.getTime("time") );
-					gmsg.setMsg( rst.getString("message"));
+					gmsg.setMsg( secureData.decryptTheMessage(rst.getString("message")) );
 					
 					System.out.println("gmsg.getMsg() : "+gmsg.getMsg());
 					
@@ -424,7 +465,9 @@ public class DBGroup {
 				
 				GroupMessage m = getLastMediaGroupMessage(user_id, group.getGroup_id());
 					
-					if(m!=null) {
+					if(m!=null && gmsg == null)
+						gmsg = m;
+					if(m!=null && gmsg!=null) {
 						
 						List<GroupMessage> list = new ArrayList<GroupMessage>();
 						list.add(gmsg);
@@ -752,6 +795,31 @@ public class DBGroup {
 			dbClose();
 			
 			return groups;
+		}
+
+		public void deleteMessageFromGroup(Integer messageId, String tableName) throws ClassNotFoundException, SQLException {
+			
+			dbConnect();
+			
+			String sql = "DELETE from "+tableName.toLowerCase()+" where id=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, messageId);
+			pstmt.executeUpdate();
+			
+			dbClose();
+			
+		}
+
+		public void deleteMediaMessageFromGroup(Integer messageId) throws ClassNotFoundException, SQLException {
+			dbConnect();
+			
+			String sql = "DELETE from media where id=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, messageId);
+			pstmt.executeUpdate();
+			
+			dbClose();
+			
 		}
 
 		

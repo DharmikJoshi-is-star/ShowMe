@@ -28,8 +28,10 @@ import org.springframework.stereotype.Component;
 
 import com.whatsapp.beans.Media;
 import com.whatsapp.beans.Message;
+import com.whatsapp.beans.TableName;
 import com.whatsapp.beans.User;
 import com.whatsapp.enums.MediaTypeEnum;
+import com.whatsapp.security.SecureData;
 
 @Component
 public class DBMessage {
@@ -37,16 +39,20 @@ public class DBMessage {
 	@Autowired
 	DB db;
 	
+	@Autowired
+	SecureData secureData;
+	
 	MediaTypeEnum mediaTypeEnum;
 	      
 	//localhost:3306
+	//NDNiqt63194
 	//Step 1: Declare all variables
-	private String username = "root";
-	private String password = "";
-	private String dbName = "whatsapp_msg_db";
-	private String url = "jdbc:mysql://localhost:3306/"+dbName;
-	private String driver = "com.mysql.jdbc.Driver";
-	private Connection con;
+private String username = "root";
+private String password = "";
+private String dbName = "whatsapp_msg_db";
+private String url = "jdbc:mysql://localhost:3306/"+dbName;
+private String driver = "com.mysql.jdbc.Driver";
+private Connection con;
 	
 	private void dbClose() throws SQLException{
 		con.close();
@@ -58,6 +64,34 @@ public class DBMessage {
 		//Step 3: Make the connection
 		con = DriverManager.getConnection(url, username, password);
 	
+	}
+	
+	public void encryptTheMessage() throws ClassNotFoundException, SQLException {
+		
+		List<TableName> tableNames = db.getChatRelationName();
+		
+		dbConnect();
+		
+		for (TableName table : tableNames) {
+			String sql = "select * from "+table.getTableName();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rst = pstmt.executeQuery();
+			
+			while(rst.next()) {
+				Integer messageId = rst.getInt("srno");
+				String message = rst.getString("msg");
+				
+				String query = "UPDATE "+table.getTableName()+" SET msg = ? WHERE srno = ? LIMIT 1 ";
+				PreparedStatement updateSta = con.prepareStatement(query);
+				updateSta.setString(1, secureData.encryptCredentials(message));
+				updateSta.setInt(2, messageId);
+				updateSta.executeUpdate();
+			}
+			
+		}
+		
+		dbClose();
+		
 	}
 	
 	public void createMessageTable(Integer user_id, Integer contact_id, String tablename) throws ClassNotFoundException, SQLException {
@@ -82,21 +116,28 @@ public class DBMessage {
 	}
 	
 	public void insertMessage(Integer user_id, String msg, Integer contact_id) throws ClassNotFoundException, SQLException {
-		 
+		
+		String encry = secureData.encryptTheMessage(msg);
+		System.out.println("Original message was: "+msg);
+		System.out.println("Encrypted Message is : "+encry);
+		System.out.println("Decrypted Message is: "+secureData.decryptTheMessage(encry));
+		System.out.println("key is: "+(user_id+contact_id));
 		long millis=System.currentTimeMillis();  
         Date date=new Date(millis);
 	
+        System.out.println("message from use to contact is :"+ msg);
+        
         Time time = new Time(millis);
 		
+        String tablename = db.getTableName(user_id, contact_id);
+        
 		dbConnect();
-		
-		String tablename = db.getTableName(user_id, contact_id);
 		
 		String sql = "Insert into "+tablename+" ( sender, msg, receiver, view, date, time) VALUES(?,?,?,?,?,?)";
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		
 		pstmt.setInt(1, user_id);
-		pstmt.setString(2, msg);
+		pstmt.setString(2, encry);
 		pstmt.setInt(3, contact_id);
 		pstmt.setBoolean(4, true);
 		pstmt.setDate(5, date);
@@ -104,7 +145,10 @@ public class DBMessage {
 	
 		pstmt.executeUpdate();
 		
+		 System.out.println("enc message from use to contact is :"+ secureData.encryptTheMessage(msg));
+		
 		dbClose();
+		
 	}
 	
 	public List<Message> getAllMessages(Integer user_id, Integer contact_id) throws ClassNotFoundException, SQLException {
@@ -124,20 +168,20 @@ public class DBMessage {
 		pstmt.setInt(4, user_id);
 		
 		ResultSet rst = pstmt.executeQuery();
-		
+		//secureData.decryptTheMessage(rst.getString("msg"), user_id+contact_id)
 		
 		while(rst.next()) {
 			Message msg = new Message();
 			msg.setSrno(rst.getInt("srno"));
 			msg.setSender(rst.getInt("sender"));
-			msg.setMsg(rst.getString("msg"));
+			msg.setMsg( secureData.decryptTheMessage(rst.getString("msg")) );
 			msg.setReceiver(rst.getInt("receiver"));
 			msg.setView(rst.getBoolean("view"));
 			msg.setDate(rst.getDate("date"));
 			msg.setTime(rst.getTime("time"));
 			
 			messages.add(msg);
-			
+			System.out.println(rst.getString("msg")+" : "+secureData.decryptTheMessage(rst.getString("msg")));
 		}
 		
 		dbClose();
@@ -169,7 +213,7 @@ public class DBMessage {
 				
 				msg.setSrno(rst.getInt("srno"));
 				msg.setSender(rst.getInt("sender"));
-				msg.setMsg(rst.getString("msg"));
+				msg.setMsg( secureData.decryptTheMessage(rst.getString("msg")));
 				msg.setReceiver(rst.getInt("receiver"));
 				msg.setView(rst.getBoolean("view"));
 				msg.setDate(rst.getDate("date"));
@@ -581,6 +625,21 @@ public class DBMessage {
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1, mediaId);
 		pstmt.executeUpdate();
+		dbClose();
+		
+	}
+
+	public void deleteMessageFromContact(Integer user_id, Integer contact_id, Integer messageId) throws ClassNotFoundException, SQLException {
+		
+		String messageTableName = db.getTableName(user_id, contact_id);
+		
+		dbConnect();
+		
+		String sql = "DELETE from "+messageTableName.toLowerCase()+" where srno=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, messageId);
+		pstmt.executeUpdate();
+		
 		dbClose();
 		
 	}

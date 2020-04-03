@@ -30,6 +30,7 @@ import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
 import com.whatsapp.database.DBGroup;
 import com.whatsapp.database.DBMessage;
+import com.whatsapp.enums.MediaTypeEnum;
 
 @Controller
 public class GroupController {
@@ -321,7 +322,7 @@ public class GroupController {
 				
 				try {
 					System.out.println("2");
-					dbg.insertGroupMessage(user_id, gmessage.getMsg(), tableName);
+					dbg.insertGroupMessage(user_id, gmessage.getMsg(), tableName, group_id);
 					System.out.println("3");
 				} catch (ClassNotFoundException | SQLException | IOException e) {
 					// TODO Auto-generated catch block
@@ -332,6 +333,30 @@ public class GroupController {
 			System.out.println("5");
 			
 			return "redirect:showGroup?user_id="+user_id+"&group_id="+group_id;
+		}
+		
+		@RequestMapping("/deleteMessageFromGroup")
+		public String deleteMessageFromGroup(Model model,
+												@ModelAttribute("messageId") Integer messageId,
+													@RequestParam("user_id") Integer user_id,
+														@RequestParam("group_id") Integer group_id,
+															@RequestParam("tableName") String tableName,
+																@RequestParam("messageType") String messageType) {
+		
+				try {
+					
+					if(messageType.equals( MediaTypeEnum.TEXT.toString() ))
+						dbg.deleteMessageFromGroup(messageId, tableName);
+					else
+						dbg.deleteMediaMessageFromGroup(messageId);
+				
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+			return "redirect:showGroup?user_id="+user_id+"&group_id="+group_id; 
 		}
 		
 		/*
@@ -476,6 +501,10 @@ public class GroupController {
 			
 			return "redirect:groupInformation?user_id="+user_id+"&group_id="+group_id;
 		}
+		
+		
+		
+		
 		
 	
 }

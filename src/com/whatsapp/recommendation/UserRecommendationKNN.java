@@ -41,8 +41,7 @@ public class UserRecommendationKNN {
 			System.out.println("----------");
 			System.out.println(e.getId());
 		}
-		
-		
+
 		for (User user : users) {
 			System.out.println("<<<<<<<<<<<<");
 			System.out.println(euclideanDistance(u.getUserInterest(), user.getUserInterest()));

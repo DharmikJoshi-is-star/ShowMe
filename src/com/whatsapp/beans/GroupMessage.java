@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GroupMessage {
 
+	private Integer id;
 	
 	private Integer sender_id;
 	private String sender_name;
@@ -28,6 +29,12 @@ public class GroupMessage {
 	
 
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getMediaVideo() {
 		return mediaVideo;
 	}

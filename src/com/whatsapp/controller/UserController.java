@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -46,6 +47,7 @@ import com.whatsapp.beans.User;
 import com.whatsapp.database.DB;
 import com.whatsapp.database.DBGroup;
 import com.whatsapp.database.DBMessage;
+import com.whatsapp.email.ShowMeEmail;
 
 @Controller
 public class UserController {
@@ -82,6 +84,9 @@ public class UserController {
 
 	@Autowired
 	Comment comment;
+	
+	@Autowired
+	ShowMeEmail showMeEmail;
 
 	/*
 	 * This mapping parameter is the starting page for the website this map will
@@ -112,7 +117,7 @@ public class UserController {
 		}
 
 		Boolean status = false;
-		try {
+		try {            
 			status = db.checkCredentials(login);
 
 			if (status == true) {
@@ -136,17 +141,18 @@ public class UserController {
 	 */
 	@RequestMapping("/process-register-form")
 	public String processRegisterForm(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
-			Model model, HttpServletRequest request) throws ClassNotFoundException, SQLException {
-
-		if (bindingResult.hasErrors()) {
-
+			Model model, HttpServletRequest request) {
+		
+		/*if (bindingResult.hasErrors()) {
+			System.out.println("hell1o1");
 			model.addAttribute("user", this.user);
 			model.addAttribute("login", login);
 			return "login";
-		}
+		}*/
 
 		try {
-
+				
+			
 			user.setName(request.getParameter("name"));
 			user.setEmail(request.getParameter("email"));
 			user.setPassword(request.getParameter("password"));
@@ -154,7 +160,7 @@ public class UserController {
 			user.setName(request.getParameter("name"));
 			
 			String str = request.getParameter("picture_str").toString();
-
+ 
 			File pathFile = new File(request.getParameter("inputGroupFile01").toString());
 			
 			FileOutputStream fos = new FileOutputStream(pathFile);
@@ -169,18 +175,27 @@ public class UserController {
 			
 			user.setPicture_str(pathFile.getPath());
 			
-			db.insertUser(user);
-
-			if (user.getPicture_str() != null || user.getPicture_str() != "") {
-				Post post = new Post();
-				post.setPost(user.getPicture_str());
-				Login dummyLogin = new Login();
-				dummyLogin.setUsername(user.getEmail());
-				dummyLogin.setPassword(user.getPassword());
-				db.uploadPost(db.getId(dummyLogin), post);
+			try {
+				db.insertUser(user);
 				
+				showMeEmail.sendEmailMessage(user);
+				System.out.println("mail sent");
+				if (user.getPicture_str() != null || user.getPicture_str() != "") {
+					Post post = new Post();
+					post.setPost(user.getPicture_str());
+					Login dummyLogin = new Login();
+					dummyLogin.setUsername(user.getEmail());
+					dummyLogin.setPassword(user.getPassword());
+					db.uploadPost(db.getId(dummyLogin), post);
+					
+				}
+
+			} catch ( MessagingException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
+			
 		} catch ( IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -402,9 +417,6 @@ public class UserController {
 			  conversation.setGroup(group);
 			  
 			  conversationList.add(conversation); }
-			 
-
-			
 			
 			 conversationList = conversationList.stream()
 			 .sorted(Comparator.comparing(Conversation::getConversationDealy)).collect(
@@ -819,4 +831,32 @@ public class UserController {
 
 		return "redirect:showProfileInterest?user_id=" + user_id;
 	}
+	
+	
+	 @RequestMapping("/encGroup") 
+	 public String encryptTheMessage() {
+	 
+	 try { dbg.encryptTheMessage(); } catch (ClassNotFoundException | SQLException
+	 e) { // TODO Auto-generated catch block 
+		 e.printStackTrace(); 
+		 }
+	 
+	 
+	 return "redirect:/"; 
+	
+	 }
+	 
+	 @RequestMapping("/encReceiver") 
+	 public String encryptTheMessager() {
+	 
+	 try { dbm.encryptTheMessage(); } catch (ClassNotFoundException | SQLException
+	 e) { // TODO Auto-generated catch block 
+		 e.printStackTrace(); 
+		 }
+	 
+	 
+	 return "redirect:/"; 
+	
+	 }
+	
 }

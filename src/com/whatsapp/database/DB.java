@@ -29,6 +29,7 @@ import com.whatsapp.beans.Login;
 import com.whatsapp.beans.Post;
 import com.whatsapp.beans.Request;
 import com.whatsapp.beans.Status;
+import com.whatsapp.beans.TableName;
 import com.whatsapp.beans.User;
 
 @Component
@@ -40,12 +41,12 @@ public class DB {
 	//localhost:3306
 	//password : NDNiqt63194
 	//url = node22838-wtfmedia.jelastichosting.nl
-	private String username = "root";
-	private String password = "";
-	private String dbName = "whatsapp";
-	private String url = "jdbc:mysql://localhost:3306/" + dbName;
-	private String driver = "com.mysql.jdbc.Driver";
-	private Connection con;
+private String username = "root";
+private String password = "";
+private String dbName = "whatsapp";
+private String url = "jdbc:mysql://localhost:3306/" + dbName;
+private String driver = "com.mysql.jdbc.Driver";
+private Connection con;
 
 	private void dbClose() throws SQLException {
 		con.close();
@@ -1581,6 +1582,28 @@ public class DB {
 
 		dbClose();
 
+	}
+	
+	public List<TableName> getChatRelationName() throws ClassNotFoundException, SQLException{
+		
+		List<TableName> tableName = new ArrayList<TableName>();
+		
+		dbConnect();
+		String sql = "SELECT * FROM chatrelation";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rst = pstmt.executeQuery();
+		
+		while(rst.next()) {
+			TableName t = new TableName();
+			t.setId1(rst.getInt("id1"));
+			t.setId2(rst.getInt("id2"));
+			t.setTableName(rst.getString("tablename"));
+			tableName.add(t);
+		}
+		
+		dbClose();
+		
+		return tableName;
 	}
 
 }
