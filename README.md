@@ -1,4 +1,13 @@
-# ChatOnline
+# SHOWME SOCIAL NETWORK WEBSITE
+
+SHOWME is a web-app with features like upload/like/comment/delete posts, 24 hrs stories, send/accept/delete friend
+requests, create/remove group with friends, chat with friends/group share text/photo/document/videos.
+
+Hidden features are recommendation for friends, Encryption/Decryption of share messages at server site.
+
+Used Spring MVC, JDBC, JavaMail API, MySQL for backend and JSP, CSS, Javascript, JSTL for frontend 
+
+
 ![Screenshot (143)](https://user-images.githubusercontent.com/51437729/93593142-2441e200-f9d1-11ea-9997-1d59f3325fe1.png)
 
 ![Screenshot (155)](https://user-images.githubusercontent.com/51437729/93593194-450a3780-f9d1-11ea-87c9-250b3f4c7c8e.png)
